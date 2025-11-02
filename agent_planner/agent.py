@@ -70,34 +70,34 @@ from IPython.display import Image, display
 
 display(Image(app.get_graph().draw_mermaid_png()))
 # %%
+if "__main__" == __name__:
+    thread = {"configurable": {"thread_id": "1"}}
+    input_ = input("Enter prompt:")
 
-thread = {"configurable": {"thread_id": "1"}}
-input_ = input("Enter prompt:")
-
-initial_input = {"messages": [HumanMessage(content=input_)]}
-for event in app.stream(initial_input, thread, stream_mode="values"):
-    event["messages"][-1].pretty_print()
-print("hellloo donkwy:", event.get("task_type"))
-while (
-    isinstance(event["messages"][-1], AIMessage)
-    and not isinstance(event["messages"][-2], ToolMessage)
-    and event.get("task_type") == "reminder"
-):
-    user_input = input("tell the time:")
-    app.update_state(
-        thread, {"messages": user_input}, as_node="human_feedback_reminder"
-    )
-    for event in app.stream(None, thread, stream_mode="values"):
+    initial_input = {"messages": [HumanMessage(content=input_)]}
+    for event in app.stream(initial_input, thread, stream_mode="values"):
         event["messages"][-1].pretty_print()
+    print("hellloo donkwy:", event.get("task_type"))
+    while (
+        isinstance(event["messages"][-1], AIMessage)
+        and not isinstance(event["messages"][-2], ToolMessage)
+        and event.get("task_type") == "reminder"
+    ):
+        user_input = input("tell the time:")
+        app.update_state(
+            thread, {"messages": user_input}, as_node="human_feedback_reminder"
+        )
+        for event in app.stream(None, thread, stream_mode="values"):
+            event["messages"][-1].pretty_print()
 
-while (
-    isinstance(event["messages"][-1], AIMessage)
-    and not isinstance(event["messages"][-2], ToolMessage)
-    and event.get("task_type") == "planner"
-):
-    user_input = input("user:")
-    app.update_state(thread, {"messages": user_input}, as_node="human_feedback_planner")
-    for event in app.stream(None, thread, stream_mode="values"):
-        event["messages"][-1].pretty_print()
+    while (
+        isinstance(event["messages"][-1], AIMessage)
+        and not isinstance(event["messages"][-2], ToolMessage)
+        and event.get("task_type") == "planner"
+    ):
+        user_input = input("user:")
+        app.update_state(thread, {"messages": user_input}, as_node="human_feedback_planner")
+        for event in app.stream(None, thread, stream_mode="values"):
+            event["messages"][-1].pretty_print()
 
-print("done")
+    print("done")
