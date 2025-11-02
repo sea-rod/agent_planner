@@ -10,7 +10,7 @@ load_dotenv()
 
 
 tools = [create_event, get_events, delete_event]
-llm = init_chat_model("groq:openai/gpt-oss-120b").bind_tools(
+llm = init_chat_model("groq:llama-3.3-70b-versatile").bind_tools(
     tools
 )
 
@@ -43,10 +43,12 @@ Rules:
 - Use planner for multi-day plans, study/project schedules, or when the user asks to create multi-step plans.
 - Use reminder for single events or repeating single-slot events (birthdays, single meeting, daily workout).
 - Use delete when the user asks to delete/modify multi-step plans.
+- Use get_events when user suggest to retrive the events
 Examples:
 - "Study schedule for 6 months before exams" → planner
 - "Remind me to call mom every Sunday" → reminder
 - "Delete my study sessions" → delete
+- "Get all the events" → get_event
 """
 
 GET_EVENTS_EXTRACTOR_PROMPT = """
@@ -137,6 +139,12 @@ def model(state: AgentState) -> AgentState:
     sys_mess = SystemMessage(
         content=MAIN_SYSTEM_PROMPT.format(current_time=state["current_time"])
     )
+    if state.get("task_type","") == "get_event":
+        print("refine")
+        sys_mess = SystemMessage(content="These are the events:{events}. If the list is empty say No events".format(events=state.get("tasks",[])))
+        state["messages"] = llm.invoke([sys_mess] + state["messages"])
+        return state
+
     state["messages"] = llm.invoke([sys_mess] + state["messages"])
     return state
 
@@ -153,6 +161,8 @@ def route_classifier(state: AgentState):
         return "planner"
     elif state.get("task_type", "") == "delete":
         return "delete"
+    elif state.get("task_type","")== "get_event":
+        return "get_event"
     else:
         return "reminder"
 

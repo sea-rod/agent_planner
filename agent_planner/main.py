@@ -86,4 +86,4 @@ with gr.Blocks(title="AI Planner & Reminder") as demo:
 
     send_btn.click(chat_with_agent, [user_input, chat], [chat, chat])
 
-demo.launch(share=True)
+demo.launch()

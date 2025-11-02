@@ -42,7 +42,7 @@ agent.set_entry_point("current_time")
 agent.add_edge("current_time", "get_event")
 agent.add_edge("get_event","classify_model")
 agent.add_conditional_edges(
-    "classify_model", route_classifier, {"planner": "scheduler", "reminder": "model", "delete": "model_delete"}
+    "classify_model", route_classifier, {"planner": "scheduler", "reminder": "model", "delete": "model_delete","get_event":"refine_model"}
 )
 
 agent.add_conditional_edges(
