@@ -27,29 +27,60 @@ def get_events(max_period:str = "10d") -> list:
     return google_cal.get_events(max_period)
 
 
+from langchain_core.tools import tool
+
 @tool
-def create_event(summary, description, strt_dateTime, end_dateTime, **kwargs) -> dict:
+def create_event(
+    summary: str = None,
+    description: str = None,
+    strt_dateTime: str = None,
+    end_dateTime: str = None,
+    events_list: list[dict] = None,
+    **kwargs
+) -> list[dict]:
     """
-    creates an event on google calendar
-    you pass a json param
-    param:
-        events (str): in the following format
-        {
-            'summary': 'Google I/O 2015',
-            'description': 'A chance to hear more about Google\'s developer products.',
-            'start': {
-            'dateTime': '2025-10-23T09:00:00+05:30',
-            },'end': {
-            'dateTime': '2025-10-23T10:00:00+05:30',
-            }}
+    Creates one or more events on Google Calendar.
+
+    You have two modes:
+    1. Pass in summary+description+strt_dateTime+end_dateTime to create a single event.
+    2. Or pass in events_list: a list of dicts each of form
+       {
+         "summary": "...",
+         "description": "...",
+         "start": {"dateTime": "..."},
+         "end":   {"dateTime": "..."}
+       }
+
+    Returns a list of created event‐objects (or a single‐item list for the single event mode).
     """
-    event = {
-        "summary": summary,
-        "description": description,
-        "start": {"dateTime": strt_dateTime},
-        "end": {"dateTime": end_dateTime},
-    }
-    return google_cal.create_event(event)
+    created_events = []
+
+    if events_list is not None:
+        # Loop mode
+        for ev in events_list:
+            # event_payload = {
+            #     "summary": ev.get("summary"),
+            #     "description": ev.get("description"),
+            #     "start": {"dateTime": ev["start"]["dateTime"]},
+            #     "end":   {"dateTime": ev["end"]["dateTime"]},
+            # }
+            created = google_cal.create_event(ev)
+            created_events.append(created)
+    else:
+        # Single‐event mode
+        if None in (summary, description, strt_dateTime, end_dateTime):
+            raise ValueError("Must supply either events_list or all of summary/description/strt_dateTime/end_dateTime")
+        event_payload = {
+            "summary": summary,
+            "description": description,
+            "start": {"dateTime": strt_dateTime},
+            "end":   {"dateTime": end_dateTime},
+        }
+        created = google_cal.create_event(event_payload)
+        created_events.append(created)
+
+    return created_events
+
 
 @tool
 def delete_event(event_id:str):
@@ -63,3 +94,4 @@ def delete_event(event_id:str):
         Example:
             delete_event("abc123xyz")
         """
+    return google_cal.delete_event(event_id)
