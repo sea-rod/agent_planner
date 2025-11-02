@@ -37,15 +37,16 @@ Output rules:
 """
 
 CLASSIFY_PROMPT = """
-Classify the user's prompt as exactly ONE of: planner OR reminder.
+Classify the user's prompt as exactly ONE of: planner OR reminder OR delete.
 Rules:
-- Return ONLY the single word: planner OR reminder. No punctuation, no explanation.
-- Use planner for multi-day plans, study/project schedules, or when the user asks to delete/modify multi-step plans.
+- Return ONLY the single word: planner OR reminder OR delete. No punctuation, no explanation.
+- Use planner for multi-day plans, study/project schedules, or when the user asks to create multi-step plans.
 - Use reminder for single events or repeating single-slot events (birthdays, single meeting, daily workout).
+- Use delete when the user asks to delete/modify multi-step plans.
 Examples:
 - "Study schedule for 6 months before exams" → planner
 - "Remind me to call mom every Sunday" → reminder
-- "Delete my study sessions" → planner
+- "Delete my study sessions" → delete
 """
 
 GET_EVENTS_EXTRACTOR_PROMPT = """
@@ -103,6 +104,18 @@ Constraints:
 - Return the tool's output as-is.
 """
 
+DELETE_PROMPT = """
+Role: Event deleter. Input = user request to delete events.
+All Events: {events}
+
+1.  Identify the events the user wants to delete from the context.
+2.  Extract the event IDs of the events to be deleted from All Events.
+3.  If you are unsure which events to delete, ask for clarification.
+4.  Before deleting, ask for confirmation from the user.
+5.  call the delete_event node
+6.  When user explicitly confirms (e.g., "yes", "okay", "go ahead with this plan"), call the `delete_event` tool for each `event_id`.
+"""
+
 
 def get_current_time(state: AgentState) -> AgentState:
     ist = timezone(timedelta(hours=5, minutes=30))
@@ -130,7 +143,7 @@ def model(state: AgentState) -> AgentState:
 
 def classify_model(state: AgentState) -> AgentState:
     sys_mess = SystemMessage(content=CLASSIFY_PROMPT)
-    # Expect exactly "planner" or "reminder"
+    # Expect exactly "planner" or "reminder" or "delete"
     state["task_type"] = llm.invoke([sys_mess] + state["messages"]).content.strip()
     return state
 
@@ -138,6 +151,8 @@ def classify_model(state: AgentState) -> AgentState:
 def route_classifier(state: AgentState):
     if state.get("task_type", "") == "planner":
         return "planner"
+    elif state.get("task_type", "") == "delete":
+        return "delete"
     else:
         return "reminder"
 
@@ -151,8 +166,8 @@ def get_events_node(state: AgentState):
     # Fallback safety
     if not period:
         period = "10d"
-    print(period)
-    state["tasks"] = google_cal.get_events(period)
+    events = google_cal.get_events(period)
+    state["tasks"] = events
     return state
 
 
@@ -163,7 +178,11 @@ def model_schedule(state: AgentState) -> AgentState:
 
 
 def model_add(state: AgentState) -> AgentState:
-    print("\n\n\nhelllllllloooooooooo")
     sys_mess = SystemMessage(content=EVENT_CREATION_PROMPT)
-    state["messages"] = llm.invoke([sys_mess] + state["messages"][-2])
+    state["messages"] = llm.invoke([sys_mess] + state["messages"])
+    return state
+
+def model_delete(state: AgentState) -> AgentState:
+    sys_mess = SystemMessage(content=DELETE_PROMPT.format(events=state.get("tasks", [])))
+    state["messages"] = llm.invoke([sys_mess] + state["messages"])
     return state

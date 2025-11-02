@@ -69,13 +69,13 @@ class GoogleCalendar:
             try:
                 max_ = datetime.fromisoformat(max_period).replace(
                     tzinfo=ZoneInfo("Asia/Kolkata")
-                )
+                )+ timedelta(days=1)
             except ValueError:
                 raise ValueError(
                     "Invalid max_period format. Use '{N}d', '{N}m', or 'YYYY-MM-DD'."
                 )
 
-        print(f"Getting events from {now.date()} to {max_.date()}")
+        print(f"Getting events from {now.date()} to {max_.date()} {max_.isoformat()}")
 
         events_result = (
             self.__service.events()
@@ -88,6 +88,7 @@ class GoogleCalendar:
             )
             .execute()
         )
+
 
         events = events_result.get("items", [])
         all_events = []

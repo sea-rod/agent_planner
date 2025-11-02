@@ -40,6 +40,16 @@ def chat_with_agent(user_input, history):
         bot_reply = final_output + "\n\n📅 Can you confirm or adjust your plan?"
         history[-1] = (user_input, bot_reply)
         return history, history
+        
+    # Handle delete flow
+    elif (
+        isinstance(event_data["messages"][-1], AIMessage)
+        and not isinstance(event_data["messages"][-2], ToolMessage)
+        and event_data.get("task_type") == "delete"
+    ):
+        bot_reply = final_output + "\n\n🗑️ Can you confirm which events to delete?"
+        history[-1] = (user_input, bot_reply)
+        return history, history
 
     # Default AI response
     bot_reply = final_output or "✅ Done!"
@@ -53,6 +63,8 @@ def handle_follow_up(user_input, history, task_type):
         app.update_state(thread, {"messages": user_input}, as_node="human_feedback_reminder")
     elif task_type == "planner":
         app.update_state(thread, {"messages": user_input}, as_node="human_feedback_planner")
+    elif task_type == "delete":
+        app.update_state(thread, {"messages": user_input}, as_node="human_feedback_delete")
 
     final_output = ""
     for event in app.stream(None, thread, stream_mode="values"):
@@ -74,4 +86,4 @@ with gr.Blocks(title="AI Planner & Reminder") as demo:
 
     send_btn.click(chat_with_agent, [user_input, chat], [chat, chat])
 
-demo.launch()
+demo.launch(share=True)

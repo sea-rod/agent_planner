@@ -2,7 +2,7 @@ from langchain_core.tools import tool
 from .google_calendar import GoogleCalendar
 
 google_cal = GoogleCalendar()
-google_cal.connect("../credentials.json")
+google_cal.connect("credentials.json")
 
 
 @tool()

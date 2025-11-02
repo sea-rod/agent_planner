@@ -9,6 +9,7 @@ from utils.nodes import (
     get_events_node,
     model_schedule,
     model_add,
+    model_delete,
 )
 from utils.state import AgentState
 from langchain_core.messages import HumanMessage, ToolMessage, AIMessage
@@ -31,7 +32,9 @@ agent.add_node("classify_model", classify_model)
 agent.add_node("tool", tool_node)
 agent.add_node("human_feedback_reminder", human_feedback)
 agent.add_node("human_feedback_planner", human_feedback)
+agent.add_node("human_feedback_delete", human_feedback)
 agent.add_node("model_add", model_add)
+agent.add_node("model_delete", model_delete)
 
 
 
@@ -39,7 +42,7 @@ agent.set_entry_point("current_time")
 agent.add_edge("current_time", "get_event")
 agent.add_edge("get_event","classify_model")
 agent.add_conditional_edges(
-    "classify_model", route_classifier, {"planner": "scheduler", "reminder": "model"}
+    "classify_model", route_classifier, {"planner": "scheduler", "reminder": "model", "delete": "model_delete"}
 )
 
 agent.add_conditional_edges(
@@ -56,14 +59,20 @@ agent.add_conditional_edges(
     should_continue,
     {"tool": "model_add", "human_feedback": "human_feedback_planner"},
 )
+agent.add_conditional_edges(
+    "model_delete",
+    should_continue,
+    {"tool": "tool", "human_feedback": "human_feedback_delete"},
+)
 agent.add_edge("human_feedback_planner", "scheduler")
+agent.add_edge("human_feedback_delete", "model_delete")
 agent.add_edge("model_add","tool")
 
 
 memory = MemorySaver()
 
 app = agent.compile(
-    interrupt_before=["human_feedback_reminder", "human_feedback_planner"],
+    interrupt_before=["human_feedback_reminder", "human_feedback_planner", "human_feedback_delete"],
     checkpointer=memory,
 )
 from IPython.display import Image, display
@@ -75,9 +84,12 @@ if "__main__" == __name__:
     input_ = input("Enter prompt:")
 
     initial_input = {"messages": [HumanMessage(content=input_)]}
+    
     for event in app.stream(initial_input, thread, stream_mode="values"):
         event["messages"][-1].pretty_print()
-    print("hellloo donkwy:", event.get("task_type"))
+    
+    print(event["task_type"],"hihi")
+
     while (
         isinstance(event["messages"][-1], AIMessage)
         and not isinstance(event["messages"][-2], ToolMessage)
@@ -99,5 +111,16 @@ if "__main__" == __name__:
         app.update_state(thread, {"messages": user_input}, as_node="human_feedback_planner")
         for event in app.stream(None, thread, stream_mode="values"):
             event["messages"][-1].pretty_print()
+            
+    while (
+        isinstance(event["messages"][-1], AIMessage)
+        and not isinstance(event["messages"][-2], ToolMessage)
+        and event.get("task_type") == "delete"
+    ):
+        user_input = input("user:")
+        app.update_state(thread, {"messages": user_input}, as_node="human_feedback_delete")
+        for event in app.stream(None, thread, stream_mode="values"):
+            event["messages"][-1].pretty_print()
+
 
     print("done")
