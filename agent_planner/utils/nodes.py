@@ -10,7 +10,7 @@ load_dotenv()
 
 
 tools = [create_event, get_events, delete_event]
-llm = init_chat_model("groq:llama-3.3-70b-versatile").bind_tools(
+llm = init_chat_model("groq:openai/gpt-oss-20b").bind_tools(
     tools
 )
 
@@ -134,19 +134,41 @@ def should_continue(state: AgentState):
         return "tool"
     return "human_feedback"
 
-
-def model(state: AgentState) -> AgentState:
-    sys_mess = SystemMessage(
-        content=MAIN_SYSTEM_PROMPT.format(current_time=state["current_time"])
-    )
-    if state.get("task_type","") == "get_event":
-        print("refine")
-        sys_mess = SystemMessage(content="These are the events:{events}. If the list is empty say No events".format(events=state.get("tasks",[])))
-        state["messages"] = llm.invoke([sys_mess] + state["messages"])
-        return state
-
-    state["messages"] = llm.invoke([sys_mess] + state["messages"])
-    return state
+def model(state: AgentState):
+    """Enhanced model with memory context"""
+    
+    # Get memory from state
+    preferences = state.get("relevant_preferences", [])
+    similar_convos = state.get("similar_conversations", [])
+    patterns = state.get("scheduling_patterns", [])
+    
+    # Build memory context
+    memory_context = "\n\n=== RELEVANT USER CONTEXT ===\n"
+    
+    if preferences:
+        memory_context += "\nUSER PREFERENCES:\n"
+        for pref in preferences[:3]:
+            memory_context += f"- {pref['text']}\n"
+    
+    if similar_convos:
+        memory_context += "\nSIMILAR PAST CONVERSATIONS:\n"
+        for conv in similar_convos[:2]:
+            memory_context += f"- User asked: {conv['user_message'][:60]}...\n"
+    
+    if patterns:
+        memory_context += "\nSCHEDULING PATTERNS:\n"
+        for pattern in patterns[:3]:
+            memory_context += f"- {pattern['description']}\n"
+    
+    # Enhanced system prompt
+    enhanced_prompt = MAIN_SYSTEM_PROMPT.format(
+        current_time=state["current_time"]
+    ) + memory_context
+    
+    messages = [SystemMessage(content=enhanced_prompt)] + state["messages"]
+    response = llm.invoke(messages)
+    
+    return {"messages": [response]}
 
 
 def classify_model(state: AgentState) -> AgentState:

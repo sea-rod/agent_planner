@@ -1,4 +1,6 @@
 # %%
+# agent.py - Fixed flow for get_event routing
+
 from utils.nodes import (
     model,
     human_feedback,
@@ -11,73 +13,106 @@ from utils.nodes import (
     model_add,
     model_delete,
 )
+
 from utils.state import AgentState
 from langchain_core.messages import HumanMessage, ToolMessage, AIMessage
-from langgraph.graph import StateGraph, END
+from langgraph.graph import StateGraph, END, START
 from langgraph.prebuilt import ToolNode
 from utils import tools
 from langgraph.checkpoint.memory import MemorySaver
+from utils.memory_node import retrieve_semantic_memory, store_interaction_memory
 
-
+# Initialize
 agent = StateGraph(AgentState)
-
 tool_node = ToolNode(tools)
 
+# ============ ADD ALL NODES ============
+agent.add_node("retrieve_memory", retrieve_semantic_memory)
+agent.add_node("store_memory", store_interaction_memory)
 agent.add_node("current_time", get_current_time)
+agent.add_node("get_event", get_events_node)
+agent.add_node("classify_model", classify_model)
 agent.add_node("model", model)
 agent.add_node("refine_model", model)
-agent.add_node("get_event", get_events_node)
 agent.add_node("scheduler", model_schedule)
-agent.add_node("classify_model", classify_model)
+agent.add_node("model_add", model_add)
+agent.add_node("model_delete", model_delete)
 agent.add_node("tool", tool_node)
 agent.add_node("human_feedback_reminder", human_feedback)
 agent.add_node("human_feedback_planner", human_feedback)
 agent.add_node("human_feedback_delete", human_feedback)
-agent.add_node("model_add", model_add)
-agent.add_node("model_delete", model_delete)
 
-
-
-agent.set_entry_point("current_time")
+# ============ DEFINE FLOW ============
+agent.set_entry_point("retrieve_memory")
+agent.add_edge("retrieve_memory", "current_time")
 agent.add_edge("current_time", "get_event")
-agent.add_edge("get_event","classify_model")
+agent.add_edge("get_event", "classify_model")
+
+# FIXED: Route get_event to model (which will call tool), not directly to refine_model
 agent.add_conditional_edges(
-    "classify_model", route_classifier, {"planner": "scheduler", "reminder": "model", "delete": "model_delete","get_event":"refine_model"}
+    "classify_model",
+    route_classifier,
+    {
+        "planner": "scheduler",
+        "reminder": "model",
+        "delete": "model_delete",
+        "get_event": "model"  # CHANGED: Route to model instead of refine_model
+    }
 )
 
+# ============ REMINDER & GET_EVENT FLOW ============
 agent.add_conditional_edges(
     "model",
     should_continue,
-    {"tool": "tool", "human_feedback": "human_feedback_reminder"},
+    {
+        "tool": "tool",
+        "human_feedback": "human_feedback_reminder"
+    },
 )
 agent.add_edge("human_feedback_reminder", "model")
-agent.add_edge("tool", "refine_model")
-agent.add_edge("refine_model", END)
-agent.add_edge("scheduler","model_add")
+
+# ============ PLANNER FLOW ============
 agent.add_conditional_edges(
     "scheduler",
     should_continue,
-    {"tool": "model_add", "human_feedback": "human_feedback_planner"},
+    {
+        "tool": "model_add",
+        "human_feedback": "human_feedback_planner"
+    },
 )
+agent.add_edge("human_feedback_planner", "scheduler")
+agent.add_edge("model_add", "tool")
+
+# ============ DELETE FLOW ============
 agent.add_conditional_edges(
     "model_delete",
     should_continue,
-    {"tool": "tool", "human_feedback": "human_feedback_delete"},
+    {
+        "tool": "tool",
+        "human_feedback": "human_feedback_delete"
+    },
 )
-agent.add_edge("human_feedback_planner", "scheduler")
 agent.add_edge("human_feedback_delete", "model_delete")
-agent.add_edge("model_add","tool")
 
+# ============ FINAL FLOW TO END ============
+agent.add_edge("tool", "refine_model")
+agent.add_edge("refine_model", "store_memory")
+agent.add_edge("store_memory", END)
 
-memory = MemorySaver()
-
+# ============ COMPILE ============
+checkpointer = MemorySaver()
 app = agent.compile(
-    interrupt_before=["human_feedback_reminder", "human_feedback_planner", "human_feedback_delete"],
-    checkpointer=memory,
+    checkpointer=checkpointer,
+    interrupt_before=[
+        "human_feedback_reminder",
+        "human_feedback_planner",
+        "human_feedback_delete"
+    ]
 )
-from IPython.display import Image, display
 
-display(Image(app.get_graph().draw_mermaid_png()))
+# from IPython.display import Image, display
+
+# display(Image(app.get_graph().draw_mermaid_png()))
 # %%
 if "__main__" == __name__:
     thread = {"configurable": {"thread_id": "1"}}
@@ -88,7 +123,6 @@ if "__main__" == __name__:
     for event in app.stream(initial_input, thread, stream_mode="values"):
         event["messages"][-1].pretty_print()
     
-    print(event["task_type"],"hihi")
 
     while (
         isinstance(event["messages"][-1], AIMessage)
