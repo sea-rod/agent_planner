@@ -1,5 +1,3 @@
-# main.py - Fixed version
-
 import gradio as gr
 from langchain_core.messages import HumanMessage, AIMessage, ToolMessage
 from agent import app
