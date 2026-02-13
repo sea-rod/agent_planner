@@ -13,7 +13,23 @@ def create_calendar_tools(state):
 
     @tool()
     def get_events(max_period: str = "10d") -> list:
-        """Returns calendar events within a given period starting from today."""
+        """
+    Returns calendar events within a given period starting from today.
+
+    Parameters:
+        max_period (str): Defines the maximum date range to fetch events.
+            Supported formats:
+                - "{N}d" → N days from today (e.g., "30d")
+                - "{N}m" → N months from today (e.g., "6m")
+                - "YYYY-MM-DD" → specific end date (e.g., "2022-11-14")
+            Default is "10d" (10 days).
+
+    Example:
+        get_events()                # events for next 10 days
+        get_events("30d")           # events for next 30 days
+        get_events("6m")            # events for next 6 months
+        get_events("2022-12-31")    # events until specific date
+    """
         return google_cal.get_events(max_period)
 
     @tool
@@ -25,7 +41,21 @@ def create_calendar_tools(state):
         events_list: list[dict] = None,
         **kwargs
     ) -> list[dict]:
-        """Creates one or more events on Google Calendar."""
+        """
+    Creates one or more events on Google Calendar.
+
+    You have two modes:
+    1. Pass in summary+description+strt_dateTime+end_dateTime to create a single event.
+    2. Or pass in events_list: a list of dicts each of form
+       {
+         "summary": "...",
+         "description": "...",
+         "start": {"dateTime": "..."},
+         "end":   {"dateTime": "..."}
+       }
+
+    Returns a list of created event‐objects (or a single‐item list for the single event mode).
+    """
         created_events = []
         
         if events_list is not None:
@@ -48,7 +78,16 @@ def create_calendar_tools(state):
 
     @tool
     def delete_event(event_id: str):
-        """Deletes an event from the user's primary Google Calendar."""
+        """
+        Deletes an event from the user's primary Google Calendar.
+        use the get_event tool to extract the event id
+
+        Parameters:
+            event_id (str): The unique ID of the calendar event to delete.
+
+        Example:
+            delete_event("abc123xyz")
+        """
         return google_cal.delete_event(event_id)
 
     return [create_event, get_events, delete_event]

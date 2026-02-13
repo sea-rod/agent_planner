@@ -34,6 +34,7 @@ const ChatPage = () => {
 
   const sendMessage = async (e) => {
     e.preventDefault();
+    setIsTyping(true);
     if (!input.trim()) return;
 
     const userMsg = {
@@ -45,7 +46,6 @@ const ChatPage = () => {
 
     const { data: { session } } = await supabase.auth.getSession();
 
-    console.log(session.access_token);
     
     
     const data = {
@@ -58,9 +58,32 @@ const ChatPage = () => {
       "thread_id":session.access_token
     }).then((res)=>{
       console.log(res);
+      const aiResponse = {
+        id: Date.now() + 1,
+        sender: 'ai',
+        text: res.data.reply,
+        action: "",
+        time: 'just now',
+      };
       
-    })
+      setMessages((prev)=>[...prev,aiResponse])
+      setIsTyping(false);
 
+  
+    }).catch((err)=>{
+
+      console.log(err);
+      const aiResponse = {
+        id: Date.now() + 1,
+        sender: 'ai',
+        text: "Error please try again",
+        action: "View suggested schedule →",
+        time: 'just now',
+      };
+      
+      setMessages((prev)=>[...prev,aiResponse])
+      setIsTyping(false);
+    })
 
 
 
@@ -70,18 +93,18 @@ const ChatPage = () => {
     if (textareaRef.current) textareaRef.current.style.height = 'auto';
 
     // Simulate AI response
-    setIsTyping(true);
-    setTimeout(() => {
-      setIsTyping(false);
-      const aiResponse = {
-        id: Date.now() + 1,
-        sender: 'ai',
-        text: "Got it. I've drafted a balanced plan with focused blocks and buffers. Would you like to see the proposal?",
-        action: "View suggested schedule →",
-        time: 'just now',
-      };
-      setMessages((prev) => [...prev, aiResponse]);
-    }, 2000);
+    
+  //   setTimeout(() => {
+  //     setIsTyping(false);
+  //     const aiResponse = {
+  //       id: Date.now() + 1,
+  //       sender: 'ai',
+  //       text: "Got it. I've drafted a balanced plan with focused blocks and buffers. Would you like to see the proposal?",
+  //       action: "View suggested schedule →",
+  //       time: 'just now',
+  //     };
+  //     setMessages((prev) => [...prev, aiResponse]);
+  //   }, 2000);
   };
 
   const handleKeyDown = (e) => {
