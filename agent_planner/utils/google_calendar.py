@@ -1,6 +1,7 @@
 import datetime
 from zoneinfo import ZoneInfo
 import os.path
+import json
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -15,6 +16,35 @@ SCOPES = ["https://www.googleapis.com/auth/calendar"]
 
 class GoogleCalendar:
     def __init__(self): ...
+
+    def connect_with_token(self, access_token: str, refresh_token: str = None):
+        """
+        Initializes the service using a token provided by the frontend.
+        """
+        # Note: You still need your Client ID and Secret if you want 
+        # the library to handle token refreshing automatically.
+
+        with open('../client_secret.json', 'r') as file:
+            data = json.load(file)
+            client_id = data['web']['client_id']
+            client_secret = data['web']['client_secret']
+
+
+        creds = Credentials(
+            token=access_token,
+            refresh_token=refresh_token,
+            token_uri="https://oauth2.googleapis.com/token",
+            client_id=client_id,
+            client_secret=client_secret,
+            scopes=SCOPES,
+        )
+
+        try:
+            self.__service = build("calendar", "v3", credentials=creds)
+            print("✅ Connected successfully via frontend token")
+        except Exception as error:
+            print(f"❌ Connection failed: {error}")
+
 
     def connect(self, file):
         creds = None
@@ -132,25 +162,3 @@ class GoogleCalendar:
             print(f"❌ An error occurred while deleting the event: {error}")
             return False
 
-
-if "__main__" == __name__:
-    google_cal = GoogleCalendar()
-
-    google_cal.connect("credentials.json")
-    google_cal.get_events()
-
-    event = {
-        "summary": "Google I/O 2015",
-        "location": "800 Howard St., San Francisco, CA 94103",
-        "description": "A chance to hear more about Google's developer products.",
-        "start": {
-            "dateTime": "2025-10-23T09:00:00+05:30",
-            # 'timeZone': 'India/Kolkota',
-        },
-        "end": {
-            "dateTime": "2025-10-23T10:00:00+05:30",
-            # 'timeZone': 'India/Kolkota',
-        },
-    }
-
-    google_cal.create_event(event)

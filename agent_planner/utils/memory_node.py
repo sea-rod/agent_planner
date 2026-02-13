@@ -1,6 +1,6 @@
 # utils/memory_nodes.py - Memory retrieval and storage nodes with lazy init
 
-from utils.state import AgentState
+from .state import AgentState
 from langchain_core.messages import HumanMessage, AIMessage
 import traceback
 

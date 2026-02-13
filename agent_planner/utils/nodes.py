@@ -2,18 +2,13 @@ from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
 from datetime import datetime, timezone, timedelta
 from langchain.chat_models import init_chat_model
 from .state import AgentState
-from .tools import create_event, get_events, delete_event,google_cal
-
+from .tools import create_calendar_tools
 from dotenv import load_dotenv
+from .calendar_helper import get_user_calendar
 
 load_dotenv()
 
-
-tools = [create_event, get_events, delete_event]
-llm = init_chat_model("groq:openai/gpt-oss-20b").bind_tools(
-    tools
-)
-
+base_llm = init_chat_model("groq:openai/gpt-oss-20b")
 
 MAIN_SYSTEM_PROMPT = """
 The current time is {current_time}.
@@ -21,7 +16,7 @@ You are an assistant that manages reminders and time-blocking events in Google C
 
 Goals:
 - If user gives a reminder WITHOUT a specific time → ask for the time (do NOT call the calendar).
-- If user requests a time-blocking plan and does NOT specify a duration → ask for duration; if user still doesn’t know, default to 30 days.
+- If user requests a time-blocking plan and does NOT specify a duration → ask for duration; if user still doesn't know, default to 30 days.
 - When calling calendar tools, always use ISO datetimes with timezone +05:30.
 
 Tool usage guidance (exact accepted `get_events()` formats):
@@ -134,8 +129,13 @@ def should_continue(state: AgentState):
         return "tool"
     return "human_feedback"
 
+
 def model(state: AgentState):
     """Enhanced model with memory context"""
+    
+    # Create user-specific tools
+    tools = create_calendar_tools(state)
+    llm = base_llm.bind_tools(tools)
     
     # Get memory from state
     preferences = state.get("relevant_preferences", [])
@@ -173,8 +173,7 @@ def model(state: AgentState):
 
 def classify_model(state: AgentState) -> AgentState:
     sys_mess = SystemMessage(content=CLASSIFY_PROMPT)
-    # Expect exactly "planner" or "reminder" or "delete"
-    state["task_type"] = llm.invoke([sys_mess] + state["messages"]).content.strip()
+    state["task_type"] = base_llm.invoke([sys_mess] + state["messages"]).content.strip()
     return state
 
 
@@ -193,9 +192,10 @@ def route_classifier(state: AgentState):
 
 
 def get_events_node(state: AgentState):
+    google_cal = get_user_calendar(state["user_id"])
     sys_mess = SystemMessage(content=GET_EVENTS_EXTRACTOR_PROMPT)
-    period = llm.invoke([sys_mess] + state["messages"]).content.strip()
-    # Fallback safety
+    period = base_llm.invoke([sys_mess] + state["messages"]).content.strip()
+    
     if not period:
         period = "10d"
     events = google_cal.get_events(period)
@@ -204,17 +204,26 @@ def get_events_node(state: AgentState):
 
 
 def model_schedule(state: AgentState) -> AgentState:
+    tools = create_calendar_tools(state)
+    llm = base_llm.bind_tools(tools)
+    
     sys_mess = SystemMessage(content=PLANNER_PROMPT.format(events=state.get("tasks", [])))
     state["messages"] = llm.invoke([sys_mess] + state["messages"])
     return state
 
-
 def model_add(state: AgentState) -> AgentState:
+    tools = create_calendar_tools(state)
+    llm = base_llm.bind_tools(tools)
+    
     sys_mess = SystemMessage(content=EVENT_CREATION_PROMPT)
     state["messages"] = llm.invoke([sys_mess] + state["messages"])
     return state
 
+
 def model_delete(state: AgentState) -> AgentState:
+    tools = create_calendar_tools(state)
+    llm = base_llm.bind_tools(tools)
+    
     sys_mess = SystemMessage(content=DELETE_PROMPT.format(events=state.get("tasks", [])))
     state["messages"] = llm.invoke([sys_mess] + state["messages"])
     return state

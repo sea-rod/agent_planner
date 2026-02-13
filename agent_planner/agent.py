@@ -1,7 +1,4 @@
-# %%
-# agent.py - Fixed flow for get_event routing
-
-from utils.nodes import (
+from .utils.nodes import (
     model,
     human_feedback,
     should_continue,
@@ -13,18 +10,22 @@ from utils.nodes import (
     model_add,
     model_delete,
 )
-
-from utils.state import AgentState
+from .utils.state import AgentState
+from .utils.tools import create_calendar_tools
 from langchain_core.messages import HumanMessage, ToolMessage, AIMessage
 from langgraph.graph import StateGraph, END, START
 from langgraph.prebuilt import ToolNode
-from utils import tools
 from langgraph.checkpoint.memory import MemorySaver
-from utils.memory_node import retrieve_semantic_memory, store_interaction_memory
+from .utils.memory_node import retrieve_semantic_memory, store_interaction_memory
 
 # Initialize
+def dynamic_tool_node(state: AgentState):
+    tools = create_calendar_tools(state)
+    return ToolNode(tools)
+
+
 agent = StateGraph(AgentState)
-tool_node = ToolNode(tools)
+
 
 # ============ ADD ALL NODES ============
 agent.add_node("retrieve_memory", retrieve_semantic_memory)
@@ -37,7 +38,7 @@ agent.add_node("refine_model", model)
 agent.add_node("scheduler", model_schedule)
 agent.add_node("model_add", model_add)
 agent.add_node("model_delete", model_delete)
-agent.add_node("tool", tool_node)
+agent.add_node("tool", dynamic_tool_node)
 agent.add_node("human_feedback_reminder", human_feedback)
 agent.add_node("human_feedback_planner", human_feedback)
 agent.add_node("human_feedback_delete", human_feedback)
