@@ -24,10 +24,9 @@ class GoogleCalendar:
         # Note: You still need your Client ID and Secret if you want 
         # the library to handle token refreshing automatically.
 
-        with open('../client_secret.json', 'r') as file:
-            data = json.load(file)
-            client_id = data['web']['client_id']
-            client_secret = data['web']['client_secret']
+        
+        client_id = os.environ.get('client_id')
+        client_secret = os.environ.get('client_secret')
 
 
         creds = Credentials(
