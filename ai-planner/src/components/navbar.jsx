@@ -22,7 +22,8 @@ const Navbar = () => {
           google_access_token: session.provider_token,
           google_refresh_token: session.provider_refresh_token,
           updated_at: new Date()
-        });
+        },
+          { onConflict: 'user_id' });
         if (error) console.error("Error syncing to DB:", error.message);
       }
     });
@@ -31,7 +32,11 @@ const Navbar = () => {
   }, []);
 
   const logout = async () => {
-    await supabase.auth.signOut();
+    console.log("logout");
+    
+    let d = await supabase.auth.signOut();
+    console.log(d);
+    
     window.location.href = "/";
   };
 
@@ -41,7 +46,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0F172A]/95 backdrop-blur-md border-b border-[#C9A96E]/10">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div className="flex justify-between items-center h-24">
-          
+
           {/* Logo Section */}
           <div className="flex items-center space-x-3">
             <img src={logo} className="w-10 h-10 md:w-12 md:h-12" alt="Atelier Logo" />
@@ -53,9 +58,9 @@ const Navbar = () => {
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center space-x-10">
             {navLinks.map((item) => (
-              <a 
-                key={item} 
-                href={`#${item.toLowerCase()}`} 
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
                 className="text-[#94A3B8] hover:text-[#C9A96E] font-medium transition tracking-wide text-sm uppercase"
               >
                 {item}
@@ -83,7 +88,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button (Hamburger) */}
           <div className="md:hidden flex items-center">
-            <button 
+            <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-[#C9A96E] focus:outline-none p-2"
             >
@@ -103,9 +108,9 @@ const Navbar = () => {
       <div className={`md:hidden bg-[#0F172A] border-b border-[#C9A96E]/10 transition-all duration-300 ease-in-out ${isOpen ? 'max-h-screen opacity-100 py-6' : 'max-h-0 opacity-0 overflow-hidden'}`}>
         <div className="px-6 space-y-4">
           {navLinks.map((item) => (
-            <a 
-              key={item} 
-              href={`#${item.toLowerCase()}`} 
+            <a
+              key={item}
+              href={`#${item.toLowerCase()}`}
               onClick={() => setIsOpen(false)}
               className="block text-[#94A3B8] hover:text-[#C9A96E] text-lg font-medium"
             >
