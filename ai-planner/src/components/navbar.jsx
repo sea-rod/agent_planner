@@ -31,15 +31,21 @@ const Navbar = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const logout = async () => {
-    console.log("logout");
+const logout = async () => {
+  try {
+    // 'global' scope ensures the session is cleared across all tabs/windows
+    const { error } = await supabase.auth.signOut({ scope: 'global' });
     
-    let d = await supabase.auth.signOut();
-    console.log(d);
-    
-    window.location.href = "/";
-  };
+    if (error) {
+      console.error("Logout error:", error.message);
+      return;
+    }
 
+    window.location.assign("/"); 
+  } catch (err) {
+    console.error("Unexpected error during logout:", err);
+  }
+};
   const navLinks = ['Features', 'Craftsmanship', 'Exclusivity'];
 
   return (
