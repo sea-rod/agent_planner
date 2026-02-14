@@ -18,10 +18,10 @@ server = FastAPI()
 
 
 origins = [
-    "http://localhost.tiangolo.com",
-    "https://127.0.0.1:8080",
+    os.environ.get("FRONTEND_HOST"),
     "http://localhost",
     "http://localhost:5173",
+    "http://localhost:4173"
 ]
 
 server.add_middleware(

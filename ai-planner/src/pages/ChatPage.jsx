@@ -57,7 +57,6 @@ const ChatPage = () => {
       "message":input,
       "thread_id":session.access_token
     }).then((res)=>{
-      console.log(res);
       const aiResponse = {
         id: Date.now() + 1,
         sender: 'ai',
