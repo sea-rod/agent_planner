@@ -72,6 +72,14 @@ const logout = async () => {
                 {item}
               </a>
             ))}
+            <Link
+                to="terms"
+                className="text-[#94A3B8] hover:text-[#C9A96E] font-medium transition tracking-wide text-sm uppercase"
+              >Terms</Link>
+              <Link
+                to="privacy"
+                className="text-[#94A3B8] hover:text-[#C9A96E] font-medium transition tracking-wide text-sm uppercase"
+              >Privacy</Link>
           </div>
 
           {/* Desktop Auth Buttons */}

@@ -6,6 +6,8 @@ import App from './pages/App.jsx'
 import AuthPage from './pages/AuthPage.jsx'
 import Layout from './components/layouts.jsx';
 import ChatPage from './pages/ChatPage.jsx';
+import Terms from "./pages/Terms.jsx";
+import Privacy from "./pages/Privacy.jsx"
 
 
 const router = createBrowserRouter([
@@ -27,6 +29,14 @@ const router = createBrowserRouter([
       {
         path: "chat",
         element: <ChatPage />
+      },
+      {
+        path: "terms",
+        element: <Terms />
+      },
+      {
+        path: "privacy",
+        element: <Privacy />
       },
     ],
   },
