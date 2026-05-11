@@ -25,52 +25,44 @@ const InputField = ({ label, type, placeholder, id }) => (
     />
   </div>
 );
-
 const AuthPage = () => {
   const [activeTab, setActiveTab] = useState('login');
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({ email: '', password: '', fullName: '' });
+  const [formData, setFormData] = useState({ email: '', password: '', confirmPassword: '', fullName: '' });
   const navigate = useNavigate();
 
-  // Handle Input Changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-
-const handleGoogleSignIn = async () => {
-  try {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        // REQUIRED: Ask for Calendar permissions
-        scopes: 'https://www.googleapis.com/auth/calendar',
-        queryParams: {
-          access_type: 'offline', // REQUIRED: To get the refresh token
-          prompt: 'consent',     // REQUIRED: To ensure the token is issued
+  const handleGoogleSignIn = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          queryParams: { access_type: 'offline', prompt: 'consent' },
+          redirectTo: `${window.location.origin}`,
         },
-        // Point this to your specific callback page
-        redirectTo: `${window.location.origin}`
-      }
-    });
-    if (error) throw error;
-  } catch (error) {
-    alert(error.message);
-  }
-};
-  // Email/Password Logic
+      });
+      if (error) throw error;
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   const handleAuth = async (e) => {
     e.preventDefault();
+    if (activeTab === 'signup' && formData.password !== formData.confirmPassword) {
+      alert('Passwords do not match.');
+      return;
+    }
     setLoading(true);
-
     try {
       if (activeTab === 'signup') {
         const { error } = await supabase.auth.signUp({
           email: formData.email,
           password: formData.password,
-          options: {
-            data: { full_name: formData.fullName },
-          },
+          options: { data: { full_name: formData.fullName } },
         });
         if (error) throw error;
         alert('Check your email for the confirmation link!');
@@ -80,9 +72,10 @@ const handleGoogleSignIn = async () => {
           password: formData.password,
         });
         if (error) throw error;
-        navigate('/dashboard'); // Redirect after successful login
+        navigate('/dashboard');
       }
     } catch (error) {
+      console.log(error)
       alert(error.message);
     } finally {
       setLoading(false);
@@ -91,18 +84,34 @@ const handleGoogleSignIn = async () => {
 
   return (
     <div className="bg-[#0F172A] min-h-screen flex flex-col font-sans text-[#FAFAFA] antialiased">
-      {/* Header code remains the same */}
-      
       <main className="flex-grow flex items-center justify-center pt-24 pb-16 px-5">
-        <div className="w-full max-w-md animate-fade-up">
-          {/* Title section remains the same */}
+        <div className="w-full max-w-md">
+          <p className="text-center font-serif text-3xl text-[#C9A96E] tracking-widest mb-1">ATELIER</p>
+          <p className="text-center text-xs text-[#475569] tracking-widest uppercase mb-7">Your intelligent workspace</p>
 
-          <div className="bg-[#1E293B]/30 backdrop-blur-md rounded-3xl border border-[#C9A96E]/10 shadow-2xl overflow-hidden">
-            {/* Tabs remain the same */}
+          <div className="bg-[#1E293B]/60 backdrop-blur-md rounded-3xl border border-[#C9A96E]/10 shadow-2xl overflow-hidden">
+
+            {/* Tab Bar */}
+            <div className="flex border-b border-[#C9A96E]/12">
+              {['login', 'signup'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`flex-1 py-4 text-xs font-medium tracking-widest uppercase transition relative
+                    ${activeTab === tab ? 'text-[#C9A96E]' : 'text-[#64748B]'}`}
+                >
+                  {tab === 'login' ? 'Sign In' : 'Create Account'}
+                  {activeTab === tab && (
+                    <span className="absolute bottom-0 left-[10%] right-[10%] h-0.5 bg-[#C9A96E] rounded-t-sm" />
+                  )}
+                </button>
+              ))}
+            </div>
 
             <div className="p-8 md:p-10">
               <form className="space-y-6" onSubmit={handleAuth}>
-                <button 
+                {/* Google Button */}
+                <button
                   type="button"
                   onClick={handleGoogleSignIn}
                   disabled={loading}
@@ -113,51 +122,50 @@ const handleGoogleSignIn = async () => {
                 </button>
 
                 <div className="relative my-8">
-                  <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-[#C9A96E]/20"></div></div>
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-[#C9A96E]/20" />
+                  </div>
                   <div className="relative flex justify-center text-sm">
                     <span className="px-4 bg-[#1e293b] text-[#94A3B8]">or email</span>
                   </div>
                 </div>
 
-                {activeTab === 'signup' && (
+                {/* Fields */}
+                <div className="space-y-4">
+                  {activeTab === 'signup' && (
+                    <div className="space-y-2">
+                      <label className="block text-xs font-medium text-[#94A3B8] tracking-wide">Full Name</label>
+                      <input name="fullName" type="text" required placeholder="Victoria Moreau"
+                        onChange={handleChange}
+                        className="w-full px-5 py-4 bg-[#0F172A] border border-[#C9A96E]/20 rounded-xl text-white placeholder-[#94A3B8]/45 focus:border-[#C9A96E] focus:ring-1 focus:ring-[#C9A96E]/20 outline-none transition" />
+                    </div>
+                  )}
+
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-[#94A3B8]">Full Name</label>
-                    <input 
-                      name="fullName"
-                      type="text"
-                      required
-                      placeholder="Victoria Moreau"
+                    <label className="block text-xs font-medium text-[#94A3B8] tracking-wide">Email</label>
+                    <input name="email" type="email" required placeholder="your@name.com"
                       onChange={handleChange}
-                      className="w-full px-5 py-4 bg-[#0F172A] border border-[#C9A96E]/20 rounded-xl text-white outline-none focus:border-[#C9A96E] transition"
-                    />
+                      className="w-full px-5 py-4 bg-[#0F172A] border border-[#C9A96E]/20 rounded-xl text-white placeholder-[#94A3B8]/45 focus:border-[#C9A96E] focus:ring-1 focus:ring-[#C9A96E]/20 outline-none transition" />
                   </div>
-                )}
 
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-[#94A3B8]">Email</label>
-                  <input 
-                    name="email"
-                    type="email"
-                    required
-                    placeholder="your@name.com"
-                    onChange={handleChange}
-                    className="w-full px-5 py-4 bg-[#0F172A] border border-[#C9A96E]/20 rounded-xl text-white outline-none focus:border-[#C9A96E] transition"
-                  />
+                  <div className="space-y-2">
+                    <label className="block text-xs font-medium text-[#94A3B8] tracking-wide">Password</label>
+                    <input name="password" type="password" required placeholder="••••••••"
+                      onChange={handleChange}
+                      className="w-full px-5 py-4 bg-[#0F172A] border border-[#C9A96E]/20 rounded-xl text-white placeholder-[#94A3B8]/45 focus:border-[#C9A96E] focus:ring-1 focus:ring-[#C9A96E]/20 outline-none transition" />
+                  </div>
+
+                  {activeTab === 'signup' && (
+                    <div className="space-y-2">
+                      <label className="block text-xs font-medium text-[#94A3B8] tracking-wide">Confirm Password</label>
+                      <input name="confirmPassword" type="password" required placeholder="••••••••"
+                        onChange={handleChange}
+                        className="w-full px-5 py-4 bg-[#0F172A] border border-[#C9A96E]/20 rounded-xl text-white placeholder-[#94A3B8]/45 focus:border-[#C9A96E] focus:ring-1 focus:ring-[#C9A96E]/20 outline-none transition" />
+                    </div>
+                  )}
                 </div>
 
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-[#94A3B8]">Password</label>
-                  <input 
-                    name="password"
-                    type="password"
-                    required
-                    placeholder="••••••••"
-                    onChange={handleChange}
-                    className="w-full px-5 py-4 bg-[#0F172A] border border-[#C9A96E]/20 rounded-xl text-white outline-none focus:border-[#C9A96E] transition"
-                  />
-                </div>
-
-                <button 
+                <button
                   type="submit"
                   disabled={loading}
                   className="w-full bg-[#C9A96E] text-[#0F172A] py-4 rounded-full font-serif font-bold text-lg hover:bg-[#D4B978] transition shadow-lg transform hover:-translate-y-0.5 disabled:opacity-50"
@@ -165,11 +173,20 @@ const handleGoogleSignIn = async () => {
                   {loading ? 'Processing...' : activeTab === 'login' ? 'Enter Atelier' : 'Begin Your Journey'}
                 </button>
 
-                {/* Switch tab button remains the same */}
+                <p className="text-center text-sm text-[#64748B]">
+                  {activeTab === 'login' ? (
+                    <>No account?{' '}
+                      <button type="button" onClick={() => setActiveTab('signup')} className="text-[#C9A96E] underline underline-offset-2">Create one</button>
+                    </>
+                  ) : (
+                    <>Already have an account?{' '}
+                      <button type="button" onClick={() => setActiveTab('login')} className="text-[#C9A96E] underline underline-offset-2">Sign in</button>
+                    </>
+                  )}
+                </p>
               </form>
             </div>
           </div>
-          {/* Footer remains the same */}
         </div>
       </main>
     </div>
