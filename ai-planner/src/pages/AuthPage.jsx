@@ -41,7 +41,7 @@ const AuthPage = () => {
         provider: 'google',
         options: {
           queryParams: { access_type: 'offline', prompt: 'consent' },
-          redirectTo: `${window.location.origin}`,
+          redirectTo: `${window.location.origin}/connector`,
         },
       });
       if (error) throw error;
