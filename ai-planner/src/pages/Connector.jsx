@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { use, useState,useEffect } from "react";
 import { Link } from "react-router";
+import { supabase } from "../supabaseClient";
+import axios from "../api"
+// import { connectGoogleCalendar } from "../googleOauth";
+
 
 const providers = [
   {
@@ -90,8 +94,8 @@ function ConnectorCard({ provider, state, onConnect }) {
         isConnected
           ? "bg-[#C9A96E]/5 border-[#C9A96E]/50 cursor-default"
           : isConnecting
-          ? "bg-white/[0.03] border-[#C9A96E]/40 animate-pulse cursor-wait"
-          : "bg-white/[0.03] border-[#C9A96E]/15 cursor-pointer hover:-translate-y-0.5 hover:border-[#C9A96E]/45 hover:bg-white/[0.05]",
+            ? "bg-white/[0.03] border-[#C9A96E]/40 animate-pulse cursor-wait"
+            : "bg-white/[0.03] border-[#C9A96E]/15 cursor-pointer hover:-translate-y-0.5 hover:border-[#C9A96E]/45 hover:bg-white/[0.05]",
       ].join(" ")}
     >
       {/* inner glow on hover */}
@@ -127,33 +131,73 @@ function ConnectorCard({ provider, state, onConnect }) {
           isConnected
             ? "bg-emerald-400/5 border border-emerald-400/20 text-emerald-400 cursor-default"
             : isConnecting
-            ? "bg-[#C9A96E]/10 border border-[#C9A96E]/20 text-[#C9A96E] cursor-wait"
-            : "bg-[#C9A96E]/10 border border-[#C9A96E]/20 text-[#C9A96E] hover:bg-[#C9A96E]/20 hover:text-[#D4B978]",
+              ? "bg-[#C9A96E]/10 border border-[#C9A96E]/20 text-[#C9A96E] cursor-wait"
+              : "bg-[#C9A96E]/10 border border-[#C9A96E]/20 text-[#C9A96E] hover:bg-[#C9A96E]/20 hover:text-[#D4B978]",
         ].join(" ")}
       >
         {isConnected
           ? `✓ ${provider.shortName} connected`
           : isConnecting
-          ? "Authenticating…"
-          : `Connect ${provider.shortName}`}
+            ? "Authenticating…"
+            : `Connect ${provider.shortName}`}
       </button>
     </div>
   );
 }
 
+
+
 export default function Connector() {
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => setUser(user));
+  }, []);
+
   const [connectionStates, setConnectionStates] = useState(
     Object.fromEntries(providers.map((p) => [p.id, "idle"]))
   );
 
-  const handleConnect = (providerId) => {
-    setConnectionStates((prev) => ({ ...prev, [providerId]: "connecting" }));
-    // Replace with your actual OAuth redirect / popup logic
-    setTimeout(() => {
-      setConnectionStates((prev) => ({ ...prev, [providerId]: "connected" }));
-    }, 1800);
-  };
+  const handleConnect = async (providerId) => {
+    
+    setConnectionStates((prev)=>({...prev,[providerId]: "connecting"}))
 
+    const res = await axios.get(`auth/google/url?user_id=${user.id}`);
+  if (res.status != 200) throw new Error("Failed to get auth URL from backend");
+  const { url } = res.data;
+
+  // 2. Open popup
+  const popup = window.open(url, "google-auth", "width=500,height=600");
+  if (!popup) throw new Error("Popup blocked — please allow popups for this site");
+
+  // 3. Wait for success message or popup close
+  return new Promise((resolve, reject) => {
+    let done = false;
+
+    const handler = (event) => {
+      if (event.data?.type !== "GOOGLE_AUTH_SUCCESS") return;
+      done = true;
+      setConnectionStates((prev)=>({...prev,[providerId]: "connected"}))
+      cleanup();
+      resolve();
+    };
+
+    const timer = setInterval(() => {
+      if (popup.closed && !done) {
+        cleanup();
+        reject(new Error("Popup closed before completing auth"));
+      }
+    }, 500);
+
+    function cleanup() {
+      clearInterval(timer);
+      window.removeEventListener("message", handler);
+    }
+
+    window.addEventListener("message", handler);
+  });
+  };
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] px-6 py-16 text-white overflow-hidden">
 
