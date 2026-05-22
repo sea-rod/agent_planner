@@ -2,6 +2,7 @@ import datetime
 from zoneinfo import ZoneInfo
 import os.path
 import json
+from supabase import create_client, Client
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -10,24 +11,25 @@ from googleapiclient.errors import HttpError
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
-
-SCOPES = ["https://www.googleapis.com/auth/calendar"]
+SCOPES = ["https://www.googleapis.com/auth/calendar.events"]
 
 
 class GoogleCalendar:
     def __init__(self): ...
 
-    def connect_with_token(self, access_token: str, refresh_token: str = None):
+    def connect_with_token(
+        self, user_id: str, access_token: str, refresh_token: str = None
+    ):
         """
         Initializes the service using a token provided by the frontend.
         """
-        # Note: You still need your Client ID and Secret if you want 
+        # Note: You still need your Client ID and Secret if you want
         # the library to handle token refreshing automatically.
 
-        
-        client_id = os.environ.get('client_id')
-        client_secret = os.environ.get('client_secret')
+        client_id = os.environ.get("GOOGLE_CLIENT_ID")
+        client_secret = os.environ.get("GOOGLE_CLIENT_SECRET")
 
+        print(client_id, client_secret)
 
         creds = Credentials(
             token=access_token,
@@ -38,12 +40,30 @@ class GoogleCalendar:
             scopes=SCOPES,
         )
 
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+            supabase: Client = create_client(
+                os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_SERVICE_ROLE")
+            )
+            supabase.table("calendar_tokens").upsert(
+                {
+                    "user_id": user_id,
+                    "provider": "google",
+                    "access_token": creds.token,
+                    "refresh_token": creds.refresh_token,
+                    "token_uri": creds.token_uri,
+                    "client_id": creds.client_id,
+                    "client_secret": creds.client_secret,
+                    "scopes": list(creds.scopes),
+                },
+                on_conflict="user_id,provider",
+            ).execute()
+
         try:
             self.__service = build("calendar", "v3", credentials=creds)
-            print("✅ Connected successfully via frontend token")
+            print(" Connected successfully via frontend token")
         except Exception as error:
-            print(f"❌ Connection failed: {error}")
-
+            print(f"Connection failed: {error}")
 
     def connect(self, file):
         creds = None
@@ -98,7 +118,7 @@ class GoogleCalendar:
             try:
                 max_ = datetime.fromisoformat(max_period).replace(
                     tzinfo=ZoneInfo("Asia/Kolkata")
-                )+ timedelta(days=1)
+                ) + timedelta(days=1)
             except ValueError:
                 raise ValueError(
                     "Invalid max_period format. Use '{N}d', '{N}m', or 'YYYY-MM-DD'."
@@ -118,13 +138,16 @@ class GoogleCalendar:
             .execute()
         )
 
-
         events = events_result.get("items", [])
+
+        if not events:
+            return "No Task were found"
+
         all_events = []
 
         for event in events:
             event_dict = {
-                "id": event.get("id"),  
+                "id": event.get("id"),
                 "summary": event.get("summary", "No Title"),
                 "start": event.get("start"),
                 "end": event.get("end"),
@@ -155,9 +178,8 @@ class GoogleCalendar:
             self.__service.events().delete(
                 calendarId="primary", eventId=event_id
             ).execute()
-            print(f"✅ Event deleted successfully (ID: {event_id})")
+            print(f"Event deleted successfully (ID: {event_id})")
             return True
         except HttpError as error:
-            print(f"❌ An error occurred while deleting the event: {error}")
+            print(f"An error occurred while deleting the event: {error}")
             return False
-

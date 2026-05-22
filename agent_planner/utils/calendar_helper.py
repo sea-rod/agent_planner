@@ -10,12 +10,12 @@ def get_user_calendar(user_id: str) -> GoogleCalendar:
     """
     supabase: Client = create_client(
         os.getenv("SUPABASE_URL"), 
-        os.getenv("SUPABASE_ANON_KEY")
+        os.getenv("SUPABASE_SERVICE_ROLE")
     )
     
     response = (
-        supabase.table("user_integrations")
-        .select("google_access_token, google_refresh_token")
+        supabase.table("calendar_tokens")
+        .select("access_token, refresh_token")
         .eq("user_id", user_id)
         .single()
         .execute()
@@ -25,8 +25,9 @@ def get_user_calendar(user_id: str) -> GoogleCalendar:
     
     google_cal = GoogleCalendar()
     google_cal.connect_with_token(
-        access_token=tokens['google_access_token'],
-        refresh_token=tokens['google_refresh_token']
+        user_id,
+        access_token=tokens['access_token'],
+        refresh_token=tokens['refresh_token']
     )
     
     return google_cal

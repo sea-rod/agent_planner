@@ -51,7 +51,7 @@ class WeaviateMemoryStore:
                 self.client.collections.create(
                     name="UserPreference",
                     description="User scheduling preferences and patterns",
-                    vectorizer_config=Configure.Vectorizer.text2vec_cohere(
+                    vector_config=Configure.Vectorizer.text2vec_cohere(
                         model="embed-english-v3.0",
                     ),
                     properties=[
@@ -74,7 +74,7 @@ class WeaviateMemoryStore:
                 self.client.collections.create(
                     name="ConversationMemory",
                     description="Semantic conversation history",
-                    vectorizer_config=Configure.Vectorizer.text2vec_cohere(
+                    vector_config=Configure.Vectorizer.text2vec_cohere(
                         model="embed-english-v3.0",
                     ),
                     properties=[
@@ -100,7 +100,7 @@ class WeaviateMemoryStore:
                 self.client.collections.create(
                     name="SchedulingPattern",
                     description="Learned scheduling patterns",
-                    vectorizer_config=Configure.Vectorizer.text2vec_cohere(
+                    vector_config=Configure.Vectorizer.text2vec_cohere(
                         model="embed-english-v3.0",
                     ),
                     properties=[

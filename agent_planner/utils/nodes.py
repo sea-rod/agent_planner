@@ -193,9 +193,9 @@ def route_classifier(state: AgentState):
 
 def get_events_node(state: AgentState):
     google_cal = get_user_calendar(state["user_id"])
-    sys_mess = SystemMessage(content=GET_EVENTS_EXTRACTOR_PROMPT)
-    period = base_llm.invoke([sys_mess] + state["messages"]).content.strip()
-    
+    # sys_mess = SystemMessage(content=GET_EVENTS_EXTRACTOR_PROMPT)
+    # period = base_llm.invoke([sys_mess] + state["messages"]).content.strip()
+    period = None
     if not period:
         period = "10d"
     events = google_cal.get_events(period)

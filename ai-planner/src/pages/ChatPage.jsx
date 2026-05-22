@@ -17,6 +17,11 @@ const ChatPage = () => {
   const [isTyping, setIsTyping] = useState(false);
   const chatContainerRef = useRef(null);
   const textareaRef = useRef(null);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => setUser(user));
+  }, []);
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -44,18 +49,18 @@ const ChatPage = () => {
       time: 'just now',
     };
 
-    const { data: { session } } = await supabase.auth.getSession();
+    // const { data: { session } } = await supabase.auth.getSession();
 
     
     
-    const data = {
-      "message":input,
-      "thread_id":session.access_token
-    }
+    // const data = {
+    //   "message":input,
+    //   "thread_id":session.access_token
+    // }
     
     api.post("/agent-chat", {
       "message":input,
-      "thread_id":session.access_token
+      "thread_id":user.id
     }).then((res)=>{
       const aiResponse = {
         id: Date.now() + 1,
@@ -91,19 +96,7 @@ const ChatPage = () => {
     setInput('');
     if (textareaRef.current) textareaRef.current.style.height = 'auto';
 
-    // Simulate AI response
-    
-  //   setTimeout(() => {
-  //     setIsTyping(false);
-  //     const aiResponse = {
-  //       id: Date.now() + 1,
-  //       sender: 'ai',
-  //       text: "Got it. I've drafted a balanced plan with focused blocks and buffers. Would you like to see the proposal?",
-  //       action: "View suggested schedule →",
-  //       time: 'just now',
-  //     };
-  //     setMessages((prev) => [...prev, aiResponse]);
-  //   }, 2000);
+
   };
 
   const handleKeyDown = (e) => {
