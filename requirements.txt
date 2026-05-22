@@ -109,8 +109,6 @@ pyasn1==0.6.1
 pyasn1_modules==0.4.2
 pycparser==2.23
 pydantic==2.11.10
-pydantic-settings==2.11.0
-pydantic_core==2.33.2
 pydub==0.25.1
 Pygments==2.19.2
 pyiceberg==0.11.0
