@@ -34,47 +34,75 @@ def create_calendar_tools(state):
 
     @tool
     def create_event(
-        summary: str = None,
-        description: str = None,
-        strt_dateTime: str = None,
-        end_dateTime: str = None,
-        events_list: list[dict] = None,
-        **kwargs
+        summary: str,
+        description: str,
+        strt_dateTime: str,
+        end_dateTime: str,
+    ) -> dict:
+        """
+        Creates a SINGLE event on Google Calendar.
+        Use this only when creating exactly one event.
+        Parameters:
+            summary: Event title
+            description: Event description  
+            strt_dateTime: Start in ISO format e.g. "2026-06-03T19:00:00+05:30"
+            end_dateTime: End in ISO format
+        """
+        event_payload = {
+            "summary": summary,
+            "description": description,
+            "start": {"dateTime": strt_dateTime},
+            "end": {"dateTime": end_dateTime},
+        }
+        return google_cal.create_event(event_payload)
+
+
+    @tool
+    def create_recurring_events(
+        summary: str,
+        description: str,
+        start_time: str,       # "HH:MM" e.g. "19:00"
+        end_time: str,         # "HH:MM" e.g. "21:00"
+        start_date: str,       # "YYYY-MM-DD"
+        end_date: str,         # "YYYY-MM-DD"
+        timezone: str = "Asia/Kolkata"
     ) -> list[dict]:
         """
-    Creates one or more events on Google Calendar.
-
-    You have two modes:
-    1. Pass in summary+description+strt_dateTime+end_dateTime to create a single event.
-    2. Or pass in events_list: a list of dicts each of form
-       {
-         "summary": "...",
-         "description": "...",
-         "start": {"dateTime": "..."},
-         "end":   {"dateTime": "..."}
-       }
-
-    Returns a list of created event‐objects (or a single‐item list for the single event mode).
-    """
-        created_events = []
+        Creates a recurring daily event between start_date and end_date.
+        The LLM should NOT enumerate each event — just pass the date range and time.
+        Use this when user wants the same event repeated across multiple days.
         
-        if events_list is not None:
-            for ev in events_list:
-                created = google_cal.create_event(ev)
-                created_events.append(created)
-        else:
-            if None in (summary, description, strt_dateTime, end_dateTime):
-                raise ValueError("Must supply either events_list or all parameters")
+        Parameters:
+            summary: Event title
+            description: Event description
+            start_time: Daily start time in HH:MM (24hr)
+            end_time: Daily end time in HH:MM
+            start_date: First occurrence YYYY-MM-DD
+            end_date: Last occurrence YYYY-MM-DD
+            timezone: Timezone string, default Asia/Kolkata
+        """
+        from datetime import date, timedelta, datetime
+        import pytz
+
+        tz = pytz.timezone(timezone)
+        current = datetime.strptime(start_date, "%Y-%m-%d").date()
+        end = datetime.strptime(end_date, "%Y-%m-%d").date()
+        
+        created = []
+        while current <= end:
+            start_dt = tz.localize(datetime.strptime(f"{current} {start_time}", "%Y-%m-%d %H:%M"))
+            end_dt = tz.localize(datetime.strptime(f"{current} {end_time}", "%Y-%m-%d %H:%M"))
+            print("p")
             event_payload = {
                 "summary": summary,
                 "description": description,
-                "start": {"dateTime": strt_dateTime},
-                "end": {"dateTime": end_dateTime},
+                "start": {"dateTime": start_dt.isoformat()},
+                "end": {"dateTime": end_dt.isoformat()},
             }
-            created = google_cal.create_event(event_payload)
-            created_events.append(created)
+            created.append(google_cal.create_event(event_payload))
+            current += timedelta(days=1)
         
-        return created_events
+        return created
 
     @tool
     def delete_event(event_id: str):
@@ -90,4 +118,4 @@ def create_calendar_tools(state):
         """
         return google_cal.delete_event(event_id)
 
-    return [create_event, get_events, delete_event]
+    return [create_event, create_recurring_events, get_events, delete_event]

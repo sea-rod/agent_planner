@@ -1,6 +1,8 @@
 from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from langchain.chat_models import init_chat_model
+from transformers import pipeline
 from .state import AgentState
 from .tools import create_calendar_tools
 from dotenv import load_dotenv
@@ -96,7 +98,8 @@ If multiple sessions -> build events_list (list of dicts) and call create_event(
 If only one session -> call create_event(summary=..., description=..., strt_dateTime=..., end_dateTime=...).
 
 Constraints:
-- All datetimes must be ISO and include +05:30 timezone.
+- All datetimes must be ISO and include {time_zone} timezone.
+- If More than 1 events are needed to be created then use events_list (list of dicts) and call create_event(events_list=events_list)
 - Do not modify existing events; skip conflicting slots and report skipped items.
 - Return the tool's output as-is.
 """
@@ -115,8 +118,8 @@ All Events: {events}
 
 
 def get_current_time(state: AgentState) -> AgentState:
-    ist = timezone(timedelta(hours=5, minutes=30))
-    state["current_time"] = datetime.now(ist).isoformat()
+    tz = ZoneInfo(state["time_zone"])
+    state["current_time"] = datetime.now(tz).isoformat()
     return state
 
 
@@ -132,48 +135,50 @@ def should_continue(state: AgentState):
 
 def model(state: AgentState):
     """Enhanced model with memory context"""
-    
+
     # Create user-specific tools
     tools = create_calendar_tools(state)
     llm = base_llm.bind_tools(tools)
-    
+
     # Get memory from state
     preferences = state.get("relevant_preferences", [])
     similar_convos = state.get("similar_conversations", [])
     patterns = state.get("scheduling_patterns", [])
-    
+
     # Build memory context
     memory_context = "\n\n=== RELEVANT USER CONTEXT ===\n"
-    
+
     if preferences:
         memory_context += "\nUSER PREFERENCES:\n"
         for pref in preferences[:3]:
             memory_context += f"- {pref['text']}\n"
-    
+
     if similar_convos:
         memory_context += "\nSIMILAR PAST CONVERSATIONS:\n"
         for conv in similar_convos[:2]:
             memory_context += f"- User asked: {conv['user_message'][:60]}...\n"
-    
+
     if patterns:
         memory_context += "\nSCHEDULING PATTERNS:\n"
         for pattern in patterns[:3]:
             memory_context += f"- {pattern['description']}\n"
-    
+
     # Enhanced system prompt
-    enhanced_prompt = MAIN_SYSTEM_PROMPT.format(
-        current_time=state["current_time"]
-    ) + memory_context
-    
+    enhanced_prompt = (
+        MAIN_SYSTEM_PROMPT.format(current_time=state["current_time"]) + memory_context
+    )
+
     messages = [SystemMessage(content=enhanced_prompt)] + state["messages"]
     response = llm.invoke(messages)
-    
+
     return {"messages": [response]}
 
 
 def classify_model(state: AgentState) -> AgentState:
-    sys_mess = SystemMessage(content=CLASSIFY_PROMPT)
-    state["task_type"] = base_llm.invoke([sys_mess] + state["messages"]).content.strip()
+    pipe = pipeline("text-classification", "sea-rod/bert-AIPlanner-classification")
+    print(state["messages"])
+    state["task_type"] = pipe(state["messages"][-1].content)[0]["label"]
+    print(state["task_type"])
     return state
 
 
@@ -182,7 +187,7 @@ def route_classifier(state: AgentState):
         return "planner"
     elif state.get("task_type", "") == "delete":
         return "delete"
-    elif state.get("task_type","")== "get_event":
+    elif state.get("task_type", "") == "get_event":
         return "get_event"
     else:
         return "reminder"
@@ -206,16 +211,19 @@ def get_events_node(state: AgentState):
 def model_schedule(state: AgentState) -> AgentState:
     tools = create_calendar_tools(state)
     llm = base_llm.bind_tools(tools)
-    
-    sys_mess = SystemMessage(content=PLANNER_PROMPT.format(events=state.get("tasks", [])))
+
+    sys_mess = SystemMessage(
+        content=PLANNER_PROMPT.format(events=state.get("tasks", []))
+    )
     state["messages"] = llm.invoke([sys_mess] + state["messages"])
     return state
+
 
 def model_add(state: AgentState) -> AgentState:
     tools = create_calendar_tools(state)
     llm = base_llm.bind_tools(tools)
-    
-    sys_mess = SystemMessage(content=EVENT_CREATION_PROMPT)
+
+    sys_mess = SystemMessage(content=EVENT_CREATION_PROMPT.format(time_zone=state["time_zone"]))
     state["messages"] = llm.invoke([sys_mess] + state["messages"])
     return state
 
@@ -223,7 +231,9 @@ def model_add(state: AgentState) -> AgentState:
 def model_delete(state: AgentState) -> AgentState:
     tools = create_calendar_tools(state)
     llm = base_llm.bind_tools(tools)
-    
-    sys_mess = SystemMessage(content=DELETE_PROMPT.format(events=state.get("tasks", [])))
+
+    sys_mess = SystemMessage(
+        content=DELETE_PROMPT.format(events=state.get("tasks", []))
+    )
     state["messages"] = llm.invoke([sys_mess] + state["messages"])
     return state

@@ -12,10 +12,10 @@ import os
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from .google_connect import make_flow
+from contextlib import asynccontextmanager
+from transformers import pipeline
 
 load_dotenv()
-
-server = FastAPI()
 
 
 origins = [
@@ -24,6 +24,16 @@ origins = [
     "http://localhost:5173",
     "http://localhost:4173",
 ]
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    pipeline("text-classification","sea-rod/bert-AIPlanner-classification")
+    yield 
+
+
+
+server = FastAPI(lifespan=lifespan)
+
 
 server.add_middleware(
     CORSMiddleware,
@@ -54,6 +64,7 @@ async def chat(data: ChatRequest, user_id: str = Depends(get_current_user)):
         inputs = {
             "messages": [("user", data.message)],
             "user_id": user_id,
+            "time_zone":data.time_zone
         }
 
     final_output = ""

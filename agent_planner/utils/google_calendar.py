@@ -29,8 +29,6 @@ class GoogleCalendar:
         client_id = os.environ.get("GOOGLE_CLIENT_ID")
         client_secret = os.environ.get("GOOGLE_CLIENT_SECRET")
 
-        print(client_id, client_secret)
-
         creds = Credentials(
             token=access_token,
             refresh_token=refresh_token,

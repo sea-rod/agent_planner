@@ -9,6 +9,7 @@ class AgentState(TypedDict):
     tasks: list[dict]
     user_id: str
     thread_id: str
+    time_zone:str
     relevant_preferences: Optional[list]
     similar_conversations: Optional[list]
     scheduling_patterns: Optional[list]

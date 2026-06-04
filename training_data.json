@@ -1,0 +1,1202 @@
+[
+  {
+    "prompt": "i need to add a reminder to go shopping tomorrow",
+    "label": "planner"
+  },
+  {
+    "prompt": "create a study plan",
+    "label": "planner"
+  },
+  {
+    "prompt": "create a plan for me i need to meet vcs, meet some other clients at 11 am and go to the gym at 7 pm collect grocery and cook dinner before 10 pm",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a workout session for every monday wednesday and friday at 6 am",
+    "label": "planner"
+  },
+  {
+    "prompt": "set up a weekly meal prep reminder for sundays at 2 pm",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a dentist appointment next tuesday at 3 pm",
+    "label": "planner"
+  },
+  {
+    "prompt": "plan my day tomorrow i have a team standup at 9 a meeting with design at 11 and lunch with sarah at 1",
+    "label": "planner"
+  },
+  {
+    "prompt": "create a reminder to pay rent on the 1st of every month",
+    "label": "planner"
+  },
+  {
+    "prompt": "i want to block off friday afternoons for deep work",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a recurring yoga class every thursday at 7 am",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a call with my mom every sunday at 5 pm",
+    "label": "planner"
+  },
+  {
+    "prompt": "plan my week i need to finish the report by wednesday review it thursday and submit friday",
+    "label": "planner"
+  },
+  {
+    "prompt": "remind me to take my medication every day at 8 am",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a travel reminder i need to be at the airport by 4 am next monday",
+    "label": "planner"
+  },
+  {
+    "prompt": "create a project plan with daily check-ins for the next two weeks",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a team retrospective for the last friday of the month",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a reminder to water my plants every two days",
+    "label": "planner"
+  },
+  {
+    "prompt": "plan my morning routine from 6 to 9 am including gym shower and breakfast",
+    "label": "planner"
+  },
+  {
+    "prompt": "i want to add a client dinner reservation for saturday at 8 pm",
+    "label": "planner"
+  },
+  {
+    "prompt": "create a birthday reminder for my sister on march 15",
+    "label": "planner"
+  },
+  {
+    "prompt": "block tuesday morning for a strategy planning session",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a reminder to review my budget every sunday",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a performance review meeting with my manager for next week",
+    "label": "planner"
+  },
+  {
+    "prompt": "plan a roadtrip itinerary for this weekend",
+    "label": "planner"
+  },
+  {
+    "prompt": "remind me to call the doctor and book an appointment tomorrow",
+    "label": "planner"
+  },
+  {
+    "prompt": "set up a daily standup at 9 30 am for the whole team",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a reminder to backup my files every friday at 5 pm",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a movie night with friends for saturday at 7",
+    "label": "planner"
+  },
+  {
+    "prompt": "plan my study sessions for the upcoming exam next week",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a reminder to submit my timesheet every friday before 6 pm",
+    "label": "planner"
+  },
+  {
+    "prompt": "create a workout plan for the next month",
+    "label": "planner"
+  },
+  {
+    "prompt": "i want to schedule a spa day for myself next saturday",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a daily reminder to journal at 9 pm",
+    "label": "planner"
+  },
+  {
+    "prompt": "plan out my meetings for tomorrow i have five back to back sessions",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a coffee catch-up with alex next wednesday at 10",
+    "label": "planner"
+  },
+  {
+    "prompt": "set a reminder to call the plumber tomorrow morning",
+    "label": "planner"
+  },
+  {
+    "prompt": "create a meal plan for the week starting monday",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a reminder to pick up my prescription this afternoon",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a virtual happy hour with the team on friday at 4 pm",
+    "label": "planner"
+  },
+  {
+    "prompt": "i need to plan an event for 50 people next month",
+    "label": "planner"
+  },
+  {
+    "prompt": "remind me to renew my car insurance before the 20th",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a morning walk reminder at 6 30 am every day",
+    "label": "planner"
+  },
+  {
+    "prompt": "plan my travel itinerary for the conference next week",
+    "label": "planner"
+  },
+  {
+    "prompt": "set a weekly review reminder every friday at 4 pm",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a 1 on 1 with my intern every monday at 2 pm",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a reminder to charge my laptop before the presentation",
+    "label": "planner"
+  },
+  {
+    "prompt": "create a daily plan for tomorrow with time blocked for focus work",
+    "label": "planner"
+  },
+  {
+    "prompt": "remind me to follow up with the vendor by end of day friday",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a haircut appointment for saturday morning",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a habit tracker reminder at 8 pm every night",
+    "label": "planner"
+  },
+  {
+    "prompt": "plan a surprise party for next saturday evening",
+    "label": "planner"
+  },
+  {
+    "prompt": "set up a monthly all-hands meeting on the first monday",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a reminder to send the weekly report every friday by noon",
+    "label": "planner"
+  },
+  {
+    "prompt": "create a fitness challenge calendar for the next 30 days",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a vet appointment for my dog next tuesday",
+    "label": "planner"
+  },
+  {
+    "prompt": "remind me to read for 30 minutes every night before bed",
+    "label": "planner"
+  },
+  {
+    "prompt": "plan an onboarding schedule for the new hire starting monday",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a meeting with legal team on thursday at 2 pm",
+    "label": "planner"
+  },
+  {
+    "prompt": "create a content calendar for the next four weeks",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a product demo with the client next tuesday at 11",
+    "label": "planner"
+  },
+  {
+    "prompt": "remind me to prep slides for the all hands before friday",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a lunch break to my calendar every day at 1 pm",
+    "label": "planner"
+  },
+  {
+    "prompt": "plan a date night for this friday evening",
+    "label": "planner"
+  },
+  {
+    "prompt": "create a reminder to clean the house every saturday morning",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule end of quarter reviews for all team members next week",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a reminder to buy a gift for john's birthday on the 22nd",
+    "label": "planner"
+  },
+  {
+    "prompt": "plan my day i have a 9 am call a 12 pm lunch and 3 pm workshop",
+    "label": "planner"
+  },
+  {
+    "prompt": "set a reminder to complete my online course module every tuesday",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a networking event visit for thursday evening",
+    "label": "planner"
+  },
+  {
+    "prompt": "create a weekly planning session every monday at 8 am",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a reminder to water the garden every evening at 6",
+    "label": "planner"
+  },
+  {
+    "prompt": "plan a team offsite for the last week of the month",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a brainstorming session with the marketing team wednesday at 3",
+    "label": "planner"
+  },
+  {
+    "prompt": "remind me to follow up on the proposal by tuesday",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a daily gratitude journal reminder at 7 am",
+    "label": "planner"
+  },
+  {
+    "prompt": "create a schedule for the product launch next month",
+    "label": "planner"
+  },
+  {
+    "prompt": "set a reminder to watch the webinar tomorrow at 2 pm",
+    "label": "planner"
+  },
+  {
+    "prompt": "plan an interview schedule for the three candidates next week",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a focus block every morning from 8 to 10 am",
+    "label": "planner"
+  },
+  {
+    "prompt": "remind me to send thank you notes after the conference",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a quarterly business review for the end of the month",
+    "label": "planner"
+  },
+  {
+    "prompt": "create a reminder to review and respond to emails at 8 am and 4 pm daily",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a swimming session to my calendar every saturday at 7 am",
+    "label": "planner"
+  },
+  {
+    "prompt": "plan my todo list for tomorrow morning",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a mentorship call with my mentor next thursday at 6 pm",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a reminder to do laundry every sunday",
+    "label": "planner"
+  },
+  {
+    "prompt": "create a sleep schedule reminder starting at 10 pm every night",
+    "label": "planner"
+  },
+  {
+    "prompt": "plan a weekend hiking trip and add all checkpoints to my calendar",
+    "label": "planner"
+  },
+  {
+    "prompt": "remind me to call grandma every sunday afternoon",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a code review session tomorrow at 4 pm",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a language learning reminder every day at 7 30 am",
+    "label": "planner"
+  },
+  {
+    "prompt": "plan out all the tasks i need to complete before the deadline on friday",
+    "label": "planner"
+  },
+  {
+    "prompt": "set a reminder to meditate for 10 minutes every morning",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a car service appointment for next monday",
+    "label": "planner"
+  },
+  {
+    "prompt": "create a sprint planning meeting for the team next monday at 10 am",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a reminder to pick up the kids from school at 3 pm",
+    "label": "planner"
+  },
+  {
+    "prompt": "plan a charity event schedule for next weekend",
+    "label": "planner"
+  },
+  {
+    "prompt": "remind me to check in with the client every tuesday",
+    "label": "planner"
+  },
+  {
+    "prompt": "schedule a book club meeting for the last sunday of the month",
+    "label": "planner"
+  },
+  {
+    "prompt": "add a reminder to turn off the oven before leaving home",
+    "label": "planner"
+  },
+  {
+    "prompt": "retrieve all my previous days events",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what do i have scheduled for tomorrow",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me all my events this week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what meetings do i have today",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list all my appointments for next monday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what is on my calendar for friday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me everything i have planned this weekend",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what events do i have in the next 7 days",
+    "label": "get_event"
+  },
+  {
+    "prompt": "check my schedule for tomorrow afternoon",
+    "label": "get_event"
+  },
+  {
+    "prompt": "pull up all my meetings for this month",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what do i have going on next tuesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show my agenda for the rest of today",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list all reminders i have set for this week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what is scheduled between 9 am and 12 pm tomorrow",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me all events in january",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what meetings do i have with the design team this week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "pull up my calendar for next wednesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "are there any events tomorrow morning",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me what i have after 3 pm today",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list all my recurring events",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what do i have first thing tomorrow morning",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show all events i created last week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "check what i have on saturday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what appointments do i have with doctors this month",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list everything scheduled for the next 24 hours",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me my events for this coming friday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what do i have on my plate for this afternoon",
+    "label": "get_event"
+  },
+  {
+    "prompt": "pull up everything on my calendar between monday and wednesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "are there any meetings on thursday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me my schedule for the next two days",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what do i have planned for the evening",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list all events tagged as work this week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me all client meetings this month",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what is the next event on my calendar",
+    "label": "get_event"
+  },
+  {
+    "prompt": "check my schedule for the whole of next week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me all my reminders for tomorrow",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what do i have on sunday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "pull up my agenda for the upcoming monday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list all my planned events for this quarter",
+    "label": "get_event"
+  },
+  {
+    "prompt": "are there any conflicts in my schedule next week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me what meetings i have in the morning tomorrow",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what is coming up in the next hour",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list everything i have scheduled after 5 pm this week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "check if i have anything on new year's eve",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what events do i have in the next 30 days",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me all birthdays i have saved",
+    "label": "get_event"
+  },
+  {
+    "prompt": "pull up my travel itinerary events",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what do i have going on this long weekend",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list all my events for next thursday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me everything i have this tuesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what do i have scheduled for christmas day",
+    "label": "get_event"
+  },
+  {
+    "prompt": "are there any events i might have forgotten this week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show all back to back meetings i have tomorrow",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what is my earliest event tomorrow",
+    "label": "get_event"
+  },
+  {
+    "prompt": "pull up my last scheduled event for the day",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list all my events for the month of april",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me all team meetings scheduled for next sprint",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what do i have on my calendar after lunch today",
+    "label": "get_event"
+  },
+  {
+    "prompt": "check all reminders due this week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me upcoming events that are longer than one hour",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what events do i have with sarah",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list all my friday evening events",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show my calendar for the next three days",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what do i have scheduled early next week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "pull up all events i have in the afternoon this week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "are there any events this saturday night",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me all my google calendar events for today",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what's on my agenda for monday morning",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list all my events this friday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me the full schedule for tomorrow",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what meetings do i have before noon tomorrow",
+    "label": "get_event"
+  },
+  {
+    "prompt": "pull up all events happening in the next 48 hours",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list all external client events this week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me my schedule from 10 am to 2 pm today",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what do i have after my morning standup",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show all events with a video call link this week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list all events i have added in the past week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what is on my calendar for the rest of the month",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me every meeting i have this wednesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what recurring events do i have on tuesdays",
+    "label": "get_event"
+  },
+  {
+    "prompt": "pull up all my lunchtime events for this week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list all events created before last monday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what do i have scheduled right after my 2 pm meeting",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me my full agenda for the next five days",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what events do i have in the evening this week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list all upcoming deadlines on my calendar",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me all workshops i have signed up for",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what do i have to attend in person this week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "pull up today's full event list",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me all my appointments for the next two weeks",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what is my next upcoming meeting",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list my events for each day this week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me all events on my shared calendar this month",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what do i have after 6 pm this friday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "pull up all day events this week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what events do i have overlapping tomorrow",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show my weekly summary of events",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what do i have scheduled in the morning on saturday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list all events for the upcoming holiday week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me the last event i added to my calendar",
+    "label": "get_event"
+  },
+  {
+    "prompt": "delete the tomorrow's event",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove my 3 pm meeting today",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel all events next friday",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the dentist appointment i scheduled",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the team standup from monday",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel my lunch meeting with sarah tomorrow",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete all events on saturday",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the recurring yoga class from my calendar",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the product demo scheduled for next tuesday",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the reminder to pay rent",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the all day event i added for sunday",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel tomorrow morning's meeting",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete all reminders for this week",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the birthday reminder for john",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the event i created yesterday afternoon",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the sprint planning session on monday",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the daily standup from thursday",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the doctor appointment next week",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete all recurring reminders i set",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the event titled project kickoff",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel my gym session for tomorrow",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete everything on my calendar for next week",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the reminder i set for my medication",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the coffee meeting with alex on wednesday",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the focus block i added this friday",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove all client meetings from thursday",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the workshop i registered for this saturday",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the team offsite event next month",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the car service appointment on monday",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel my flight reminder for next tuesday",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the movie night event for saturday",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the weekly review reminder every friday",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel tomorrow's interview schedule",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the event i added for the conference",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the birthday party event on the 15th",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel all meetings after 3 pm today",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the dinner reservation event for saturday night",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the marketing brainstorming session from wednesday",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the quarterly review at the end of this month",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the study plan i created last night",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the code review meeting from tomorrow",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the networking event this thursday",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete all reminders due this weekend",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the book club event for sunday",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the daily gratitude journal reminder",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the mentorship call i added for next thursday",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove all events i created this morning",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the sprint retrospective on friday",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the vet appointment for next tuesday",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the hiking trip events i added last week",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the reminder to submit my timesheet",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the performance review meeting scheduled next week",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the onboarding schedule for the new hire",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the virtual happy hour on friday at 4",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the charity event from my calendar",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the travel itinerary i set up for next week",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel all early morning events on tuesday",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the monthly all-hands meeting i added",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the reminder to water the plants",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the date night event for this friday",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the event with the client on thursday",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove all events between monday and wednesday",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the language learning reminder at 7 30 am",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the surprise party event for next saturday",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the house cleaning reminder for saturday",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the lunch break block i added",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the sleep schedule reminder at 10 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the reminder to read before bed",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the swimming session on saturday",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the product launch planning event",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the check-in meeting with the client on tuesday",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the budget review reminder for sunday",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the event i created for the team offsite",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the weekly content calendar planning session",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel all events created in the last 24 hours",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the morning routine block from tomorrow",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the tax submission reminder i set last month",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the webinar reminder for tomorrow at 2 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the daily backup reminder every friday",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the 1 on 1 meeting with my intern",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the laundry reminder on sunday",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the end of quarter reviews scheduled next week",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the reminder to pick up prescription",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the language class i signed up for thursday",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete all birthdays from my calendar",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the breakfast meeting from monday",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the meditation reminder at 6 am",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the roadtrip itinerary events",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the charity run reminder next weekend",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the team lunch event for friday",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the reminder to call the plumber",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the focus block i added every morning",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the end of year party event",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete all events on new year's day",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the presentation prep reminder from thursday",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the team training session next monday",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the reminder to follow up with the vendor",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the podcast recording event on wednesday",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel all recurring events i have on fridays",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the strategy planning session on tuesday morning",
+    "label": "delete"
+  }
+]

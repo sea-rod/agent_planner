@@ -18,9 +18,11 @@ const ChatPage = () => {
   const chatContainerRef = useRef(null);
   const textareaRef = useRef(null);
   const [user, setUser] = useState(null);
+  const [threadId, setThreadId] = useState('');
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => setUser(user));
+    setThreadId(crypto.randomUUID());
   }, []);
 
   // Auto-scroll to bottom when messages change
@@ -58,9 +60,11 @@ const ChatPage = () => {
     //   "thread_id":session.access_token
     // }
     
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     api.post("/agent-chat", {
       "message":input,
-      "thread_id":user.id
+      "thread_id":threadId,
+      "time_zone": userTimeZone
     }).then((res)=>{
       const aiResponse = {
         id: Date.now() + 1,
