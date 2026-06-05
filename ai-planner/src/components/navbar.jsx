@@ -46,7 +46,7 @@ const logout = async () => {
     console.error("Unexpected error during logout:", err);
   }
 };
-  const navLinks = ['Features', 'Craftsmanship', 'Exclusivity'];
+  const navLinks = ['Features'];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0F172A]/95 backdrop-blur-md border-b border-[#C9A96E]/10">

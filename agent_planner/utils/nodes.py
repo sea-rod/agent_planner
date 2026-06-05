@@ -2,7 +2,6 @@ from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from langchain.chat_models import init_chat_model
-from transformers import pipeline
 from .state import AgentState
 from .tools import create_calendar_tools
 from dotenv import load_dotenv
@@ -87,12 +86,12 @@ EVENT_CREATION_PROMPT = """
 Role: Event creator. Input = confirmed schedule from planner.
 
 For each session produce a dict:
-{
+{{
  "summary": "<short title>",
  "description": "<goal or brief note>",
- "start": {"dateTime": "<ISO datetime with +05:30>"},
- "end":   {"dateTime": "<ISO datetime with +05:30>"}
-}
+ "start": {{"dateTime": "<ISO datetime with +05:30>"}},
+ "end":   {{"dateTime": "<ISO datetime with +05:30>"}}
+}}
 
 If multiple sessions -> build events_list (list of dicts) and call create_event(events_list=events_list).
 If only one session -> call create_event(summary=..., description=..., strt_dateTime=..., end_dateTime=...).
@@ -173,9 +172,23 @@ def model(state: AgentState):
 
     return {"messages": [response]}
 
+_classifier_pipeline = None
+
+def _get_classifier():
+    global _classifier_pipeline
+    if _classifier_pipeline is None:
+        import torch
+        from transformers import pipeline
+        _classifier_pipeline = pipeline(
+            "text-classification",
+            "sea-rod/bert-AIPlanner-classification",
+            torch_dtype=torch.float16,
+            device="cpu",
+        )
+    return _classifier_pipeline
 
 def classify_model(state: AgentState) -> AgentState:
-    pipe = pipeline("text-classification", "sea-rod/bert-AIPlanner-classification")
+    pipe = _get_classifier()  # loads once, reused forever
     print(state["messages"])
     state["task_type"] = pipe(state["messages"][-1].content)[0]["label"]
     print(state["task_type"])
@@ -222,8 +235,9 @@ def model_schedule(state: AgentState) -> AgentState:
 def model_add(state: AgentState) -> AgentState:
     tools = create_calendar_tools(state)
     llm = base_llm.bind_tools(tools)
-
-    sys_mess = SystemMessage(content=EVENT_CREATION_PROMPT.format(time_zone=state["time_zone"]))
+    sys_mess = SystemMessage(
+        content=EVENT_CREATION_PROMPT.format(time_zone=state["time_zone"])
+    )
     state["messages"] = llm.invoke([sys_mess] + state["messages"])
     return state
 

@@ -9,6 +9,7 @@ import ChatPage from './pages/ChatPage.jsx';
 import Terms from "./pages/Terms.jsx";
 import Privacy from "./pages/Privacy.jsx"
 import Connector from './pages/Connector.jsx';
+import WaitlistPage from './pages/WaitlistPage.jsx';
 
 
 const router = createBrowserRouter([
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "privacy",
         element: <Privacy />
+      },
+      {
+        path: "waitlist",
+        element: <WaitlistPage />
       },
     ],
   },

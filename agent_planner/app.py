@@ -1,19 +1,15 @@
-from fastapi import FastAPI, Depends, Header
-from fastapi.exceptions import HTTPException
-from pydantic import BaseModel
+from fastapi import FastAPI, Depends
 from langgraph.types import Command
 from .agent import app, checkpointer
 from .utils.user_utils import get_current_user
 from .schema.chat_request import ChatRequest
 from supabase import create_client, Client
-from .utils.google_calendar import GoogleCalendar
 from dotenv import load_dotenv
 import os
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from .google_connect import make_flow
-from contextlib import asynccontextmanager
-from transformers import pipeline
+
 
 load_dotenv()
 
@@ -25,14 +21,14 @@ origins = [
     "http://localhost:4173",
 ]
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    pipeline("text-classification","sea-rod/bert-AIPlanner-classification")
-    yield 
+# @asynccontextmanager
+# async def lifespan(app: FastAPI):
+#     pipeline("text-classification","sea-rod/bert-AIPlanner-classification")
+#     yield 
 
 
 
-server = FastAPI(lifespan=lifespan)
+server = FastAPI()
 
 
 server.add_middleware(
