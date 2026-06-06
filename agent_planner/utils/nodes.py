@@ -6,8 +6,13 @@ from .state import AgentState
 from .tools import create_calendar_tools
 from dotenv import load_dotenv
 from .calendar_helper import get_user_calendar
+from .logging_config import log_graph_node, log_groq_call, log_intent
+import structlog
+import time
 
 load_dotenv()
+
+log = structlog.get_logger("atelier.agent")
 
 base_llm = init_chat_model("groq:openai/gpt-oss-20b")
 
@@ -29,7 +34,7 @@ Tool usage guidance (exact accepted `get_events()` formats):
 Output rules:
 - Be explicit, minimal, and actionable.
 - When you plan, collect all missing info first before creating events.
-- When user confirms a plan with “okay”, “yes”, “go ahead” (or equivalents) do the tool call
+- When user confirms a plan with "okay", "yes", "go ahead" (or equivalents) do the tool call
 """
 
 CLASSIFY_PROMPT = """
@@ -116,9 +121,12 @@ All Events: {events}
 """
 
 
+# ── Utility nodes ────────────────────────────────────────────────────────────
+
 def get_current_time(state: AgentState) -> AgentState:
     tz = ZoneInfo(state["time_zone"])
     state["current_time"] = datetime.now(tz).isoformat()
+    log.debug("current_time_set", time_zone=state["time_zone"], current_time=state["current_time"])
     return state
 
 
@@ -127,56 +135,91 @@ def human_feedback(state: AgentState):
 
 
 def should_continue(state: AgentState):
-    if state["messages"][-1].tool_calls or state["messages"][-1].content == "CONFIRM":
+    last_msg = state["messages"][-1]
+    has_tool_calls = bool(last_msg.tool_calls)
+    is_confirm = last_msg.content == "CONFIRM"
+
+    if has_tool_calls or is_confirm:
+        log.debug("should_continue_routing", route="tool", has_tool_calls=has_tool_calls, is_confirm=is_confirm)
         return "tool"
+
+    log.debug("should_continue_routing", route="human_feedback")
     return "human_feedback"
 
 
-def model(state: AgentState):
-    """Enhanced model with memory context"""
+# ── Main model ───────────────────────────────────────────────────────────────
 
-    # Create user-specific tools
+def model(state: AgentState):
+    """Enhanced model with memory context."""
+    t0 = time.perf_counter()
+
     tools = create_calendar_tools(state)
     llm = base_llm.bind_tools(tools)
 
-    # Get memory from state
-    preferences = state.get("relevant_preferences", [])
-    similar_convos = state.get("similar_conversations", [])
-    patterns = state.get("scheduling_patterns", [])
+    preferences     = state.get("relevant_preferences", [])
+    similar_convos  = state.get("similar_conversations", [])
+    patterns        = state.get("scheduling_patterns", [])
 
-    # Build memory context
+    log.debug(
+        "model_context_loaded",
+        preferences_count=len(preferences),
+        similar_convos_count=len(similar_convos),
+        patterns_count=len(patterns),
+    )
+
     memory_context = "\n\n=== RELEVANT USER CONTEXT ===\n"
-
     if preferences:
         memory_context += "\nUSER PREFERENCES:\n"
         for pref in preferences[:3]:
             memory_context += f"- {pref['text']}\n"
-
     if similar_convos:
         memory_context += "\nSIMILAR PAST CONVERSATIONS:\n"
         for conv in similar_convos[:2]:
             memory_context += f"- User asked: {conv['user_message'][:60]}...\n"
-
     if patterns:
         memory_context += "\nSCHEDULING PATTERNS:\n"
         for pattern in patterns[:3]:
             memory_context += f"- {pattern['description']}\n"
 
-    # Enhanced system prompt
     enhanced_prompt = (
         MAIN_SYSTEM_PROMPT.format(current_time=state["current_time"]) + memory_context
     )
 
     messages = [SystemMessage(content=enhanced_prompt)] + state["messages"]
-    response = llm.invoke(messages)
+
+    try:
+        response = llm.invoke(messages)
+    except Exception as e:
+        log.error("model_invoke_failed", node="model", error=str(e), exc_info=True)
+        raise
+
+    elapsed_ms = (time.perf_counter() - t0) * 1000
+    log_graph_node("model", elapsed_ms=elapsed_ms)
+
+    # Log token usage if available
+    if hasattr(response, "usage_metadata") and response.usage_metadata:
+        u = response.usage_metadata
+        log_groq_call(
+            model="gpt-oss-20b",
+            prompt_tokens=u.get("input_tokens", 0),
+            completion_tokens=u.get("output_tokens", 0),
+            latency_ms=elapsed_ms,
+        )
+
+    has_tool_calls = bool(getattr(response, "tool_calls", None))
+    log.info("model_response", has_tool_calls=has_tool_calls, elapsed_ms=round(elapsed_ms, 2))
 
     return {"messages": [response]}
+
+
+# ── Classifier ───────────────────────────────────────────────────────────────
 
 _classifier_pipeline = None
 
 def _get_classifier():
     global _classifier_pipeline
     if _classifier_pipeline is None:
+        log.info("bert_classifier_loading", model="sea-rod/bert-AIPlanner-classification")
         import torch
         from transformers import pipeline
         _classifier_pipeline = pipeline(
@@ -185,69 +228,124 @@ def _get_classifier():
             torch_dtype=torch.float16,
             device="cpu",
         )
+        log.info("bert_classifier_loaded")
     return _classifier_pipeline
 
+
 def classify_model(state: AgentState) -> AgentState:
-    pipe = _get_classifier()  # loads once, reused forever
-    print(state["messages"])
-    state["task_type"] = pipe(state["messages"][-1].content)[0]["label"]
-    print(state["task_type"])
+    t0 = time.perf_counter()
+    pipe = _get_classifier()
+
+    user_message = state["messages"][-1].content
+    result = pipe(user_message)[0]
+    task_type = result["label"]
+    confidence = result["score"]
+
+    # log_intent hashes the text, flags low confidence < 0.6
+    log_intent(text=user_message, intent=task_type, confidence=confidence)
+
+    state["task_type"] = task_type
+
+    log_graph_node("classify_model", elapsed_ms=(time.perf_counter() - t0) * 1000)
     return state
 
 
 def route_classifier(state: AgentState):
-    if state.get("task_type", "") == "planner":
-        return "planner"
-    elif state.get("task_type", "") == "delete":
-        return "delete"
-    elif state.get("task_type", "") == "get_event":
-        return "get_event"
-    else:
-        return "reminder"
+    task_type = state.get("task_type", "")
+    route_map = {
+        "planner":   "planner",
+        "delete":    "delete",
+        "get_event": "get_event",
+    }
+    route = route_map.get(task_type, "reminder")
+    log.info("route_classifier", task_type=task_type, route=route)
+    return route
 
 
-### scheduler ###
-
+# ── Scheduler nodes ──────────────────────────────────────────────────────────
 
 def get_events_node(state: AgentState):
-    google_cal = get_user_calendar(state["user_id"])
-    # sys_mess = SystemMessage(content=GET_EVENTS_EXTRACTOR_PROMPT)
-    # period = base_llm.invoke([sys_mess] + state["messages"]).content.strip()
-    period = None
-    if not period:
+    t0 = time.perf_counter()
+    log.info("get_events_node_start", user_id=state["user_id"])
+
+    try:
+        google_cal = get_user_calendar(state["user_id"])
         period = "10d"
-    events = google_cal.get_events(period)
+        events = google_cal.get_events(period)
+    except Exception as e:
+        log.error("get_events_failed", user_id=state["user_id"], error=str(e), exc_info=True)
+        raise
+
     state["tasks"] = events
+    log_graph_node("get_events_node", elapsed_ms=(time.perf_counter() - t0) * 1000)
+    log.info("get_events_node_done", period=period, event_count=len(events) if isinstance(events, list) else "unknown")
     return state
 
 
 def model_schedule(state: AgentState) -> AgentState:
+    t0 = time.perf_counter()
     tools = create_calendar_tools(state)
     llm = base_llm.bind_tools(tools)
 
-    sys_mess = SystemMessage(
-        content=PLANNER_PROMPT.format(events=state.get("tasks", []))
-    )
-    state["messages"] = llm.invoke([sys_mess] + state["messages"])
+    sys_mess = SystemMessage(content=PLANNER_PROMPT.format(events=state.get("tasks", [])))
+
+    try:
+        response = llm.invoke([sys_mess] + state["messages"])
+    except Exception as e:
+        log.error("model_schedule_failed", error=str(e), exc_info=True)
+        raise
+
+    state["messages"] = response
+    log_graph_node("model_schedule", elapsed_ms=(time.perf_counter() - t0) * 1000)
+    log.info("model_schedule_done", has_tool_calls=bool(getattr(response, "tool_calls", None)))
     return state
 
 
 def model_add(state: AgentState) -> AgentState:
+    t0 = time.perf_counter()
     tools = create_calendar_tools(state)
     llm = base_llm.bind_tools(tools)
-    sys_mess = SystemMessage(
-        content=EVENT_CREATION_PROMPT.format(time_zone=state["time_zone"])
+
+    sys_mess = SystemMessage(content=EVENT_CREATION_PROMPT.format(time_zone=state["time_zone"]))
+
+    try:
+        response = llm.invoke([sys_mess] + state["messages"])
+    except Exception as e:
+        log.error("model_add_failed", time_zone=state["time_zone"], error=str(e), exc_info=True)
+        raise
+
+    state["messages"] = response
+    log_graph_node("model_add", elapsed_ms=(time.perf_counter() - t0) * 1000)
+
+    tool_calls = getattr(response, "tool_calls", [])
+    log.info(
+        "model_add_done",
+        tool_calls_count=len(tool_calls),
+        tools_called=[tc["name"] for tc in tool_calls] if tool_calls else [],
     )
-    state["messages"] = llm.invoke([sys_mess] + state["messages"])
     return state
 
 
 def model_delete(state: AgentState) -> AgentState:
+    t0 = time.perf_counter()
     tools = create_calendar_tools(state)
     llm = base_llm.bind_tools(tools)
 
-    sys_mess = SystemMessage(
-        content=DELETE_PROMPT.format(events=state.get("tasks", []))
+    sys_mess = SystemMessage(content=DELETE_PROMPT.format(events=state.get("tasks", [])))
+
+    try:
+        response = llm.invoke([sys_mess] + state["messages"])
+    except Exception as e:
+        log.error("model_delete_failed", error=str(e), exc_info=True)
+        raise
+
+    state["messages"] = response
+    log_graph_node("model_delete", elapsed_ms=(time.perf_counter() - t0) * 1000)
+
+    tool_calls = getattr(response, "tool_calls", [])
+    log.info(
+        "model_delete_done",
+        tool_calls_count=len(tool_calls),
+        tools_called=[tc["name"] for tc in tool_calls] if tool_calls else [],
     )
-    state["messages"] = llm.invoke([sys_mess] + state["messages"])
     return state

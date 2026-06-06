@@ -26,7 +26,9 @@ const ChatPage = () => {
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user)
       supabase.from("calendar_tokens").select("user_id").eq("user_id",user.id).then((res) => {
-        if (res.data) {
+        if (res.data.length <= 0) {
+          console.log(res.data);
+          
           navigate("/connector")
         }
       })

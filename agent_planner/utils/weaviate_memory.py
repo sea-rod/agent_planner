@@ -5,280 +5,355 @@ from weaviate.classes.query import Filter
 from datetime import datetime, timezone
 import json
 import os
+import time
+import structlog
 from dotenv import load_dotenv
 
 load_dotenv()
 
+log = structlog.get_logger("atelier.memory")
+
+
 class WeaviateMemoryStore:
     def __init__(self):
-        """Initialize Weaviate Cloud connection with free Cohere embeddings"""
-        
+        """Initialize Weaviate Cloud connection with free Cohere embeddings."""
+        t0 = time.perf_counter()
         try:
-            # Connect to Weaviate Cloud
             self.client = weaviate.connect_to_weaviate_cloud(
                 cluster_url=os.getenv("WEAVIATE_URL"),
                 auth_credentials=Auth.api_key(os.getenv("WEAVIATE_API_KEY")),
-                headers={
-                    "X-Cohere-Api-Key": os.getenv("COHERE_API_KEY")
-                }
+                headers={"X-Cohere-Api-Key": os.getenv("COHERE_API_KEY")},
             )
-            
-            print(f"✓ Connected to Weaviate Cloud: {self.client.is_ready()}")
+            elapsed_ms = (time.perf_counter() - t0) * 1000
+            log.info("weaviate_connected", ready=self.client.is_ready(), latency_ms=round(elapsed_ms, 2))
             self._create_collections()
         except Exception as e:
-            print(f"✗ Failed to connect to Weaviate: {e}")
+            log.error("weaviate_connect_failed", error=str(e), exc_info=True)
             raise
-    
+
     def _get_rfc3339_timestamp(self):
-        """Generate RFC 3339 compliant timestamp with timezone"""
         return datetime.now(timezone.utc).isoformat()
-    
+
     def _create_collections(self):
-        """Create collections with free Cohere embeddings"""
-        
-        # Get existing collections - list_all() returns dict in v4
+        """Create collections with Cohere embeddings if they don't exist."""
         try:
             existing = self.client.collections.list_all(simple=True)
             existing_names = list(existing.keys()) if isinstance(existing, dict) else []
-            print(f"Existing collections: {existing_names}")
+            log.info("weaviate_collections_listed", existing=existing_names)
         except Exception as e:
-            print(f"Error listing collections: {e}")
+            log.error("weaviate_list_collections_failed", error=str(e), exc_info=True)
             existing_names = []
-        
-        # 1. User Preferences Collection
-        if "UserPreference" not in existing_names:
+
+        collections_to_create = {
+            "UserPreference": {
+                "description": "User scheduling preferences and patterns",
+                "properties": [
+                    Property(name="userId",         data_type=DataType.TEXT),
+                    Property(name="preferenceText", data_type=DataType.TEXT),
+                    Property(name="preferenceType", data_type=DataType.TEXT),
+                    Property(name="preferenceData", data_type=DataType.TEXT),
+                    Property(name="timestamp",      data_type=DataType.DATE),
+                ],
+            },
+            "ConversationMemory": {
+                "description": "Semantic conversation history",
+                "properties": [
+                    Property(name="userId",            data_type=DataType.TEXT),
+                    Property(name="threadId",          data_type=DataType.TEXT),
+                    Property(name="conversationText",  data_type=DataType.TEXT),
+                    Property(name="userMessage",       data_type=DataType.TEXT),
+                    Property(name="assistantMessage",  data_type=DataType.TEXT),
+                    Property(name="taskType",          data_type=DataType.TEXT),
+                    Property(name="successful",        data_type=DataType.BOOL),
+                    Property(name="timestamp",         data_type=DataType.DATE),
+                ],
+            },
+            "SchedulingPattern": {
+                "description": "Learned scheduling patterns",
+                "properties": [
+                    Property(name="userId",              data_type=DataType.TEXT),
+                    Property(name="patternDescription",  data_type=DataType.TEXT),
+                    Property(name="taskType",            data_type=DataType.TEXT),
+                    Property(name="taskSummary",         data_type=DataType.TEXT),
+                    Property(name="preferredTime",       data_type=DataType.TEXT),
+                    Property(name="duration",            data_type=DataType.INT),
+                    Property(name="dayPattern",          data_type=DataType.TEXT),
+                    Property(name="frequency",           data_type=DataType.INT),
+                    Property(name="timestamp",           data_type=DataType.DATE),
+                ],
+            },
+        }
+
+        for name, config in collections_to_create.items():
+            if name in existing_names:
+                log.debug("weaviate_collection_exists", collection=name)
+                continue
             try:
                 self.client.collections.create(
-                    name="UserPreference",
-                    description="User scheduling preferences and patterns",
-                    vector_config=Configure.Vectorizer.text2vec_cohere(
-                        model="embed-english-v3.0",
-                    ),
-                    properties=[
-                        Property(name="userId", data_type=DataType.TEXT),
-                        Property(name="preferenceText", data_type=DataType.TEXT),
-                        Property(name="preferenceType", data_type=DataType.TEXT),
-                        Property(name="preferenceData", data_type=DataType.TEXT),
-                        Property(name="timestamp", data_type=DataType.DATE),
-                    ]
+                    name=name,
+                    description=config["description"],
+                    vectorizer_config=Configure.Vectorizer.text2vec_cohere(model="embed-english-v3.0"),
+                    vector_index_config=Configure.VectorIndex.flat(),
+                    properties=config["properties"],
                 )
-                print("✓ Created UserPreference collection")
+                log.info("weaviate_collection_created", collection=name)
             except Exception as e:
-                print(f"UserPreference collection error: {e}")
-        else:
-            print("✓ UserPreference collection already exists")
-        
-        # 2. Conversation Memory Collection
-        if "ConversationMemory" not in existing_names:
-            try:
-                self.client.collections.create(
-                    name="ConversationMemory",
-                    description="Semantic conversation history",
-                    vector_config=Configure.Vectorizer.text2vec_cohere(
-                        model="embed-english-v3.0",
-                    ),
-                    properties=[
-                        Property(name="userId", data_type=DataType.TEXT),
-                        Property(name="threadId", data_type=DataType.TEXT),
-                        Property(name="conversationText", data_type=DataType.TEXT),
-                        Property(name="userMessage", data_type=DataType.TEXT),
-                        Property(name="assistantMessage", data_type=DataType.TEXT),
-                        Property(name="taskType", data_type=DataType.TEXT),
-                        Property(name="successful", data_type=DataType.BOOL),
-                        Property(name="timestamp", data_type=DataType.DATE),
-                    ]
-                )
-                print("✓ Created ConversationMemory collection")
-            except Exception as e:
-                print(f"ConversationMemory collection error: {e}")
-        else:
-            print("✓ ConversationMemory collection already exists")
-        
-        # 3. Scheduling Patterns Collection
-        if "SchedulingPattern" not in existing_names:
-            try:
-                self.client.collections.create(
-                    name="SchedulingPattern",
-                    description="Learned scheduling patterns",
-                    vector_config=Configure.Vectorizer.text2vec_cohere(
-                        model="embed-english-v3.0",
-                    ),
-                    properties=[
-                        Property(name="userId", data_type=DataType.TEXT),
-                        Property(name="patternDescription", data_type=DataType.TEXT),
-                        Property(name="taskType", data_type=DataType.TEXT),
-                        Property(name="taskSummary", data_type=DataType.TEXT),
-                        Property(name="preferredTime", data_type=DataType.TEXT),
-                        Property(name="duration", data_type=DataType.INT),
-                        Property(name="dayPattern", data_type=DataType.TEXT),
-                        Property(name="frequency", data_type=DataType.INT),
-                        Property(name="timestamp", data_type=DataType.DATE),
-                    ]
-                )
-                print("✓ Created SchedulingPattern collection")
-            except Exception as e:
-                print(f"SchedulingPattern collection error: {e}")
-        else:
-            print("✓ SchedulingPattern collection already exists")
-    
-    def store_user_preference(self, user_id: str, preference_text: str, 
-                             preference_type: str, preference_data: dict):
-        """Store user preference with automatic embedding"""
-        
+                log.error("weaviate_collection_create_failed", collection=name, error=str(e), exc_info=True)
+
+    # ── Preferences ───────────────────────────────────────────────────────────
+
+    def store_user_preference(
+        self, user_id: str, preference_text: str, preference_type: str, preference_data: dict
+    ):
+        """Store user preference with automatic embedding."""
+        t0 = time.perf_counter()
         collection = self.client.collections.get("UserPreference")
-        
+
         data_object = {
-            "userId": user_id,
+            "userId":         user_id,
             "preferenceText": preference_text,
             "preferenceType": preference_type,
             "preferenceData": json.dumps(preference_data),
-            "timestamp": self._get_rfc3339_timestamp()
+            "timestamp":      self._get_rfc3339_timestamp(),
         }
-        
-        uuid = collection.data.insert(data_object)
-        print(f"✓ Stored preference: {preference_type} (UUID: {uuid})")
-        return uuid
-    
+
+        try:
+            uuid = collection.data.insert(data_object)
+            log.info(
+                "preference_stored",
+                user_id=user_id,
+                preference_type=preference_type,
+                uuid=str(uuid),
+                latency_ms=round((time.perf_counter() - t0) * 1000, 2),
+            )
+            return uuid
+        except Exception as e:
+            log.error(
+                "preference_store_failed",
+                user_id=user_id,
+                preference_type=preference_type,
+                error=str(e),
+                exc_info=True,
+            )
+            raise
+
     def get_relevant_preferences(self, user_id: str, query: str, limit: int = 5):
-        """Retrieve semantically similar preferences"""
-        
+        """Retrieve semantically similar preferences."""
+        t0 = time.perf_counter()
         collection = self.client.collections.get("UserPreference")
-        
-        response = collection.query.near_text(
-            query=query,
-            limit=limit,
-            filters=Filter.by_property("userId").equal(user_id)
+
+        try:
+            response = collection.query.near_text(
+                query=query,
+                limit=limit,
+                filters=Filter.by_property("userId").equal(user_id),
+            )
+        except Exception as e:
+            log.error("preference_query_failed", user_id=user_id, error=str(e), exc_info=True)
+            raise
+
+        results = [
+            {
+                "text":      obj.properties["preferenceText"],
+                "type":      obj.properties["preferenceType"],
+                "data":      json.loads(obj.properties["preferenceData"]),
+                "timestamp": obj.properties["timestamp"],
+            }
+            for obj in response.objects
+        ]
+
+        log.info(
+            "preferences_retrieved",
+            user_id=user_id,
+            results_count=len(results),
+            latency_ms=round((time.perf_counter() - t0) * 1000, 2),
         )
-        
-        results = []
-        for obj in response.objects:
-            results.append({
-                "text": obj.properties["preferenceText"],
-                "type": obj.properties["preferenceType"],
-                "data": json.loads(obj.properties["preferenceData"]),
-                "timestamp": obj.properties["timestamp"]
-            })
-        
         return results
-    
-    def store_conversation_turn(self, user_id: str, thread_id: str,
-                                user_message: str, assistant_response: str,
-                                task_type: str, successful: bool = True):
-        """Store conversation with semantic embedding"""
-        
+
+    # ── Conversation memory ───────────────────────────────────────────────────
+
+    def store_conversation_turn(
+        self,
+        user_id: str,
+        thread_id: str,
+        user_message: str,
+        assistant_response: str,
+        task_type: str,
+        successful: bool = True,
+    ):
+        """Store conversation with semantic embedding."""
+        t0 = time.perf_counter()
         collection = self.client.collections.get("ConversationMemory")
-        
-        conversation_text = f"""
-        User asked: {user_message}
-        Assistant responded: {assistant_response}
-        Task was: {task_type}
-        """
-        
+
+        conversation_text = (
+            f"User asked: {user_message}\n"
+            f"Assistant responded: {assistant_response}\n"
+            f"Task was: {task_type}"
+        )
+
         data_object = {
-            "userId": user_id,
-            "threadId": thread_id,
-            "conversationText": conversation_text.strip(),
-            "userMessage": user_message,
+            "userId":           user_id,
+            "threadId":         thread_id,
+            "conversationText": conversation_text,
+            "userMessage":      user_message,
             "assistantMessage": assistant_response,
-            "taskType": task_type,
-            "successful": successful,
-            "timestamp": self._get_rfc3339_timestamp()
+            "taskType":         task_type,
+            "successful":       successful,
+            "timestamp":        self._get_rfc3339_timestamp(),
         }
-        
-        uuid = collection.data.insert(data_object)
-        print(f"✓ Stored conversation (UUID: {uuid})")
-        return uuid
-    
-    def retrieve_similar_conversations(self, user_id: str, current_context: str, 
-                                      limit: int = 3):
-        """Find semantically similar past conversations"""
-        
+
+        try:
+            uuid = collection.data.insert(data_object)
+            log.info(
+                "conversation_turn_stored",
+                user_id=user_id,
+                thread_id=thread_id,
+                task_type=task_type,
+                successful=successful,
+                uuid=str(uuid),
+                latency_ms=round((time.perf_counter() - t0) * 1000, 2),
+            )
+            return uuid
+        except Exception as e:
+            log.error(
+                "conversation_turn_store_failed",
+                user_id=user_id,
+                thread_id=thread_id,
+                error=str(e),
+                exc_info=True,
+            )
+            raise
+
+    def retrieve_similar_conversations(
+        self, user_id: str, current_context: str, limit: int = 3
+    ):
+        """Find semantically similar past conversations."""
+        t0 = time.perf_counter()
         collection = self.client.collections.get("ConversationMemory")
-        
-        response = collection.query.near_text(
-            query=current_context,
-            limit=limit,
-            filters=Filter.by_property("userId").equal(user_id)
-        )
-        
-        results = []
-        for obj in response.objects:
-            results.append({
-                "user_message": obj.properties["userMessage"],
+
+        try:
+            response = collection.query.near_text(
+                query=current_context,
+                limit=limit,
+                filters=Filter.by_property("userId").equal(user_id),
+            )
+        except Exception as e:
+            log.error("conversation_query_failed", user_id=user_id, error=str(e), exc_info=True)
+            raise
+
+        results = [
+            {
+                "user_message":      obj.properties["userMessage"],
                 "assistant_message": obj.properties["assistantMessage"],
-                "task_type": obj.properties["taskType"],
-                "timestamp": obj.properties["timestamp"]
-            })
-        
+                "task_type":         obj.properties["taskType"],
+                "timestamp":         obj.properties["timestamp"],
+            }
+            for obj in response.objects
+        ]
+
+        log.info(
+            "conversations_retrieved",
+            user_id=user_id,
+            results_count=len(results),
+            latency_ms=round((time.perf_counter() - t0) * 1000, 2),
+        )
         return results
-    
-    def store_scheduling_pattern(self, user_id: str, pattern_description: str,
-                            task_type: str, task_data: dict):
-        """Store scheduling pattern with embedding"""
-        
+
+    # ── Scheduling patterns ───────────────────────────────────────────────────
+
+    def store_scheduling_pattern(
+        self, user_id: str, pattern_description: str, task_type: str, task_data: dict
+    ):
+        """Store scheduling pattern with embedding."""
+        t0 = time.perf_counter()
         collection = self.client.collections.get("SchedulingPattern")
-        
-        # FIXED: Convert all fields to strings explicitly
+
         preferred_time = task_data.get("start", "")
         if isinstance(preferred_time, dict):
-            # If it's a dict (like {'dateTime': '...', 'timeZone': '...'}), extract the datetime
             preferred_time = preferred_time.get("dateTime", str(preferred_time))
         preferred_time = str(preferred_time) if preferred_time else ""
-        
-        task_summary = task_data.get("summary", "")
-        task_summary = str(task_summary) if task_summary else ""
-        
-        day_pattern = task_data.get("day_pattern", "weekday")
-        day_pattern = str(day_pattern) if day_pattern else "weekday"
-        
+
+        task_summary = str(task_data.get("summary", "") or "")
+        day_pattern  = str(task_data.get("day_pattern", "weekday") or "weekday")
+
         duration = task_data.get("duration", 60)
         try:
             duration = int(duration)
         except (ValueError, TypeError):
+            log.warning("scheduling_pattern_invalid_duration", raw_duration=duration, fallback=60)
             duration = 60
-        
-        data_object = {
-            "userId": user_id,
-            "patternDescription": pattern_description,
-            "taskType": task_type,
-            "taskSummary": task_summary,
-            "preferredTime": preferred_time,  # Now guaranteed to be string
-            "duration": duration,              # Now guaranteed to be int
-            "dayPattern": day_pattern,         # Now guaranteed to be string
-            "frequency": 1,
-            "timestamp": self._get_rfc3339_timestamp()
-        }
-        
-        uuid = collection.data.insert(data_object)
-        print(f"✓ Stored scheduling pattern (UUID: {uuid})")
-        return uuid
 
-    
-    def find_similar_patterns(self, user_id: str, task_description: str, 
-                            limit: int = 5):
-        """Find similar past scheduling decisions"""
-        
+        data_object = {
+            "userId":             user_id,
+            "patternDescription": pattern_description,
+            "taskType":           task_type,
+            "taskSummary":        task_summary,
+            "preferredTime":      preferred_time,
+            "duration":           duration,
+            "dayPattern":         day_pattern,
+            "frequency":          1,
+            "timestamp":          self._get_rfc3339_timestamp(),
+        }
+
+        try:
+            uuid = collection.data.insert(data_object)
+            log.info(
+                "scheduling_pattern_stored",
+                user_id=user_id,
+                task_type=task_type,
+                duration=duration,
+                uuid=str(uuid),
+                latency_ms=round((time.perf_counter() - t0) * 1000, 2),
+            )
+            return uuid
+        except Exception as e:
+            log.error(
+                "scheduling_pattern_store_failed",
+                user_id=user_id,
+                task_type=task_type,
+                error=str(e),
+                exc_info=True,
+            )
+            raise
+
+    def find_similar_patterns(
+        self, user_id: str, task_description: str, limit: int = 5
+    ):
+        """Find similar past scheduling decisions."""
+        t0 = time.perf_counter()
         collection = self.client.collections.get("SchedulingPattern")
-        
-        response = collection.query.near_text(
-            query=task_description,
-            limit=limit,
-            filters=Filter.by_property("userId").equal(user_id)
-        )
-        
-        results = []
-        for obj in response.objects:
-            results.append({
-                "description": obj.properties["patternDescription"],
-                "task_type": obj.properties["taskType"],
+
+        try:
+            response = collection.query.near_text(
+                query=task_description,
+                limit=limit,
+                filters=Filter.by_property("userId").equal(user_id),
+            )
+        except Exception as e:
+            log.error("pattern_query_failed", user_id=user_id, error=str(e), exc_info=True)
+            raise
+
+        results = [
+            {
+                "description":   obj.properties["patternDescription"],
+                "task_type":     obj.properties["taskType"],
                 "preferred_time": obj.properties["preferredTime"],
-                "duration": obj.properties["duration"],
-                "day_pattern": obj.properties["dayPattern"]
-            })
-        
+                "duration":      obj.properties["duration"],
+                "day_pattern":   obj.properties["dayPattern"],
+            }
+            for obj in response.objects
+        ]
+
+        log.info(
+            "patterns_retrieved",
+            user_id=user_id,
+            results_count=len(results),
+            latency_ms=round((time.perf_counter() - t0) * 1000, 2),
+        )
         return results
-    
+
+    # ── Lifecycle ─────────────────────────────────────────────────────────────
+
     def close(self):
-        """Close connection properly"""
         self.client.close()
-        print("✓ Weaviate connection closed")
+        log.info("weaviate_connection_closed")

@@ -34,29 +34,31 @@ function App() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-32 bg-[#FAFAFA]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="text-center mb-24">
-            <h2 className="text-6xl font-serif font-bold mb-8 text-[#0F172A]">Mastery in Every Detail</h2>
-            <p className="text-2xl text-[#94A3B8] max-w-4xl mx-auto font-light">Precision-crafted intelligence wrapped in effortless elegance.</p>
+      <section id="features" className="py-32 bg-[#0B1220]">
+        <div className="max-w-5xl mx-auto px-6 lg:px-10">
+          <div className="text-center mb-16">
+            <p className="text-[11px] tracking-[0.2em] uppercase text-[#C9A96E] mb-4">Capabilities</p>
+            <h2 className="font-serif text-5xl text-[#F1EDE4] mb-4 font-normal">Built for the way you actually work</h2>
+            <p className="text-[15px] text-[#5A6A80] font-light max-w-lg mx-auto leading-relaxed">
+              Five precision instruments, working in concert. Talk naturally and Atelier handles the rest.
+            </p>
           </div>
-
-          <div className="grid md:grid-cols-3 gap-12">
-            <FeatureCard
-              emoji="🗓️"
-              title="Temporal Artistry"
-              description="Multi-horizon planning, instantaneous reminders, intelligent curation — expressed through natural conversation."
-            />
-            <FeatureCard
-              emoji="🧠"
-              title="Discerning Memory"
-              description="A mind that remembers your rhythms, anticipates your needs, and evolves with refined taste."
-            />
-            <FeatureCard
-              emoji="✋"
-              title="Respectful Guardianship"
-              description="Every decision presented with clarity, deference, and graceful invitation for your discerning approval."
-            />
+          <div className="grid md:grid-cols-3 border border-[#C9A96E]/12 rounded-2xl overflow-hidden divide-x divide-y divide-[#C9A96E]/12">
+            <FeatureCard number="01" icon="🗓" title="Multi-Mode Scheduling"
+              description="Plan across days or weeks, set single reminders, delete events with confirmation, or query your calendar, all through natural conversation. One interface, four scheduling modes."
+              status="Live" />
+            <FeatureCard number="02" icon="🧠" title="Semantic Memory"
+              description="Atelier learns your scheduling patterns, surfaces relevant past context, and suggests proactive improvements over time. Three dedicated Weaviate collections keep your preferences precise."
+              status="Coming soon" />
+            <FeatureCard number="03" icon="✋" title="Human-in-the-Loop"
+              description="Nothing touches your calendar without your explicit approval. Every proposed schedule comes with tradeoff analysis, transparent reasoning, and space for iterative refinement."
+              status="Live" />
+            <FeatureCard number="04" icon="🔗" title="Google Calendar Sync"
+              description="Real-time synchronisation with conflict detection, secure OAuth2 authentication, and full create, retrieve, and delete support. Your existing calendar, made intelligent."
+              status="Live" />
+            <FeatureCard number="05" icon="💬" title="Natural Language Interface"
+              description='Say "next Tuesday" or "sometime in the next two weeks" Atelier parses it. Ambiguous requests prompt clarifying questions. Sessions persist across conversations.'
+              status="Live" />
           </div>
         </div>
       </section>
