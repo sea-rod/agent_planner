@@ -18,6 +18,9 @@ charset-normalizer==3.4.4
 click==8.4.1
 comm==0.2.3
 cryptography==46.0.3
+cuda-bindings==13.3.0
+cuda-pathfinder==1.5.5
+cuda-toolkit==13.0.2
 dataclasses-json==0.6.7
 datasets==4.8.5
 debugpy==1.8.17
@@ -95,7 +98,7 @@ multiprocess==0.70.19
 mypy_extensions==1.1.0
 nest-asyncio==1.6.0
 networkx==3.6.1
-numpy<2.0
+numpy==2.3.3
 oauthlib==3.3.1
 orjson==3.11.3
 ormsgpack==1.11.0
@@ -169,7 +172,7 @@ threadpoolctl==3.6.0
 tokenizers==0.22.2
 tomlkit==0.13.3
 --extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.2.0+cpu
+torch
 tornado==6.5.2
 tqdm==4.67.1
 traitlets==5.14.3
