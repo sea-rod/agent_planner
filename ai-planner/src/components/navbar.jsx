@@ -9,21 +9,29 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false); // State for mobile menu toggle
 
   useEffect(() => {
-    const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user.aud);
-    };
-    checkUser();
+    console.log("hehe");
+
+    // const checkUser = async () => {
+    //   console.log("enterd functio");
+
+    //   const { data: { user } } = await supabase.auth.getUser();
+    //   setUser(user?.aud);
+
+    //   console.log(session?.user.aud);
+
+    //   setUser(session?.user.aud);
+    // };
+    // checkUser();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setUser(session?.user ?? null);
       if (event === 'SIGNED_IN' && session?.provider_token) {
         const { error } = await supabase.from('user_integrations').upsert({
           user_id: session.user.id,
           google_access_token: session.provider_token,
           google_refresh_token: session.provider_refresh_token,
           updated_at: new Date()
-        },
-          { onConflict: 'user_id' });
+        });
         if (error) console.error("Error syncing to DB:", error.message);
       }
     });
@@ -34,7 +42,11 @@ const Navbar = () => {
   const logout = async () => {
     try {
       // 'global' scope ensures the session is cleared across all tabs/windows
-      const { error } = await supabase.auth.signOut({ scope: 'global' });
+      console.log("hh");
+      
+      const { error } = await supabase.auth.signOut({ scope: 'local' });
+      console.log("hh1");
+      
 
       if (error) {
         console.error("Logout error:", error.message);
@@ -135,6 +147,18 @@ const Navbar = () => {
               {item}
             </a>
           ))}
+          <Link
+              to="terms"
+              className="block text-[#94A3B8] hover:text-[#C9A96E] text-lg font-medium"
+            >Terms</Link>
+            <Link
+              to="privacy"
+              className="block text-[#94A3B8] hover:text-[#C9A96E] text-lg font-medium"
+            >Privacy</Link>
+            {user ? <Link
+              to="connector"
+              className="block text-[#94A3B8] hover:text-[#C9A96E] text-lg font-medium"
+            >Connectors</Link> : <></>}
           <div className="pt-4 border-t border-[#C9A96E]/10">
             {user ? (
               <div className="flex flex-col space-y-4">

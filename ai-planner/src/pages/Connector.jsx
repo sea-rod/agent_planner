@@ -238,7 +238,7 @@ export default function Connector() {
         </div>
 
         {/* provider grid */}
-        <div className="grid grid-cols-2 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
           {providers.map((provider) => (
             <ConnectorCard
               key={provider.id}

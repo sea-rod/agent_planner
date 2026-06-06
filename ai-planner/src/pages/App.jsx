@@ -12,7 +12,7 @@ function App() {
           <div className="inline-block mb-8 px-8 py-3 bg-[#C9A96E]/10 text-[#C9A96E] font-serif text-lg rounded-full tracking-widest uppercase animate-pulse border border-[#C9A96E]/20">
             Bespoke Intelligence • Google Calendar Foundation
           </div>
-          <h1 className="text-6xl md:text-8xl font-serif font-bold leading-tight mb-10 text-white">
+          <h1 className="text-5xl sm:text-2xl md:text-7xl font-serif font-bold leading-tight mb-10 text-white">
             Your time,<br /> <span className="text-[#C9A96E]">meticulously curated</span><br />
           </h1>
           <p className="text-2xl md:text-3xl text-[#94A3B8] max-w-4xl mx-auto mb-16 font-light leading-relaxed">
