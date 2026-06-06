@@ -182,7 +182,7 @@ const Privacy = () => {
               <h3 className="text-2xl font-serif font-semibold mb-6 text-[#C9A96E]">4.1 What We Store vs. What We Don't Store</h3>
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="bg-red-900/20 rounded-xl p-6 border border-red-600/30">
-                  <h4 className="text-xl font-semibold mb-4 text-red-400">❌ We DO NOT Store:</h4>
+                  <h4 className="text-xl font-semibold mb-4 text-red-400">We DO NOT Store:</h4>
                   <ul className="space-y-2 text-white text-base">
                     <li>• Full text of your messages to the AI</li>
                     <li>• Complete conversation transcripts</li>
@@ -191,7 +191,7 @@ const Privacy = () => {
                 </div>
                 
                 <div className="bg-green-900/20 rounded-xl p-6 border border-green-600/30">
-                  <h4 className="text-xl font-semibold mb-4 text-green-400">✅ We DO Store:</h4>
+                  <h4 className="text-xl font-semibold mb-4 text-green-400">We DO Store:</h4>
                   <ul className="space-y-2 text-white text-base">
                     <li>• Anonymized summaries of your preferences</li>
                     <li>• Scheduling patterns</li>

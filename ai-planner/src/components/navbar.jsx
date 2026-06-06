@@ -31,21 +31,21 @@ const Navbar = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-const logout = async () => {
-  try {
-    // 'global' scope ensures the session is cleared across all tabs/windows
-    const { error } = await supabase.auth.signOut({ scope: 'global' });
-    
-    if (error) {
-      console.error("Logout error:", error.message);
-      return;
-    }
+  const logout = async () => {
+    try {
+      // 'global' scope ensures the session is cleared across all tabs/windows
+      const { error } = await supabase.auth.signOut({ scope: 'global' });
 
-    window.location.assign("/"); 
-  } catch (err) {
-    console.error("Unexpected error during logout:", err);
-  }
-};
+      if (error) {
+        console.error("Logout error:", error.message);
+        return;
+      }
+
+      window.location.assign("/");
+    } catch (err) {
+      console.error("Unexpected error during logout:", err);
+    }
+  };
   const navLinks = ['Features'];
 
   return (
@@ -54,12 +54,12 @@ const logout = async () => {
         <div className="flex justify-between items-center h-24">
 
           {/* Logo Section */}
-          <div className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center space-x-3">
             <img src={logo} className="w-10 h-10 md:w-12 md:h-12" alt="Atelier Logo" />
             <span className="text-2xl md:text-3xl font-serif font-bold tracking-tight text-[#C9A96E]">
               Atelier
             </span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center space-x-10">
@@ -73,13 +73,17 @@ const logout = async () => {
               </a>
             ))}
             <Link
-                to="terms"
-                className="text-[#94A3B8] hover:text-[#C9A96E] font-medium transition tracking-wide text-sm uppercase"
-              >Terms</Link>
-              <Link
-                to="privacy"
-                className="text-[#94A3B8] hover:text-[#C9A96E] font-medium transition tracking-wide text-sm uppercase"
-              >Privacy</Link>
+              to="terms"
+              className="text-[#94A3B8] hover:text-[#C9A96E] font-medium transition tracking-wide text-sm uppercase"
+            >Terms</Link>
+            <Link
+              to="privacy"
+              className="text-[#94A3B8] hover:text-[#C9A96E] font-medium transition tracking-wide text-sm uppercase"
+            >Privacy</Link>
+            {user ? <Link
+              to="connector"
+              className="text-[#94A3B8] hover:text-[#C9A96E] font-medium transition tracking-wide text-sm uppercase"
+            >Connectors</Link> : <></>}
           </div>
 
           {/* Desktop Auth Buttons */}

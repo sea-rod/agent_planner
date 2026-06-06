@@ -1,4 +1,4 @@
-import { use, useState,useEffect } from "react";
+import { use, useState, useEffect } from "react";
 import { Link } from "react-router";
 import { supabase } from "../supabaseClient";
 import axios from "../api"
@@ -10,6 +10,7 @@ const providers = [
     id: "google",
     name: "Google Calendar",
     shortName: "Google",
+    disabled: false,
     desc: "Gmail, Workspace, and all Google account calendars.",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -25,6 +26,7 @@ const providers = [
     id: "outlook",
     name: "Outlook / Microsoft 365",
     shortName: "Outlook",
+    disabled: true,
     desc: "Personal Outlook, Hotmail, and Microsoft 365 organizational accounts.",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -40,6 +42,7 @@ const providers = [
     id: "apple",
     name: "Apple Calendar",
     shortName: "Apple",
+    disabled: true,
     desc: "iCloud, macOS, and iOS calendar via CalDAV. Works with your Apple ID.",
     icon: (
       <svg width="20" height="22" viewBox="0 0 814 1000" fill="white" opacity="0.85">
@@ -52,6 +55,7 @@ const providers = [
     id: "yahoo",
     name: "Yahoo Calendar",
     shortName: "Yahoo",
+    disabled: true,
     desc: "Yahoo Mail and Yahoo account calendars via CalDAV protocol.",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -88,7 +92,7 @@ function ConnectorCard({ provider, state, onConnect }) {
 
   return (
     <div
-      onClick={() => !isConnected && !isConnecting && onConnect(provider.id)}
+      onClick={() => !isConnected && !isConnecting && !provider.disabled && onConnect(provider.id)}
       className={[
         "group relative rounded-2xl p-6 border transition-all duration-300 overflow-hidden",
         isConnected
@@ -125,7 +129,7 @@ function ConnectorCard({ provider, state, onConnect }) {
           e.stopPropagation();
           if (!isConnected && !isConnecting) onConnect(provider.id);
         }}
-        disabled={isConnected || isConnecting}
+        disabled={isConnected || isConnecting || provider.disabled}
         className={[
           "w-full py-2.5 rounded-lg text-[11px] tracking-widest uppercase transition-all duration-200",
           isConnected
@@ -135,11 +139,12 @@ function ConnectorCard({ provider, state, onConnect }) {
               : "bg-[#C9A96E]/10 border border-[#C9A96E]/20 text-[#C9A96E] hover:bg-[#C9A96E]/20 hover:text-[#D4B978]",
         ].join(" ")}
       >
-        {isConnected
-          ? `✓ ${provider.shortName} connected`
-          : isConnecting
-            ? "Authenticating…"
-            : `Connect ${provider.shortName}`}
+        {provider.disabled ? "Coming Soon" :
+          isConnected
+            ? `✓ ${provider.shortName} connected`
+            : isConnecting
+              ? "Authenticating…"
+              : `Connect ${provider.shortName}`}
       </button>
     </div>
   );
@@ -160,43 +165,43 @@ export default function Connector() {
   );
 
   const handleConnect = async (providerId) => {
-    
-    setConnectionStates((prev)=>({...prev,[providerId]: "connecting"}))
+
+    setConnectionStates((prev) => ({ ...prev, [providerId]: "connecting" }))
 
     const res = await axios.get(`auth/google/url?user_id=${user.id}`);
-  if (res.status != 200) throw new Error("Failed to get auth URL from backend");
-  const { url } = res.data;
+    if (res.status != 200) throw new Error("Failed to get auth URL from backend");
+    const { url } = res.data;
 
-  // 2. Open popup
-  const popup = window.open(url, "google-auth", "width=500,height=600");
-  if (!popup) throw new Error("Popup blocked — please allow popups for this site");
+    // 2. Open popup
+    const popup = window.open(url, "google-auth", "width=500,height=600");
+    if (!popup) throw new Error("Popup blocked — please allow popups for this site");
 
-  // 3. Wait for success message or popup close
-  return new Promise((resolve, reject) => {
-    let done = false;
+    // 3. Wait for success message or popup close
+    return new Promise((resolve, reject) => {
+      let done = false;
 
-    const handler = (event) => {
-      if (event.data?.type !== "GOOGLE_AUTH_SUCCESS") return;
-      done = true;
-      setConnectionStates((prev)=>({...prev,[providerId]: "connected"}))
-      cleanup();
-      resolve();
-    };
-
-    const timer = setInterval(() => {
-      if (popup.closed && !done) {
+      const handler = (event) => {
+        if (event.data?.type !== "GOOGLE_AUTH_SUCCESS") return;
+        done = true;
+        setConnectionStates((prev) => ({ ...prev, [providerId]: "connected" }))
         cleanup();
-        reject(new Error("Popup closed before completing auth"));
+        resolve();
+      };
+
+      const timer = setInterval(() => {
+        if (popup.closed && !done) {
+          cleanup();
+          reject(new Error("Popup closed before completing auth"));
+        }
+      }, 500);
+
+      function cleanup() {
+        clearInterval(timer);
+        window.removeEventListener("message", handler);
       }
-    }, 500);
 
-    function cleanup() {
-      clearInterval(timer);
-      window.removeEventListener("message", handler);
-    }
-
-    window.addEventListener("message", handler);
-  });
+      window.addEventListener("message", handler);
+    });
   };
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] px-6 py-16 text-white overflow-hidden">
@@ -219,20 +224,18 @@ export default function Connector() {
           Connect your{" "}
           <span className="text-[#C9A96E] italic">calendar</span>
         </h1>
-        <p className="text-sm font-light text-slate-400 leading-relaxed mb-10 max-w-md">
+        <p className="text-sm font-light text-slate-400 leading-relaxed mb-5">
           Atelier works in harmony with your existing calendar. Choose your provider
-          and grant read access — your events remain entirely yours.
+          and grant read access and write access.
         </p>
 
         {/* permission note */}
-        {/* <div className="flex gap-3 items-start mb-8 px-4 py-3.5 rounded-xl border border-[#C9A96E]/15 bg-[#C9A96E]/[0.04]">
-          <span className="text-[#C9A96E] text-base mt-0.5 shrink-0">🔒</span>
-          <p className="text-xs font-light text-slate-400 leading-relaxed m-0">
-            We request{" "}
-            <span className="text-slate-300">read-only</span>{" "}
-            access to view and organize your schedule. We never modify, delete, or share your calendar data.
+        <div className="flex gap-3 items-start mb-8 px-4 py-3.5 rounded-xl border border-[#C9A96E]/15 bg-[#C9A96E]/[0.04]">
+          <p className="text-l font-light text-[#FF0000] leading-relaxed m-0 text-bold">
+            This is an early MVP and may contain bugs. 
+            Please do not connect your primary calendar if you have important work or personal events there.
           </p>
-        </div> */}
+        </div>
 
         {/* provider grid */}
         <div className="grid grid-cols-2 gap-4 mb-8">
@@ -256,12 +259,12 @@ export default function Connector() {
         </div>
 
         {/* skip */}
-        <Link
+        {/* <Link
           to="/chat"
           className="block text-center mt-5 text-[20px] font-light tracking-widest text-slate-500/200 hover:text-slate-400 transition-colors duration-200 no-underline"
         >
           Skip for now - I'll connect later →
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

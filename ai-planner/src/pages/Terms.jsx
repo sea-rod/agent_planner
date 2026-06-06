@@ -882,7 +882,7 @@ const Terms = () => {
       {/* Footer */}
       <footer className="bg-[#0F172A]/95 border-t border-[#C9A96E]/10 py-12 text-center text-[#94A3B8]">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-lg mb-4 font-serif italic text-white/80">Atelier – Where time meets timeless elegance</p>
+          <p className="text-lg mb-4 font-serif italic text-white/80">Atelier - Where time meets timeless elegance</p>
           <div className="flex justify-center gap-6 mb-4 text-sm">
             <a href="/privacy" className="hover:text-[#C9A96E] transition">Privacy Policy</a>
             <a href="/terms" className="hover:text-[#C9A96E] transition">Terms of Service</a>

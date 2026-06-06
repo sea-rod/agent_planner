@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { supabase } from '../supabaseClient';
 import api from '../api';
 
@@ -20,8 +20,17 @@ const ChatPage = () => {
   const [user, setUser] = useState(null);
   const [threadId, setThreadId] = useState('');
 
+  const navigate = useNavigate()
+
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => setUser(user));
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user)
+      supabase.from("calendar_tokens").select("user_id").eq("user_id",user.id).then((res) => {
+        if (res.data) {
+          navigate("/connector")
+        }
+      })
+    });
     setThreadId(crypto.randomUUID());
   }, []);
 
@@ -53,19 +62,19 @@ const ChatPage = () => {
 
     // const { data: { session } } = await supabase.auth.getSession();
 
-    
-    
+
+
     // const data = {
     //   "message":input,
     //   "thread_id":session.access_token
     // }
-    
+
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     api.post("/agent-chat", {
-      "message":input,
-      "thread_id":threadId,
+      "message": input,
+      "thread_id": threadId,
       "time_zone": userTimeZone
-    }).then((res)=>{
+    }).then((res) => {
       const aiResponse = {
         id: Date.now() + 1,
         sender: 'ai',
@@ -73,12 +82,12 @@ const ChatPage = () => {
         action: "",
         time: 'just now',
       };
-      
-      setMessages((prev)=>[...prev,aiResponse])
+
+      setMessages((prev) => [...prev, aiResponse])
       setIsTyping(false);
 
-  
-    }).catch((err)=>{
+
+    }).catch((err) => {
 
       console.log(err);
       const aiResponse = {
@@ -88,8 +97,8 @@ const ChatPage = () => {
         action: "View suggested schedule →",
         time: 'just now',
       };
-      
-      setMessages((prev)=>[...prev,aiResponse])
+
+      setMessages((prev) => [...prev, aiResponse])
       setIsTyping(false);
     })
 
@@ -129,13 +138,13 @@ const ChatPage = () => {
 
       {/* Chat messages area */}
       <main className="flex-1 pt-20 pb-32 overflow-hidden flex flex-col">
-        <div 
+        <div
           ref={chatContainerRef}
           className="flex-1 overflow-y-auto px-4 sm:px-6 pt-5 pb-6 max-w-4xl mx-auto w-full space-y-6 scroll-smooth"
         >
           {messages.map((msg) => (
-            <div 
-              key={msg.id} 
+            <div
+              key={msg.id}
               className={`flex items-start gap-3 sm:gap-4 animate-fade-in ${msg.sender === 'user' ? 'justify-end' : ''}`}
             >
               {msg.sender === 'ai' && (
@@ -143,10 +152,9 @@ const ChatPage = () => {
                   🕰️
                 </div>
               )}
-              <div className={`${
-                msg.sender === 'user' 
-                ? 'bg-[#C9A96E]/90 text-[#0F172A] rounded-tr-none' 
-                : 'bg-[#1E293B]/60 backdrop-blur-sm rounded-tl-none'
+              <div className={`${msg.sender === 'user'
+                  ? 'bg-[#C9A96E]/90 text-[#0F172A] rounded-tr-none'
+                  : 'bg-[#1E293B]/60 backdrop-blur-sm rounded-tl-none'
                 } rounded-2xl px-4 py-3 sm:px-5 sm:py-4 max-w-[85%] sm:max-w-[72%] shadow-sm`}
               >
                 {msg.sender === 'ai' && <p className="text-[#94A3B8] text-xs sm:text-sm mb-1">Atelier • {msg.time}</p>}

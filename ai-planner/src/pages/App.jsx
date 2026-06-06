@@ -7,7 +7,7 @@ function App() {
     <div className="bg-[#FAFAFA] text-[#0F172A] antialiased font-sans">
 
       {/* Hero Section */}
-      <section className="pt-40 pb-3 md:pt-50 md:pb-48 bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A]">
+      <section className="pt-40 pb-3 md:pt-40 md:pb-48 bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A]">
         <div className="max-w-6xl mx-auto px-6 lg:px-10 text-center">
           <div className="inline-block mb-8 px-8 py-3 bg-[#C9A96E]/10 text-[#C9A96E] font-serif text-lg rounded-full tracking-widest uppercase animate-pulse border border-[#C9A96E]/20">
             Bespoke Intelligence • Google Calendar Foundation
@@ -20,14 +20,16 @@ function App() {
             <span className='text-[#C9A96E] rounded-full text-2xl '> So you may focus on what truly matters.</span>
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-8">
-            <Link to="/waitlist" className="bg-[#C9A96E] text-[#0F172A] px-12 py-6 rounded-full text-xl font-semibold hover:bg-[#D4B978] transition shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 tracking-wide uppercase">
-              SUBSCRIBE NOW • $5/MO
+            <Link to="/waitlist" className="bg-[#C9A96E] text-[#0F172A] px-10 py-5  rounded-full text-xl font-semibold hover:bg-[#D4B978] transition shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 tracking-wide uppercase">
+              SUBSCRIBE NOW • $6/MO
             </Link>
-            <Link to="/auth" className="border-2 border-[#C9A96E]/60 text-[#C9A96E] px-12 py-6 rounded-full text-xl font-semibold hover:bg-[#C9A96E]/10 transition tracking-wide">
+            <Link to="/auth" className="border-2 border-[#C9A96E]/60 text-[#C9A96E] px-10 py-5 rounded-full text-xl font-semibold hover:bg-[#C9A96E]/10 transition tracking-wide">
               TRY FOR FREE
             </Link>
           </div>
-          <p className="mt-10 text-[#94A3B8] text-lg font-light">Early Bird Special: $5/mo for your first 3 months. Limited to the first 50 members (Reg. $15/mo).</p>
+          <p className="mt-10 text-[#94A3B8] text-lg font-light">Early Bird Special: $6/mo for your first 3 months.
+            Limited to the first 50 members (Reg. $18/mo).
+          </p>
         </div>
       </section>
 

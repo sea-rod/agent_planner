@@ -1,13 +1,13 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { supabase } from '../supabaseClient';
 
 const GoogleIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M22.56 12.25C22.56 11.47 22.49 10.72 22.36 10H12V14.51H18.05C17.8 15.99 16.92 17.26 15.56 18.09V21.09H19.19C21.27 19.19 22.56 15.92 22.56 12.25Z" fill="#4285F4"/>
-    <path d="M12 23C15.11 23 17.71 21.97 19.19 20.09L15.56 18.09C14.53 18.81 13.23 19.24 12 19.24C9.01 19.24 6.44 17.28 5.57 14.7H1.84V17.78C3.32 20.98 7.1 23 12 23Z" fill="#34A853"/>
-    <path d="M5.57 14.7C5.37 14.13 5.26 13.53 5.26 12.92C5.26 12.31 5.37 11.71 5.57 11.14V8.06H1.84C1.2 9.46 0.8 11 0.8 12.92C0.8 14.84 1.2 16.38 1.84 17.78L5.57 14.7Z" fill="#FBBC05"/>
-    <path d="M12 5.38C13.62 5.38 15.04 5.93 16.15 6.98L19.43 3.7C17.71 2.07 15.11 1 12 1C7.1 1 3.32 3.02 1.84 6.22L5.57 9.3C6.44 6.72 9.01 4.76 12 4.76V5.38Z" fill="#EA4335"/>
+    <path d="M22.56 12.25C22.56 11.47 22.49 10.72 22.36 10H12V14.51H18.05C17.8 15.99 16.92 17.26 15.56 18.09V21.09H19.19C21.27 19.19 22.56 15.92 22.56 12.25Z" fill="#4285F4" />
+    <path d="M12 23C15.11 23 17.71 21.97 19.19 20.09L15.56 18.09C14.53 18.81 13.23 19.24 12 19.24C9.01 19.24 6.44 17.28 5.57 14.7H1.84V17.78C3.32 20.98 7.1 23 12 23Z" fill="#34A853" />
+    <path d="M5.57 14.7C5.37 14.13 5.26 13.53 5.26 12.92C5.26 12.31 5.37 11.71 5.57 11.14V8.06H1.84C1.2 9.46 0.8 11 0.8 12.92C0.8 14.84 1.2 16.38 1.84 17.78L5.57 14.7Z" fill="#FBBC05" />
+    <path d="M12 5.38C13.62 5.38 15.04 5.93 16.15 6.98L19.43 3.7C17.71 2.07 15.11 1 12 1C7.1 1 3.32 3.02 1.84 6.22L5.57 9.3C6.44 6.72 9.01 4.76 12 4.76V5.38Z" fill="#EA4335" />
   </svg>
 );
 
@@ -16,17 +16,17 @@ const InputField = ({ label, type, placeholder, id }) => (
     <label htmlFor={id} className="block text-sm font-medium text-[#94A3B8] tracking-wide">
       {label}
     </label>
-    <input 
-      type={type} 
-      id={id} 
-      required 
+    <input
+      type={type}
+      id={id}
+      required
       placeholder={placeholder}
       className="w-full px-5 py-4 bg-[#0F172A] border border-[#C9A96E]/20 rounded-xl text-white placeholder-[#94A3B8]/50 focus:border-[#C9A96E] focus:ring-1 focus:ring-[#C9A96E] outline-none transition"
     />
   </div>
 );
 const AuthPage = () => {
-  const [activeTab, setActiveTab] = useState('login');
+  const [activeTab, setActiveTab] = useState('signup');
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '', confirmPassword: '', fullName: '' });
   const navigate = useNavigate();
@@ -59,12 +59,19 @@ const AuthPage = () => {
     setLoading(true);
     try {
       if (activeTab === 'signup') {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email: formData.email,
           password: formData.password,
           options: { data: { full_name: formData.fullName } },
         });
+
         if (error) throw error;
+
+        if (data?.user?.identities?.length === 0) {
+          alert('An account with this email already exists. Please sign in.');
+          return;
+        }
+
         alert('Check your email for the confirmation link!');
       } else {
         const { error } = await supabase.auth.signInWithPassword({
