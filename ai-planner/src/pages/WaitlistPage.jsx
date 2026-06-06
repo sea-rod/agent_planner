@@ -7,7 +7,7 @@ const WaitlistPage = () => {
   const [persona, setPersona] = useState('');
   const [frustration, setFrustration] = useState('');
   const [urgency, setUrgency] = useState(3);
-  const [submitted, setSubmitted] = useState(true);
+  const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
