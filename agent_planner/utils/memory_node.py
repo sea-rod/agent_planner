@@ -17,8 +17,8 @@ def get_memory_store():
     if _memory_store is None:
         log.info("memory_store_initializing")
         try:
-            from utils.weaviate_memory import WeaviateMemoryStore
-            _memory_store = WeaviateMemoryStore()
+            from agent_planner.utils.pinecone_memory import PineconeMemoryStore
+            _memory_store = PineconeMemoryStore()
             log.info("memory_store_initialized")
         except Exception as e:
             log.error("memory_store_init_failed", error=str(e), exc_info=True)
