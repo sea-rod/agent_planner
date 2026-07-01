@@ -77,6 +77,8 @@ const ChatPage = () => {
       "thread_id": threadId,
       "time_zone": userTimeZone
     }).then((res) => {
+      console.log(res);
+      
       const aiResponse = {
         id: Date.now() + 1,
         sender: 'ai',

@@ -14,7 +14,7 @@ load_dotenv()
 
 log = structlog.get_logger("atelier.agent")
 
-base_llm = init_chat_model("groq:openai/gpt-oss-20b")
+base_llm = init_chat_model("groq:openai/gpt-oss-20b",temperature=0,top_p=0)
 
 MAIN_SYSTEM_PROMPT = """
 The current time is {current_time}.
@@ -74,6 +74,8 @@ Examples:
 PLANNER_PROMPT = """
 Context: {events}
 
+DO NOT CALL get_events() function
+
 Role: You are a planner that builds multi-day time-blocked schedules before deadlines.
 
 Procedure (strict):
@@ -90,6 +92,13 @@ Confirmation rule:
 EVENT_CREATION_PROMPT = """
 Role: Event creator. Input = confirmed schedule from planner.
 
+IMPORTANT: When calling tools, use only plain ASCII characters in all arguments. 
+Do NOT use typographic hyphens (‑), smart quotes (" "), em dashes (—), or any 
+non-ASCII punctuation. Use regular hyphens (-), straight quotes ('), and standard 
+ASCII only.
+
+Do NOT wrap the JSON in markdown code blocks (```json), and do NOT add trailing characters like semicolons, parentheses, or closing tags (e.g., ');' or '}};'). Stop generating immediately after the final closing curly brace.
+
 For each session produce a dict:
 {{
  "summary": "<short title>",
@@ -98,7 +107,11 @@ For each session produce a dict:
  "end":   {{"dateTime": "<ISO datetime with +05:30>"}}
 }}
 
-If multiple sessions -> build events_list (list of dicts) and call create_event(events_list=events_list).
+
+If multiple sessions, batch them into a list of event dicts and call create_bulk_events(events: list[dict]) where dict is 
+{{
+summary:..., description:..., strt_dateTime:..., end_dateTime:...
+}}.
 If only one session -> call create_event(summary=..., description=..., strt_dateTime=..., end_dateTime=...).
 
 Constraints:
@@ -209,7 +222,7 @@ def model(state: AgentState):
     has_tool_calls = bool(getattr(response, "tool_calls", None))
     log.info("model_response", has_tool_calls=has_tool_calls, elapsed_ms=round(elapsed_ms, 2))
 
-    return {"messages": [response]}
+    return state
 
 
 # ── Classifier ───────────────────────────────────────────────────────────────
@@ -296,25 +309,53 @@ def model_schedule(state: AgentState) -> AgentState:
         raise
 
     state["messages"] = response
+
+    print("\n\n\n",response,end="\n\n\n")
+
     log_graph_node("model_schedule", elapsed_ms=(time.perf_counter() - t0) * 1000)
     log.info("model_schedule_done", has_tool_calls=bool(getattr(response, "tool_calls", None)))
     return state
 
+import json
+def sanitize_messages(messages):
+    import unicodedata
+    cleaned = []
+    
+    for msg in messages:
+        # print()
+        print("\n\n\n\n\n\n", msg,end="\n\n\n\n\n\n")
+        if hasattr(msg, 'tool_calls') and msg.tool_calls:
+            # Fix unicode in tool call arguments
+            clean_tool_calls = []
+            for tc in msg.tool_calls:
+
+                print("tccccccccccccc:",tc)
+                
+                if isinstance(tc.get('arguments'), dict):
+                    clean_args = json.loads(
+                        unicodedata.normalize("NFKD", json.dumps(tc['arguments']))
+                        .encode("ascii", "ignore").decode("ascii")
+                    )
+                    tc = {**tc, 'arguments': clean_args}
+                clean_tool_calls.append(tc)
+            msg = msg.copy(update={"tool_calls": clean_tool_calls})
+        cleaned.append(msg)
+    return cleaned
 
 def model_add(state: AgentState) -> AgentState:
     t0 = time.perf_counter()
     tools = create_calendar_tools(state)
     llm = base_llm.bind_tools(tools)
-
     sys_mess = SystemMessage(content=EVENT_CREATION_PROMPT.format(time_zone=state["time_zone"]))
-
     try:
-        response = llm.invoke([sys_mess] + state["messages"])
+        clean_messages = sanitize_messages(state["messages"][-4:])
+        response = llm.invoke([sys_mess] + clean_messages)
     except Exception as e:
         log.error("model_add_failed", time_zone=state["time_zone"], error=str(e), exc_info=True)
         raise
 
     state["messages"] = response
+    print("\n\n\n add node:",response,end="\n\n\n")
     log_graph_node("model_add", elapsed_ms=(time.perf_counter() - t0) * 1000)
 
     tool_calls = getattr(response, "tool_calls", [])

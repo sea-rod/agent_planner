@@ -16,7 +16,7 @@ from langchain_core.messages import HumanMessage, ToolMessage, AIMessage
 from langgraph.graph import StateGraph, END, START
 from langgraph.prebuilt import ToolNode
 from langgraph.checkpoint.memory import MemorySaver
-# from .utils.memory_node import retrieve_semantic_memory, store_interaction_memory
+from .utils.memory_node import retrieve_semantic_memory, store_interaction_memory
 
 # Initialize
 def dynamic_tool_node(state: AgentState):
@@ -28,8 +28,8 @@ agent = StateGraph(AgentState)
 
 
 # ============ ADD ALL NODES ============
-# agent.add_node("retrieve_memory", retrieve_semantic_memory)
-# agent.add_node("store_memory", store_interaction_memory)
+agent.add_node("retrieve_memory", retrieve_semantic_memory)
+agent.add_node("store_memory", store_interaction_memory)
 agent.add_node("current_time", get_current_time)
 agent.add_node("get_event", get_events_node)
 agent.add_node("classify_model", classify_model)
@@ -44,9 +44,9 @@ agent.add_node("human_feedback_planner", human_feedback)
 agent.add_node("human_feedback_delete", human_feedback)
 
 # ============ DEFINE FLOW ============
-# agent.set_entry_point("retrieve_memory")
-# agent.add_edge("retrieve_memory", "current_time")
-agent.set_entry_point("current_time")
+agent.set_entry_point("retrieve_memory")
+agent.add_edge("retrieve_memory", "current_time")
+# agent.set_entry_point("current_time")
 agent.add_edge("current_time", "get_event")
 agent.add_edge("get_event", "classify_model")
 

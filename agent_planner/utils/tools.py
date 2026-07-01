@@ -55,6 +55,29 @@ def create_calendar_tools(state):
             "end": {"dateTime": end_dateTime},
         }
         return google_cal.create_event(event_payload)
+    
+    @tool
+    def create_bulk_events(events: list[dict]) -> list[dict]:
+        """
+        Creates multiple events on Google Calendar.
+        Use this when creating more than one event at once.
+        Parameters:
+            events: List of event dicts, each with keys:
+                - summary: Event title
+                - description: Event description
+                - strt_dateTime: Start in ISO format e.g. "2026-06-03T19:00:00+05:30"
+                - end_dateTime: End in ISO format
+        """
+        results = []
+        for event in events:
+            result = create_event.invoke({
+            "summary": event["summary"],
+            "description": event["description"],
+            "strt_dateTime": event["strt_dateTime"],
+            "end_dateTime": event["end_dateTime"],
+        })
+            results.append(result)
+        return results
 
 
     @tool
@@ -118,4 +141,4 @@ def create_calendar_tools(state):
         """
         return google_cal.delete_event(event_id)
 
-    return [create_event, create_recurring_events, get_events, delete_event]
+    return [create_event, create_recurring_events, get_events, delete_event, create_bulk_events]
