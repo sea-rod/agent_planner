@@ -11,23 +11,10 @@ const GoogleIcon = () => (
   </svg>
 );
 
-const InputField = ({ label, type, placeholder, id }) => (
-  <div className="space-y-2">
-    <label htmlFor={id} className="block text-sm font-medium text-[#94A3B8] tracking-wide">
-      {label}
-    </label>
-    <input
-      type={type}
-      id={id}
-      required
-      placeholder={placeholder}
-      className="w-full px-5 py-4 bg-[#0F172A] border border-[#C9A96E]/20 rounded-xl text-white placeholder-[#94A3B8]/50 focus:border-[#C9A96E] focus:ring-1 focus:ring-[#C9A96E] outline-none transition"
-    />
-  </div>
-);
 const AuthPage = () => {
   const [activeTab, setActiveTab] = useState('signup');
   const [loading, setLoading] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '', confirmPassword: '', fullName: '' });
   const navigate = useNavigate();
 
@@ -35,8 +22,32 @@ const AuthPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Calls the Edge Function — logs server-side with IP, timestamp, user agent
+  const logConsentServerSide = async (email) => {
+    const res = await fetch(
+      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/log-terms-consent`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      }
+    );
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(`Consent logging failed: ${err.error}`);
+    }
+  };
+
   const handleGoogleSignIn = async () => {
+    if (activeTab === 'signup' && !agreedToTerms) {
+      alert('Please agree to the Terms & Conditions before signing up.');
+      return;
+    }
     try {
+      if (activeTab === 'signup') {
+        // Log consent before OAuth redirect — email unknown so we mark it pending
+        await logConsentServerSide('google-oauth-pending');
+      }
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -56,22 +67,26 @@ const AuthPage = () => {
       alert('Passwords do not match.');
       return;
     }
+    if (activeTab === 'signup' && !agreedToTerms) {
+      alert('Please agree to the Terms & Conditions to create an account.');
+      return;
+    }
     setLoading(true);
     try {
       if (activeTab === 'signup') {
+        // Must succeed before account creation proceeds
+        await logConsentServerSide(formData.email);
+
         const { data, error } = await supabase.auth.signUp({
           email: formData.email,
           password: formData.password,
           options: { data: { full_name: formData.fullName } },
         });
-
         if (error) throw error;
-
         if (data?.user?.identities?.length === 0) {
           alert('An account with this email already exists. Please sign in.');
           return;
         }
-
         alert('Check your email for the confirmation link!');
       } else {
         const { error } = await supabase.auth.signInWithPassword({
@@ -82,7 +97,7 @@ const AuthPage = () => {
         navigate('/dashboard');
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       alert(error.message);
     } finally {
       setLoading(false);
@@ -172,10 +187,59 @@ const AuthPage = () => {
                   )}
                 </div>
 
+                {/* ── Terms & Conditions checkbox (signup only) ── */}
+                {activeTab === 'signup' && (
+                  <label className="flex items-start gap-3 cursor-pointer group">
+                    <div className="relative flex-shrink-0 mt-0.5">
+                      <input
+                        type="checkbox"
+                        className="sr-only"
+                        checked={agreedToTerms}
+                        onChange={(e) => {
+                          setAgreedToTerms(e.target.checked);
+                          if (e.target.checked) {
+                            // Immediate client-side log on tick — captured in host stdout
+                            console.log(
+                              `[T&C CHECKBOX] checked at ${new Date().toISOString()} — email field: ${formData.email || '(not yet entered)'}`
+                            );
+                          }
+                        }}
+                      />
+                      <div className={`w-5 h-5 rounded-md border-2 transition-all
+                        ${agreedToTerms
+                          ? 'bg-[#C9A96E] border-[#C9A96E]'
+                          : 'bg-transparent border-[#C9A96E]/40 group-hover:border-[#C9A96E]/70'}`}
+                      >
+                        {agreedToTerms && (
+                          <svg className="w-full h-full p-0.5 text-[#0F172A]" viewBox="0 0 12 12" fill="none">
+                            <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        )}
+                      </div>
+                    </div>
+                    <span className="text-xs text-[#94A3B8] leading-relaxed">
+                      I agree to the{' '}
+                      <a href="/terms" target="_blank" rel="noopener noreferrer"
+                        className="text-[#C9A96E] underline underline-offset-2 hover:text-[#D4B978] transition"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Terms & Conditions
+                      </a>
+                      {' '}and{' '}
+                      <a href="/privacy" target="_blank" rel="noopener noreferrer"
+                        className="text-[#C9A96E] underline underline-offset-2 hover:text-[#D4B978] transition"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Privacy Policy
+                      </a>
+                    </span>
+                  </label>
+                )}
+
                 <button
                   type="submit"
-                  disabled={loading}
-                  className="w-full bg-[#C9A96E] text-[#0F172A] py-4 rounded-full font-serif font-bold text-lg hover:bg-[#D4B978] transition shadow-lg transform hover:-translate-y-0.5 disabled:opacity-50"
+                  disabled={loading || (activeTab === 'signup' && !agreedToTerms)}
+                  className="w-full bg-[#C9A96E] text-[#0F172A] py-4 rounded-full font-serif font-bold text-lg hover:bg-[#D4B978] transition shadow-lg transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                 >
                   {loading ? 'Processing...' : activeTab === 'login' ? 'Enter Atelier' : 'Begin Your Journey'}
                 </button>
