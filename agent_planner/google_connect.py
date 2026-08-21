@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SCOPES = ["https://www.googleapis.com/auth/calendar.events"]
+SCOPES = ["https://www.googleapis.com/auth/calendar.events","https://www.googleapis.com/auth/calendar.settings.readonly"]
 
 
 def make_flow():

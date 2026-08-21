@@ -1,162 +1,160 @@
-from .utils.nodes import (
-    model,
-    human_feedback,
-    should_continue,
+from typing import List, Optional
+from utils.state import AgentState
+from utils.persistence import load_thread_state, save_thread_state, get_state_from_data
+from utils.nodes import (
     get_current_time,
-    classify_model,
-    route_classifier,
-    get_events_node,
-    model_schedule,
-    model_add,
-    model_delete,
+    fetch_calendar_events,
+    scheduling_chat_turn,
+    extract_steps,
+    classify_steps,
+    node_add,
+    node_remove,
+    node_get_events,
+    node_time_blocking,
 )
-from .utils.state import AgentState
-from .utils.tools import create_calendar_tools
-from langchain_core.messages import HumanMessage, ToolMessage, AIMessage
-from langgraph.graph import StateGraph, END, START
-from langgraph.prebuilt import ToolNode
-from langgraph.checkpoint.memory import MemorySaver
-from .utils.memory_node import retrieve_semantic_memory, store_interaction_memory
+from utils.memory_node import retrieve_semantic_memory, store_interaction_memory
 
-# Initialize
-def dynamic_tool_node(state: AgentState):
-    tools = create_calendar_tools(state)
-    return ToolNode(tools)
-
-
-agent = StateGraph(AgentState)
-
-
-# ============ ADD ALL NODES ============
-agent.add_node("retrieve_memory", retrieve_semantic_memory)
-agent.add_node("store_memory", store_interaction_memory)
-agent.add_node("current_time", get_current_time)
-agent.add_node("get_event", get_events_node)
-agent.add_node("classify_model", classify_model)
-agent.add_node("model", model)
-agent.add_node("refine_model", model)
-agent.add_node("scheduler", model_schedule)
-agent.add_node("model_add", model_add)
-agent.add_node("model_delete", model_delete)
-agent.add_node("tool", dynamic_tool_node)
-agent.add_node("human_feedback_reminder", human_feedback)
-agent.add_node("human_feedback_planner", human_feedback)
-agent.add_node("human_feedback_delete", human_feedback)
-
-# ============ DEFINE FLOW ============
-agent.set_entry_point("retrieve_memory")
-agent.add_edge("retrieve_memory", "current_time")
-# agent.set_entry_point("current_time")
-agent.add_edge("current_time", "get_event")
-agent.add_edge("get_event", "classify_model")
-
-# FIXED: Route get_event to model (which will call tool), not directly to refine_model
-agent.add_conditional_edges(
-    "classify_model",
-    route_classifier,
-    {
-        "planner": "scheduler",
-        "reminder": "model",
-        "delete": "model_delete",
-        "get_event": "model"  # CHANGED: Route to model instead of refine_model
-    }
-)
-
-# ============ REMINDER & GET_EVENT FLOW ============
-agent.add_conditional_edges(
-    "model",
-    should_continue,
-    {
-        "tool": "tool",
-        "human_feedback": "human_feedback_reminder"
-    },
-)
-agent.add_edge("human_feedback_reminder", "model")
-
-# ============ PLANNER FLOW ============
-agent.add_conditional_edges(
-    "scheduler",
-    should_continue,
-    {
-        "tool": "model_add",
-        "human_feedback": "human_feedback_planner"
-    },
-)
-agent.add_edge("human_feedback_planner", "scheduler")
-agent.add_edge("model_add", "tool")
-
-# ============ DELETE FLOW ============
-agent.add_conditional_edges(
-    "model_delete",
-    should_continue,
-    {
-        "tool": "tool",
-        "human_feedback": "human_feedback_delete"
-    },
-)
-agent.add_edge("human_feedback_delete", "model_delete")
-
-# ============ FINAL FLOW TO END ============
-agent.add_edge("tool", "refine_model")
-agent.add_edge("refine_model", "store_memory")
-agent.add_edge("store_memory", END)
-
-# ============ COMPILE ============
-checkpointer = MemorySaver()
-app = agent.compile(
-    checkpointer=checkpointer,
-    interrupt_before=[
-        "human_feedback_reminder",
-        "human_feedback_planner",
-        "human_feedback_delete"
-    ]
-)
-
-# from IPython.display import Image, display
-
-# display(Image(app.get_graph().draw_mermaid_png()))
-# %%
-if "__main__" == __name__:
-    thread = {"configurable": {"thread_id": "1"}}
-    input_ = input("Enter prompt:")
-
-    initial_input = {"messages": [HumanMessage(content=input_)]}
-    
-    for event in app.stream(initial_input, thread, stream_mode="values"):
-        event["messages"][-1].pretty_print()
-    
-
-    while (
-        isinstance(event["messages"][-1], AIMessage)
-        and not isinstance(event["messages"][-2], ToolMessage)
-        and event.get("task_type") == "reminder"
-    ):
-        user_input = input("tell the time:")
-        app.update_state(
-            thread, {"messages": user_input}, as_node="human_feedback_reminder"
+def run_pipeline(user_id: str, user_message: str, history: List[dict], state: Optional[AgentState] = None):
+    """
+    Main entry point for the scheduling agent pipeline.
+    Replaces the LangGraph state machine with a vanilla Python flow.
+    """
+    if state is None:
+        state = AgentState(
+            user_id=user_id,
+            messages=history,
+            time_zone="Asia/Kolkata" # Default, should be handled by user preferences
         )
-        for event in app.stream(None, thread, stream_mode="values"):
-            event["messages"][-1].pretty_print()
+    else:
+        state.messages = history
 
-    while (
-        isinstance(event["messages"][-1], AIMessage)
-        and not isinstance(event["messages"][-2], ToolMessage)
-        and event.get("task_type") == "planner"
-    ):
-        user_input = input("user:")
-        app.update_state(thread, {"messages": user_input}, as_node="human_feedback_planner")
-        for event in app.stream(None, thread, stream_mode="values"):
-            event["messages"][-1].pretty_print()
-            
-    while (
-        isinstance(event["messages"][-1], AIMessage)
-        and not isinstance(event["messages"][-2], ToolMessage)
-        and event.get("task_type") == "delete"
-    ):
-        user_input = input("user:")
-        app.update_state(thread, {"messages": user_input}, as_node="human_feedback_delete")
-        for event in app.stream(None, thread, stream_mode="values"):
-            event["messages"][-1].pretty_print()
+    # 1. Retrieve Memory
+    state = retrieve_semantic_memory(state)
 
+    # 2. Setup Context
+    state = get_current_time(state)
+    state = fetch_calendar_events(state)
 
-    print("done")
+    # 3. Planner (Human-in-the-loop stage)
+    # The planner is a pure chat loop. It only moves to execution once the user confirms.
+    updated_history = scheduling_chat_turn(
+        existing_events=state.tasks,
+        history=list(history),
+        user_message=user_message
+    )
+
+    # Confirmation heuristic
+    print("\n\n\n\n updated history",updated_history[-1])
+    # confirmation_keywords = ["yes", "confirm","CONFRIM", "proceed", "looks good", "do it", "correct"]
+    # is_confirmed = any(kw in updated_history[-1]["content"] for kw in confirmation_keywords)
+
+    if not updated_history[-1]["content"]=="CONFIRM":
+        return {
+            "status": "planning",
+            "response": updated_history[-1]["content"],
+            "history": updated_history,
+            "state": state
+        }
+
+    # 4. Execution Phase (once confirmed)
+
+    # a. Extract discrete action steps from the confirmed chat history
+    steps = extract_steps(updated_history)
+
+    # b. Classify each step
+    classified_steps = classify_steps(steps)
+
+    # c. Dispatch loop
+    results = []
+    for item in classified_steps:
+        step_text = item["step"]
+        label = item["label"]
+
+        if label == "add":
+            res = node_add(step_text, state)
+        elif label == "delete":
+            res = node_remove(step_text, state)
+        elif label == "get_events":
+            res = node_get_events(step_text, state)
+        elif label == "time_block":
+            res = node_time_blocking(step_text, state)
+        else:
+            res = {"error": f"Unknown action label: {label}"}
+
+        results.append({"step": step_text, "result": res})
+
+    # 5. Store Memory
+    state.tasks = []
+    for r in results:
+        if isinstance(r["result"], list):
+            state.tasks.extend(r["result"])
+        elif isinstance(r["result"], dict) and "event" in r["result"]:
+            state.tasks.append(r["result"]["event"])
+
+    state.messages = updated_history
+    store_interaction_memory(state)
+
+    return {
+        "status": "completed",
+        "results": results,
+        "history": updated_history,
+        "state": state
+    }
+
+if __name__ == "__main__":
+    # Simple CLI loop for testing the pipeline with resumption
+    user_id = "test_user_123"
+    thread_id = "test_thread_456"
+
+    # Resume from disk if available
+    thread_data = load_thread_state(thread_id)
+    if thread_data:
+        print(f"Resuming thread {thread_id}...")
+        history = thread_data["history"]
+        state = get_state_from_data(thread_data)
+    else:
+        print(f"Starting fresh thread {thread_id}...")
+        history = []
+        state = None
+
+    print("--- AI Planner CLI Test Loop ---")
+    print("Type 'exit' or 'quit' to stop.")
+    print("Say 'yes' or 'confirm' to execute a plan.")
+    print("-------------------------------")
+
+    while True:
+        try:
+            user_input = input("\nUser: ")
+            if user_input.lower() in ["exit", "quit"]:
+                break
+
+            result = run_pipeline(
+                user_id=user_id,
+                user_message=user_input,
+                history=history,
+                state=state
+            )
+
+            history = result["history"]
+            state = result["state"]
+
+            # Save state after every turn
+            save_thread_state(thread_id, state, history)
+
+            if result["status"] == "planning":
+                print(f"\nAgent: {result['response']}")
+            else:
+                print("\n--- Execution Results ---")
+                for item in result["results"]:
+                    res = item["result"]
+                    status = "✓" if not (isinstance(res, dict) and "error" in res) else "❌"
+                    print(f"{status} {item['step']} -> {res}")
+                print("-------------------------")
+                print("\nAgent: I have executed the requested changes to your calendar.")
+
+        except KeyboardInterrupt:
+            break
+        except Exception as e:
+            print(f"\n❌ Error: {e}")
+            import traceback
+            traceback.print_exc()

@@ -1,6 +1,5 @@
 import gradio as gr
-from langchain_core.messages import HumanMessage, AIMessage, ToolMessage
-from agent import app
+from agent import run_pipeline
 import uuid
 import signal
 import sys
@@ -9,12 +8,11 @@ import atexit
 # Import for cleanup
 from utils.memory_node import get_memory_store_for_cleanup
 
-
 def get_user_session(user_id: str = None):
     """Generate or retrieve user session"""
     if user_id is None:
         user_id = str(uuid.uuid4())[:8]
-    return {"configurable": {"thread_id": user_id}}, user_id
+    return {"user_id": user_id}, user_id
 
 
 def chat_with_agent(user_input, history, session_state=None):
@@ -22,68 +20,49 @@ def chat_with_agent(user_input, history, session_state=None):
 
     # Initialize or retrieve session
     if session_state is None:
-        thread, user_id = get_user_session()
-        session_state = {"thread": thread, "user_id": user_id}
+        session_info, user_id = get_user_session()
+        session_state = session_info
     else:
-        thread = session_state["thread"]
         user_id = session_state["user_id"]
 
-    # Add user message to history
-    history = history + [(user_input, None)]
-
-    # Create initial input with user context
-    initial_input = {
-        "messages": [HumanMessage(content=user_input)],
-        "user_id": user_id,
-        "thread_id": user_id,
-    }
-
-    final_output = ""
-    event_data = None
+    # Convert Gradio history [(user, bot), ...] to list of dicts for the pipeline
+    pipeline_history = []
+    for user_msg, bot_msg in history:
+        pipeline_history.append({"role": "user", "content": user_msg})
+        if bot_msg:
+            pipeline_history.append({"role": "assistant", "content": bot_msg})
 
     try:
-        # Stream agent execution
-        for event in app.stream(initial_input, thread, stream_mode="values"):
-            msg = event["messages"][-1]
-            if isinstance(msg, AIMessage):
-                final_output = msg.content
-                event_data = event
+        # Execute the pipeline
+        result = run_pipeline(
+            user_id=user_id,
+            user_message=user_input,
+            history=pipeline_history
+        )
 
-        # (event_data["messages"][-1])
-        # Handle different task types
-        if (
-            event_data
-            and isinstance(event_data["messages"][-1], AIMessage)
-            and len(event_data["messages"]) >= 2
-            and not isinstance(event_data["messages"][-2], ToolMessage)
-            and event_data.get("task_type") == "reminder"
-        ):
-            bot_reply = final_output
-            history[-1] = (user_input, bot_reply)
-            return history, history, session_state
-
-        elif (
-            event_data
-            and isinstance(event_data["messages"][-1], AIMessage)
-            and len(event_data["messages"]) >= 2
-            and not isinstance(event_data["messages"][-2], ToolMessage)
-            and event_data.get("task_type") == "planner"
-        ):
-            bot_reply = final_output
-            history[-1] = (user_input, bot_reply)
-            return history, history, session_state
-
+        if result["status"] == "planning":
+            bot_reply = result["response"]
+            history.append((user_input, bot_reply))
         else:
-            history[-1] = (user_input, final_output)
-            return history, history, session_state
+            # If completed, summarize results into a response
+            summary = "Plan executed successfully:\n"
+            for item in result["results"]:
+                res = item["result"]
+                if isinstance(res, dict) and "error" in res:
+                    summary += f"- {item['step']}: ❌ {res['error']}\n"
+                else:
+                    summary += f"- {item['step']}: ✓ Success\n"
+
+            # If the planner had a final response, we could use it, but usually, we summary the tool results
+            bot_reply = summary
+
+            history.append((user_input, bot_reply))
+
+        return history, history, session_state
 
     except Exception as e:
         error_msg = f"❌ Error: {str(e)}"
-        (f"Chat error: {e}")
-        import traceback
-
-        traceback._exc()
-        history[-1] = (user_input, error_msg)
+        history.append((user_input, error_msg))
         return history, history, session_state
 
 

@@ -3,22 +3,16 @@ from datetime import datetime, timezone
 import json
 import os
 import time
-import structlog
 from dotenv import load_dotenv
 
 load_dotenv()
-
-log = structlog.get_logger("atelier.memory")
 
 
 class PineconeMemoryStore:
     def __init__(self):
         """Initialize Pinecone connection with integrated multilingual-e5-large embeddings."""
-        t0 = time.perf_counter()
         try:
             self.client = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
-            elapsed_ms = (time.perf_counter() - t0) * 1000
-            log.info("pinecone_connected", latency_ms=round(elapsed_ms, 2))
             self._create_indexes()
 
             self.preference_index = self.client.Index(
@@ -31,7 +25,6 @@ class PineconeMemoryStore:
                 host=self.client.describe_index("scheduling-pattern").host
             )
         except Exception as e:
-            log.error("pinecone_connect_failed", error=str(e), exc_info=True)
             raise
 
     def _get_rfc3339_timestamp(self):
@@ -41,9 +34,7 @@ class PineconeMemoryStore:
         """Create indexes with integrated embeddings if they don't exist."""
         try:
             existing_names = {idx["name"] for idx in self.client.list_indexes()}
-            log.info("pinecone_indexes_listed", existing=list(existing_names))
         except Exception as e:
-            log.error("pinecone_list_indexes_failed", error=str(e), exc_info=True)
             existing_names = set()
 
         # field_map points to the text field that gets embedded for each index
@@ -55,7 +46,6 @@ class PineconeMemoryStore:
 
         for name, text_field in indexes_to_create.items():
             if name in existing_names:
-                log.debug("pinecone_index_exists", index=name)
                 continue
             try:
                 self.client.create_index_for_model(
@@ -67,9 +57,8 @@ class PineconeMemoryStore:
                         field_map={"text": text_field},
                     ),
                 )
-                log.info("pinecone_index_created", index=name)
             except Exception as e:
-                log.error("pinecone_index_create_failed", index=name, error=str(e), exc_info=True)
+                pass
 
     # ── Preferences ───────────────────────────────────────────────────────────
 
@@ -77,8 +66,6 @@ class PineconeMemoryStore:
         self, user_id: str, preference_text: str, preference_type: str, preference_data: dict
     ):
         """Store user preference with automatic embedding."""
-        t0 = time.perf_counter()
-
         record = {
             "_id": f"pref_{user_id}_{int(time.time() * 1000)}",
             "preferenceText": preference_text,
@@ -93,28 +80,13 @@ class PineconeMemoryStore:
                 namespace="default",
                 records=[record],
             )
-            log.info(
-                "preference_stored",
-                user_id=user_id,
-                preference_type=preference_type,
-                record_id=record["_id"],
-                latency_ms=round((time.perf_counter() - t0) * 1000, 2),
-            )
+            print(f"Method store_user_preference returned: {record['_id']}")
             return record["_id"]
         except Exception as e:
-            log.error(
-                "preference_store_failed",
-                user_id=user_id,
-                preference_type=preference_type,
-                error=str(e),
-                exc_info=True,
-            )
             raise
 
     def get_relevant_preferences(self, user_id: str, query: str, limit: int = 5):
         """Retrieve semantically similar preferences."""
-        t0 = time.perf_counter()
-
         try:
             response = self.preference_index.search(
                 namespace="default",
@@ -126,7 +98,6 @@ class PineconeMemoryStore:
                 fields=["preferenceText", "preferenceType", "preferenceData", "timestamp"],
             )
         except Exception as e:
-            log.error("preference_query_failed", user_id=user_id, error=str(e), exc_info=True)
             raise
 
         results = [
@@ -139,12 +110,7 @@ class PineconeMemoryStore:
             for hit in response["result"]["hits"]
         ]
 
-        log.info(
-            "preferences_retrieved",
-            user_id=user_id,
-            results_count=len(results),
-            latency_ms=round((time.perf_counter() - t0) * 1000, 2),
-        )
+        print(f"Method get_relevant_preferences returned: {results}")
         return results
 
     # ── Conversation memory ───────────────────────────────────────────────────
@@ -159,8 +125,6 @@ class PineconeMemoryStore:
         successful: bool = True,
     ):
         """Store conversation with semantic embedding."""
-        t0 = time.perf_counter()
-
         conversation_text = (
             f"User asked: {user_message}\n"
             f"Assistant responded: {assistant_response}\n"
@@ -184,32 +148,15 @@ class PineconeMemoryStore:
                 namespace="default",
                 records=[record],
             )
-            log.info(
-                "conversation_turn_stored",
-                user_id=user_id,
-                thread_id=thread_id,
-                task_type=task_type,
-                successful=successful,
-                record_id=record["_id"],
-                latency_ms=round((time.perf_counter() - t0) * 1000, 2),
-            )
+            print(f"Method store_conversation_turn returned: {record['_id']}")
             return record["_id"]
         except Exception as e:
-            log.error(
-                "conversation_turn_store_failed",
-                user_id=user_id,
-                thread_id=thread_id,
-                error=str(e),
-                exc_info=True,
-            )
             raise
 
     def retrieve_similar_conversations(
         self, user_id: str, current_context: str, limit: int = 3
     ):
         """Find semantically similar past conversations."""
-        t0 = time.perf_counter()
-
         try:
             response = self.conversation_index.search(
                 namespace="default",
@@ -221,7 +168,6 @@ class PineconeMemoryStore:
                 fields=["userMessage", "assistantMessage", "taskType", "timestamp"],
             )
         except Exception as e:
-            log.error("conversation_query_failed", user_id=user_id, error=str(e), exc_info=True)
             raise
 
         results = [
@@ -234,12 +180,7 @@ class PineconeMemoryStore:
             for hit in response["result"]["hits"]
         ]
 
-        log.info(
-            "conversations_retrieved",
-            user_id=user_id,
-            results_count=len(results),
-            latency_ms=round((time.perf_counter() - t0) * 1000, 2),
-        )
+        print(f"Method retrieve_similar_conversations returned: {results}")
         return results
 
     # ── Scheduling patterns ───────────────────────────────────────────────────
@@ -248,8 +189,6 @@ class PineconeMemoryStore:
         self, user_id: str, pattern_description: str, task_type: str, task_data: dict
     ):
         """Store scheduling pattern with embedding."""
-        t0 = time.perf_counter()
-
         preferred_time = task_data.get("start", "")
         if isinstance(preferred_time, dict):
             preferred_time = preferred_time.get("dateTime", str(preferred_time))
@@ -262,7 +201,6 @@ class PineconeMemoryStore:
         try:
             duration = int(duration)
         except (ValueError, TypeError):
-            log.warning("scheduling_pattern_invalid_duration", raw_duration=duration, fallback=60)
             duration = 60
 
         record = {
@@ -283,31 +221,15 @@ class PineconeMemoryStore:
                 namespace="default",
                 records=[record],
             )
-            log.info(
-                "scheduling_pattern_stored",
-                user_id=user_id,
-                task_type=task_type,
-                duration=duration,
-                record_id=record["_id"],
-                latency_ms=round((time.perf_counter() - t0) * 1000, 2),
-            )
+            print(f"Method store_scheduling_pattern returned: {record['_id']}")
             return record["_id"]
         except Exception as e:
-            log.error(
-                "scheduling_pattern_store_failed",
-                user_id=user_id,
-                task_type=task_type,
-                error=str(e),
-                exc_info=True,
-            )
             raise
 
     def find_similar_patterns(
         self, user_id: str, task_description: str, limit: int = 5
     ):
         """Find similar past scheduling decisions."""
-        t0 = time.perf_counter()
-
         try:
             response = self.pattern_index.search(
                 namespace="default",
@@ -319,7 +241,6 @@ class PineconeMemoryStore:
                 fields=["patternDescription", "taskType", "preferredTime", "duration", "dayPattern"],
             )
         except Exception as e:
-            log.error("pattern_query_failed", user_id=user_id, error=str(e), exc_info=True)
             raise
 
         results = [
@@ -333,12 +254,7 @@ class PineconeMemoryStore:
             for hit in response["result"]["hits"]
         ]
 
-        log.info(
-            "patterns_retrieved",
-            user_id=user_id,
-            results_count=len(results),
-            latency_ms=round((time.perf_counter() - t0) * 1000, 2),
-        )
+        print(f"Method find_similar_patterns returned: {results}")
         return results
 
     # ── Lifecycle ─────────────────────────────────────────────────────────────
@@ -346,4 +262,4 @@ class PineconeMemoryStore:
     def close(self):
         # Pinecone's REST client doesn't hold a persistent connection that needs closing,
         # but kept for interface parity with the Weaviate version.
-        log.info("pinecone_connection_closed")
+        print("Method close called")
