@@ -1,405 +1,5 @@
 [
   {
-    "prompt": "i need to add a reminder to go shopping tomorrow",
-    "label": "planner"
-  },
-  {
-    "prompt": "create a study plan",
-    "label": "planner"
-  },
-  {
-    "prompt": "create a plan for me i need to meet vcs, meet some other clients at 11 am and go to the gym at 7 pm collect grocery and cook dinner before 10 pm",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a workout session for every monday wednesday and friday at 6 am",
-    "label": "planner"
-  },
-  {
-    "prompt": "set up a weekly meal prep reminder for sundays at 2 pm",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a dentist appointment next tuesday at 3 pm",
-    "label": "planner"
-  },
-  {
-    "prompt": "plan my day tomorrow i have a team standup at 9 a meeting with design at 11 and lunch with sarah at 1",
-    "label": "planner"
-  },
-  {
-    "prompt": "create a reminder to pay rent on the 1st of every month",
-    "label": "planner"
-  },
-  {
-    "prompt": "i want to block off friday afternoons for deep work",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a recurring yoga class every thursday at 7 am",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a call with my mom every sunday at 5 pm",
-    "label": "planner"
-  },
-  {
-    "prompt": "plan my week i need to finish the report by wednesday review it thursday and submit friday",
-    "label": "planner"
-  },
-  {
-    "prompt": "remind me to take my medication every day at 8 am",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a travel reminder i need to be at the airport by 4 am next monday",
-    "label": "planner"
-  },
-  {
-    "prompt": "create a project plan with daily check-ins for the next two weeks",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a team retrospective for the last friday of the month",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a reminder to water my plants every two days",
-    "label": "planner"
-  },
-  {
-    "prompt": "plan my morning routine from 6 to 9 am including gym shower and breakfast",
-    "label": "planner"
-  },
-  {
-    "prompt": "i want to add a client dinner reservation for saturday at 8 pm",
-    "label": "planner"
-  },
-  {
-    "prompt": "create a birthday reminder for my sister on march 15",
-    "label": "planner"
-  },
-  {
-    "prompt": "block tuesday morning for a strategy planning session",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a reminder to review my budget every sunday",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a performance review meeting with my manager for next week",
-    "label": "planner"
-  },
-  {
-    "prompt": "plan a roadtrip itinerary for this weekend",
-    "label": "planner"
-  },
-  {
-    "prompt": "remind me to call the doctor and book an appointment tomorrow",
-    "label": "planner"
-  },
-  {
-    "prompt": "set up a daily standup at 9 30 am for the whole team",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a reminder to backup my files every friday at 5 pm",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a movie night with friends for saturday at 7",
-    "label": "planner"
-  },
-  {
-    "prompt": "plan my study sessions for the upcoming exam next week",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a reminder to submit my timesheet every friday before 6 pm",
-    "label": "planner"
-  },
-  {
-    "prompt": "create a workout plan for the next month",
-    "label": "planner"
-  },
-  {
-    "prompt": "i want to schedule a spa day for myself next saturday",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a daily reminder to journal at 9 pm",
-    "label": "planner"
-  },
-  {
-    "prompt": "plan out my meetings for tomorrow i have five back to back sessions",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a coffee catch-up with alex next wednesday at 10",
-    "label": "planner"
-  },
-  {
-    "prompt": "set a reminder to call the plumber tomorrow morning",
-    "label": "planner"
-  },
-  {
-    "prompt": "create a meal plan for the week starting monday",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a reminder to pick up my prescription this afternoon",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a virtual happy hour with the team on friday at 4 pm",
-    "label": "planner"
-  },
-  {
-    "prompt": "i need to plan an event for 50 people next month",
-    "label": "planner"
-  },
-  {
-    "prompt": "remind me to renew my car insurance before the 20th",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a morning walk reminder at 6 30 am every day",
-    "label": "planner"
-  },
-  {
-    "prompt": "plan my travel itinerary for the conference next week",
-    "label": "planner"
-  },
-  {
-    "prompt": "set a weekly review reminder every friday at 4 pm",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a 1 on 1 with my intern every monday at 2 pm",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a reminder to charge my laptop before the presentation",
-    "label": "planner"
-  },
-  {
-    "prompt": "create a daily plan for tomorrow with time blocked for focus work",
-    "label": "planner"
-  },
-  {
-    "prompt": "remind me to follow up with the vendor by end of day friday",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a haircut appointment for saturday morning",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a habit tracker reminder at 8 pm every night",
-    "label": "planner"
-  },
-  {
-    "prompt": "plan a surprise party for next saturday evening",
-    "label": "planner"
-  },
-  {
-    "prompt": "set up a monthly all-hands meeting on the first monday",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a reminder to send the weekly report every friday by noon",
-    "label": "planner"
-  },
-  {
-    "prompt": "create a fitness challenge calendar for the next 30 days",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a vet appointment for my dog next tuesday",
-    "label": "planner"
-  },
-  {
-    "prompt": "remind me to read for 30 minutes every night before bed",
-    "label": "planner"
-  },
-  {
-    "prompt": "plan an onboarding schedule for the new hire starting monday",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a meeting with legal team on thursday at 2 pm",
-    "label": "planner"
-  },
-  {
-    "prompt": "create a content calendar for the next four weeks",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a product demo with the client next tuesday at 11",
-    "label": "planner"
-  },
-  {
-    "prompt": "remind me to prep slides for the all hands before friday",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a lunch break to my calendar every day at 1 pm",
-    "label": "planner"
-  },
-  {
-    "prompt": "plan a date night for this friday evening",
-    "label": "planner"
-  },
-  {
-    "prompt": "create a reminder to clean the house every saturday morning",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule end of quarter reviews for all team members next week",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a reminder to buy a gift for john's birthday on the 22nd",
-    "label": "planner"
-  },
-  {
-    "prompt": "plan my day i have a 9 am call a 12 pm lunch and 3 pm workshop",
-    "label": "planner"
-  },
-  {
-    "prompt": "set a reminder to complete my online course module every tuesday",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a networking event visit for thursday evening",
-    "label": "planner"
-  },
-  {
-    "prompt": "create a weekly planning session every monday at 8 am",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a reminder to water the garden every evening at 6",
-    "label": "planner"
-  },
-  {
-    "prompt": "plan a team offsite for the last week of the month",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a brainstorming session with the marketing team wednesday at 3",
-    "label": "planner"
-  },
-  {
-    "prompt": "remind me to follow up on the proposal by tuesday",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a daily gratitude journal reminder at 7 am",
-    "label": "planner"
-  },
-  {
-    "prompt": "create a schedule for the product launch next month",
-    "label": "planner"
-  },
-  {
-    "prompt": "set a reminder to watch the webinar tomorrow at 2 pm",
-    "label": "planner"
-  },
-  {
-    "prompt": "plan an interview schedule for the three candidates next week",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a focus block every morning from 8 to 10 am",
-    "label": "planner"
-  },
-  {
-    "prompt": "remind me to send thank you notes after the conference",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a quarterly business review for the end of the month",
-    "label": "planner"
-  },
-  {
-    "prompt": "create a reminder to review and respond to emails at 8 am and 4 pm daily",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a swimming session to my calendar every saturday at 7 am",
-    "label": "planner"
-  },
-  {
-    "prompt": "plan my todo list for tomorrow morning",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a mentorship call with my mentor next thursday at 6 pm",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a reminder to do laundry every sunday",
-    "label": "planner"
-  },
-  {
-    "prompt": "create a sleep schedule reminder starting at 10 pm every night",
-    "label": "planner"
-  },
-  {
-    "prompt": "plan a weekend hiking trip and add all checkpoints to my calendar",
-    "label": "planner"
-  },
-  {
-    "prompt": "remind me to call grandma every sunday afternoon",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a code review session tomorrow at 4 pm",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a language learning reminder every day at 7 30 am",
-    "label": "planner"
-  },
-  {
-    "prompt": "plan out all the tasks i need to complete before the deadline on friday",
-    "label": "planner"
-  },
-  {
-    "prompt": "set a reminder to meditate for 10 minutes every morning",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a car service appointment for next monday",
-    "label": "planner"
-  },
-  {
-    "prompt": "create a sprint planning meeting for the team next monday at 10 am",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a reminder to pick up the kids from school at 3 pm",
-    "label": "planner"
-  },
-  {
-    "prompt": "plan a charity event schedule for next weekend",
-    "label": "planner"
-  },
-  {
-    "prompt": "remind me to check in with the client every tuesday",
-    "label": "planner"
-  },
-  {
-    "prompt": "schedule a book club meeting for the last sunday of the month",
-    "label": "planner"
-  },
-  {
-    "prompt": "add a reminder to turn off the oven before leaving home",
-    "label": "planner"
-  },
-  {
     "prompt": "retrieve all my previous days events",
     "label": "get_event"
   },
@@ -1198,5 +798,2405 @@
   {
     "prompt": "delete the strategy planning session on tuesday morning",
     "label": "delete"
+  },
+  {
+    "prompt": "create event product demo at 9:30 pm on this Saturday",
+    "label": "add"
+  },
+  {
+    "prompt": "put design review on my calendar for next Wednesday",
+    "label": "add"
+  },
+  {
+    "prompt": "set up a meeting with the investor on 27th from 6:30 pm to 7:30 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "any events scheduled this evening",
+    "label": "get_event"
+  },
+  {
+    "prompt": "cancel my product demo on 22nd",
+    "label": "delete"
+  },
+  {
+    "prompt": "make 5:30 am to 6:30 am every alternate day a fixed block for gym workout permanently",
+    "label": "time_block"
+  },
+  {
+    "prompt": "delete recurring block for meal prep weekends",
+    "label": "delete"
+  },
+  {
+    "prompt": "every weeknight from 7 am to 8 am i gym workout - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "make 9:30 pm to 10:30 pm every evening a fixed block for review PRs for 8 months",
+    "label": "time_block"
+  },
+  {
+    "prompt": "remove practice violin session on next Friday",
+    "label": "delete"
+  },
+  {
+    "prompt": "list my events for the next 30 weeks",
+    "label": "get_event"
+  },
+  {
+    "prompt": "add event on next Monday for beta release",
+    "label": "add"
+  },
+  {
+    "prompt": "show me everything i have planned the 20th",
+    "label": "get_event"
+  },
+  {
+    "prompt": "time block of 10 pm to 11 pm for write documentation for the next 6 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "delete recurring block for plan trip daily",
+    "label": "delete"
+  },
+  {
+    "prompt": "add a repeating block from 7 pm to 8 pm every Friday to guitar practice",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add event on the 15th for press release",
+    "label": "add"
+  },
+  {
+    "prompt": "what appointments do i have with my mentor",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me everything i have planned next month",
+    "label": "get_event"
+  },
+  {
+    "prompt": "schedule user testing session on the 15th from 2 pm to 3 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "delete event beta release from 24th",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel my the 9th meeting with my thesis advisor",
+    "label": "delete"
+  },
+  {
+    "prompt": "block 11 am-12 pm every Friday to design mockups",
+    "label": "time_block"
+  },
+  {
+    "prompt": "every Tue Thu from 10 am to 11 am i call mom - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "set a recurring time block every weekday from 8 am to 9 am to sketch for the next 6 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "every Mon Wed Fri 8 pm to 9 pm, practice interview questions - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create event team offsite at 9:30 pm on 25th",
+    "label": "add"
+  },
+  {
+    "prompt": "schedule MVP launch on 29th from 9 pm to 10 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "what's planned for this Friday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "time block laundry from 2 pm to 3 pm every alternate day for 12 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "remove code freeze from my calendar on 26th",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the meeting with Raj on the 3rd",
+    "label": "delete"
+  },
+  {
+    "prompt": "what do i have coming up this week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "delete event client onboarding from the 9th",
+    "label": "delete"
+  },
+  {
+    "prompt": "make 8 am to 9 am every Tue Thu a fixed block for review PRs for 10 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "what's happening on my calendar this evening",
+    "label": "get_event"
+  },
+  {
+    "prompt": "add a reminder for hiring round on 26th",
+    "label": "add"
+  },
+  {
+    "prompt": "what appointments do i have with Priya",
+    "label": "get_event"
+  },
+  {
+    "prompt": "book partner sync for 24th at 1 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "list my events for the next 14 weeks",
+    "label": "get_event"
+  },
+  {
+    "prompt": "schedule a time block weekdays 12 pm to 1 pm - cook dinner",
+    "label": "time_block"
+  },
+  {
+    "prompt": "book partner sync for 23rd at 8 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "remove the time block for watch lecture on 21st",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete partner sync on tomorrow from 9:30 pm to 10:30 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "what's on the agenda next week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "add a reminder for team offsite on 28th",
+    "label": "add"
+  },
+  {
+    "prompt": "remove the time block for update portfolio on 30th",
+    "label": "delete"
+  },
+  {
+    "prompt": "show me everything i have planned friday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "delete the meeting with the client on 22nd",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete the meeting with the client on the 9th",
+    "label": "delete"
+  },
+  {
+    "prompt": "set a recurring time block every Friday from 10 am to 11 am to client call starting next week for 5 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule team offsite on next Wednesday from 3 pm to 4 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "remove the time block for gym workout on the 15th",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove my 12 pm to 1 pm block on 25th",
+    "label": "delete"
+  },
+  {
+    "prompt": "what do i have coming up this month",
+    "label": "get_event"
+  },
+  {
+    "prompt": "time block of 8 pm to 9 pm for cook dinner for 90 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "remove the time block for sketch on this Saturday",
+    "label": "delete"
+  },
+  {
+    "prompt": "set a recurring time block every Friday from 6 am to 7 am to write documentation for a year",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create a new event called investor pitch on 30th",
+    "label": "add"
+  },
+  {
+    "prompt": "give me my schedule for the 30th",
+    "label": "get_event"
+  },
+  {
+    "prompt": "add product demo to my calendar on 26th",
+    "label": "add"
+  },
+  {
+    "prompt": "create event board meeting at 5 pm on 30th",
+    "label": "add"
+  },
+  {
+    "prompt": "any events scheduled this Wednesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "schedule a call with my mentor at 6:30 pm on next Friday",
+    "label": "add"
+  },
+  {
+    "prompt": "show me my free slots the 30th",
+    "label": "get_event"
+  },
+  {
+    "prompt": "reserve 7 pm to 8 pm every Wednesday for learn Spanish",
+    "label": "time_block"
+  },
+  {
+    "prompt": "do i have any meetings the 30th",
+    "label": "get_event"
+  },
+  {
+    "prompt": "create event on the 15th for beta release",
+    "label": "add"
+  },
+  {
+    "prompt": "schedule user testing session for 27th between 10 pm and 11 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "schedule a time block every morning 9:30 pm to 10:30 pm - write documentation",
+    "label": "time_block"
+  },
+  {
+    "prompt": "remove press release from my calendar on the 3rd",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove team offsite from my calendar on the 9th",
+    "label": "delete"
+  },
+  {
+    "prompt": "create an appointment for partner sync on next Wednesday",
+    "label": "add"
+  },
+  {
+    "prompt": "show me everything i have planned this Sunday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "cancel the quarterly review meeting scheduled 26th",
+    "label": "delete"
+  },
+  {
+    "prompt": "put hiring round on my calendar for 29th",
+    "label": "add"
+  },
+  {
+    "prompt": "remove client onboarding scheduled for 28th",
+    "label": "delete"
+  },
+  {
+    "prompt": "add a repeating block from 5 pm to 6 pm every Thursday to practice interview questions",
+    "label": "time_block"
+  },
+  {
+    "prompt": "delete recurring block for edit resume every Wednesday",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the time block for walk the dog on 26th",
+    "label": "delete"
+  },
+  {
+    "prompt": "time block of 11 am to 12 pm for write documentation for 90 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "delete recurring block for record podcast every Thursday",
+    "label": "delete"
+  },
+  {
+    "prompt": "schedule feature 2 launch on 1st of next month from 2 pm to 3 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "create event press release at 10 am on 25th",
+    "label": "add"
+  },
+  {
+    "prompt": "delete the 8 am-9 am slot on 28th",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove record podcast session on 28th",
+    "label": "delete"
+  },
+  {
+    "prompt": "time block team standup from 3 pm to 4 pm every day for the rest of the semester",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add MVP launch to my calendar on next Monday",
+    "label": "add"
+  },
+  {
+    "prompt": "reserve 10 pm to 11 pm every Mon Wed Fri for walk the dog",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add a repeating block from 4 pm to 5 pm every Monday to write unit tests",
+    "label": "time_block"
+  },
+  {
+    "prompt": "what appointments do i have with Dr. Mehta",
+    "label": "get_event"
+  },
+  {
+    "prompt": "every alternate day 5:30 am to 6:30 am, practice guitar scales - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "remove code freeze scheduled for tomorrow",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove website redesign review from my calendar on next Wednesday",
+    "label": "delete"
+  },
+  {
+    "prompt": "create event on this Thursday for MVP launch",
+    "label": "add"
+  },
+  {
+    "prompt": "what's on the agenda next Tuesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "cancel the investor pitch meeting scheduled 30th",
+    "label": "delete"
+  },
+  {
+    "prompt": "create an appointment for beta release on 27th",
+    "label": "add"
+  },
+  {
+    "prompt": "add board meeting to my calendar on 21st",
+    "label": "add"
+  },
+  {
+    "prompt": "set up a meeting with Priya on the 15th from 8 pm to 9 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "book investor pitch for this Saturday at 7 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "every weekday 9 pm to 10 pm, team standup - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "every Mon Wed Fri from 12 pm to 1 pm i plan sprint - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule a time block every Sunday 6:30 pm to 7:30 pm - grocery shopping",
+    "label": "time_block"
+  },
+  {
+    "prompt": "delete the 10 pm-11 pm slot on 22nd",
+    "label": "delete"
+  },
+  {
+    "prompt": "schedule a time block every Monday 9 am to 10 am - review contract",
+    "label": "time_block"
+  },
+  {
+    "prompt": "give me my schedule for the coming week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what is on my calendar for tonight",
+    "label": "get_event"
+  },
+  {
+    "prompt": "remove investor pitch scheduled for next Friday",
+    "label": "delete"
+  },
+  {
+    "prompt": "time block of 10 pm to 11 pm for write unit tests for 10 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "reserve 1 pm to 2 pm every weekday for write code",
+    "label": "time_block"
+  },
+  {
+    "prompt": "set up a meeting with John on the 9th from 9 pm to 10 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "what's happening on my calendar next Monday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "do i have any meetings this evening",
+    "label": "get_event"
+  },
+  {
+    "prompt": "set up a meeting with the accountant on 30th from 6:30 pm to 7:30 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "block 6 am-7 am every weekday to edit resume",
+    "label": "time_block"
+  },
+  {
+    "prompt": "give me my schedule for this Wednesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "schedule website redesign review for this Saturday between 8 am and 9 am",
+    "label": "add"
+  },
+  {
+    "prompt": "cancel appointment with Alex at 8 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "create an appointment for sprint review on 22nd",
+    "label": "add"
+  },
+  {
+    "prompt": "what appointments do i have with my thesis advisor",
+    "label": "get_event"
+  },
+  {
+    "prompt": "put client onboarding on my calendar for the 15th",
+    "label": "add"
+  },
+  {
+    "prompt": "create event on this Saturday for press release",
+    "label": "add"
+  },
+  {
+    "prompt": "check if i have anything booked tonight",
+    "label": "get_event"
+  },
+  {
+    "prompt": "set up a meeting with the accountant on 21st from 1 pm to 2 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "remove feature 2 launch scheduled for next Monday",
+    "label": "delete"
+  },
+  {
+    "prompt": "schedule feature 2 launch for 27th between 10 am and 11 am",
+    "label": "add"
+  },
+  {
+    "prompt": "reserve 11 am to 12 pm every Thursday for write code",
+    "label": "time_block"
+  },
+  {
+    "prompt": "any events scheduled the 20th",
+    "label": "get_event"
+  },
+  {
+    "prompt": "add a meeting with my thesis advisor on the 15th at 10 am",
+    "label": "add"
+  },
+  {
+    "prompt": "every Mon Wed Fri 10 am to 11 am, research competitors - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "delete app store submission on the 3rd from 9:30 pm to 10:30 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "schedule website redesign review for the 9th between 1 pm and 2 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "delete code freeze on 24th from 8 am to 9 am",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel my beta release on the 3rd",
+    "label": "delete"
+  },
+  {
+    "prompt": "schedule sprint review on next Monday from 4 pm to 5 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "time block learn Spanish from 6 am to 7 am every day for 90 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "delete the 6 am-7 am slot on the 15th",
+    "label": "delete"
+  },
+  {
+    "prompt": "pull up my calendar for next month",
+    "label": "get_event"
+  },
+  {
+    "prompt": "schedule app store submission on this Saturday from 9 pm to 10 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "schedule feature 2 launch on 30th from 6:30 pm to 7:30 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "check if i have anything booked friday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "give me my schedule for next Thursday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "cancel appointment with the accountant at 1 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel my next Friday meeting with Fatima",
+    "label": "delete"
+  },
+  {
+    "prompt": "schedule team offsite on 28th from 9 pm to 10 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "any events scheduled next Monday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "create event on 23rd for sprint review",
+    "label": "add"
+  },
+  {
+    "prompt": "make 6 am to 7 am every day a fixed block for data analysis for 10 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "list all my appointments for tonight",
+    "label": "get_event"
+  },
+  {
+    "prompt": "delete the 6 pm-7 pm slot on 29th",
+    "label": "delete"
+  },
+  {
+    "prompt": "reserve 5:30 am to 6:30 am every evening for stretch",
+    "label": "time_block"
+  },
+  {
+    "prompt": "show all events between now and this Wednesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "add product demo to my calendar on 29th",
+    "label": "add"
+  },
+  {
+    "prompt": "cancel my hiring round on next Friday",
+    "label": "delete"
+  },
+  {
+    "prompt": "add board meeting to my calendar on 28th",
+    "label": "add"
+  },
+  {
+    "prompt": "remove feature 2 launch from my calendar on 25th",
+    "label": "delete"
+  },
+  {
+    "prompt": "add event on the 15th for user testing session",
+    "label": "add"
+  },
+  {
+    "prompt": "cancel hiring round at 6:30 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "what's happening on my calendar the 25th",
+    "label": "get_event"
+  },
+  {
+    "prompt": "pull up my calendar for the 25th",
+    "label": "get_event"
+  },
+  {
+    "prompt": "remove meditate session on next Wednesday",
+    "label": "delete"
+  },
+  {
+    "prompt": "list all my appointments for the 20th",
+    "label": "get_event"
+  },
+  {
+    "prompt": "delete the meeting with my mentor on 25th",
+    "label": "delete"
+  },
+  {
+    "prompt": "every Saturday 7 am to 8 am, record podcast - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "cancel website redesign review at 12 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove partner sync scheduled for this Saturday",
+    "label": "delete"
+  },
+  {
+    "prompt": "add sketch session on this Saturday at 7 am",
+    "label": "add"
+  },
+  {
+    "prompt": "what is on my calendar for today",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what is on my calendar for this Sunday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "book feature 2 launch for 26th at 1 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "create an appointment for design review on this Thursday",
+    "label": "add"
+  },
+  {
+    "prompt": "what's planned for the weekend",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what is on my calendar for tomorrow",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what's planned for the 30th",
+    "label": "get_event"
+  },
+  {
+    "prompt": "remove the time block for journal on next Monday",
+    "label": "delete"
+  },
+  {
+    "prompt": "add a reminder for app store submission on next Wednesday",
+    "label": "add"
+  },
+  {
+    "prompt": "do i have any meetings this Sunday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what's on my schedule for this Wednesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "time block of 8 am to 9 am for piano practice starting next week for 5 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "remove quarterly review from my calendar on next Friday",
+    "label": "delete"
+  },
+  {
+    "prompt": "what's on the agenda the 20th",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list my events for the next 5 weeks",
+    "label": "get_event"
+  },
+  {
+    "prompt": "delete app store submission on this Thursday from 8 am to 9 am",
+    "label": "delete"
+  },
+  {
+    "prompt": "block 1 pm-2 pm every Monday to write code",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule a time block every Friday 10 am to 11 am - laundry",
+    "label": "time_block"
+  },
+  {
+    "prompt": "what events do i have in the next 7 days",
+    "label": "get_event"
+  },
+  {
+    "prompt": "set a recurring time block every weeknight from 9 am to 10 am to plan sprint for 6 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add a repeating block from 7 am to 8 am every weekday to research competitors",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule sprint review on next Monday from 10 am to 11 am",
+    "label": "add"
+  },
+  {
+    "prompt": "block 11 am-12 pm every morning to practice guitar scales",
+    "label": "time_block"
+  },
+  {
+    "prompt": "cancel my team offsite on 30th",
+    "label": "delete"
+  },
+  {
+    "prompt": "schedule a time block every Tuesday 9 pm to 10 pm - watch lecture",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create event user testing session at 9 am on 24th",
+    "label": "add"
+  },
+  {
+    "prompt": "time block of 7 pm to 8 pm for practice violin for 2 months",
+    "label": "time_block"
+  },
+  {
+    "prompt": "remove review contract session on this Saturday",
+    "label": "delete"
+  },
+  {
+    "prompt": "schedule code freeze on 21st from 5:30 am to 6:30 am",
+    "label": "add"
+  },
+  {
+    "prompt": "schedule a time block weekends 9:30 pm to 10:30 pm - update portfolio",
+    "label": "time_block"
+  },
+  {
+    "prompt": "reserve 9 pm to 10 pm every evening for learn Spanish",
+    "label": "time_block"
+  },
+  {
+    "prompt": "delete event app store submission from 30th",
+    "label": "delete"
+  },
+  {
+    "prompt": "book design review for tomorrow at 5 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "list all my appointments for the next 3 days",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show all events between now and the next 3 days",
+    "label": "get_event"
+  },
+  {
+    "prompt": "block 4 pm-5 pm every Friday to practice interview questions",
+    "label": "time_block"
+  },
+  {
+    "prompt": "set up a meeting with Raj on 25th from 5:30 am to 6:30 am",
+    "label": "add"
+  },
+  {
+    "prompt": "delete recurring block for team standup every weekday",
+    "label": "delete"
+  },
+  {
+    "prompt": "add practice violin session on 21st at 6:30 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "pull up my calendar for next Tuesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "add test API endpoints session on the 9th at 6 am",
+    "label": "add"
+  },
+  {
+    "prompt": "create event feature 2 launch at 11 am on 30th",
+    "label": "add"
+  },
+  {
+    "prompt": "create a new event called sprint review on tomorrow",
+    "label": "add"
+  },
+  {
+    "prompt": "cancel quarterly review at 9 am",
+    "label": "delete"
+  },
+  {
+    "prompt": "every evening 6:30 pm to 7:30 pm, refactor code - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "what's happening on my calendar tomorrow",
+    "label": "get_event"
+  },
+  {
+    "prompt": "cancel appointment with Raj at 11 am",
+    "label": "delete"
+  },
+  {
+    "prompt": "pull up my calendar for next Monday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "pull up my calendar for tomorrow",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what is on my calendar for next Monday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "add a repeating block from 9:30 pm to 10:30 pm every evening to debug backend",
+    "label": "time_block"
+  },
+  {
+    "prompt": "every Wednesday 9 pm to 10 pm, grocery shopping - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add code freeze to my calendar on 28th",
+    "label": "add"
+  },
+  {
+    "prompt": "cancel marketing kickoff at 9:30 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "show me everything i have planned the next 3 days",
+    "label": "get_event"
+  },
+  {
+    "prompt": "set a recurring time block every Thursday from 4 pm to 5 pm to refactor code for the next 6 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "give me my schedule for friday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "cancel my MVP launch on 28th",
+    "label": "delete"
+  },
+  {
+    "prompt": "every Sunday 11 am to 12 pm, write blog - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add a repeating block from 10 pm to 11 pm daily to write blog",
+    "label": "time_block"
+  },
+  {
+    "prompt": "show me everything i have planned the 30th",
+    "label": "get_event"
+  },
+  {
+    "prompt": "add a repeating block from 8 am to 9 am every Tuesday to data analysis",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add app store submission to my calendar on 26th",
+    "label": "add"
+  },
+  {
+    "prompt": "create an appointment for feature 2 launch on next Friday",
+    "label": "add"
+  },
+  {
+    "prompt": "show me everything i have planned this Wednesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what's happening on my calendar the weekend",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list my events for the next 10 weeks",
+    "label": "get_event"
+  },
+  {
+    "prompt": "create event feature 2 launch at 12 pm on 26th",
+    "label": "add"
+  },
+  {
+    "prompt": "cancel investor pitch at 12 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "time block of 7 pm to 8 pm for laundry for 10 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule a call with Fatima at 7 am on this Saturday",
+    "label": "add"
+  },
+  {
+    "prompt": "time block of 9 pm to 10 pm for gym workout for 2 months",
+    "label": "time_block"
+  },
+  {
+    "prompt": "pull up my calendar for tonight",
+    "label": "get_event"
+  },
+  {
+    "prompt": "create an appointment for code freeze on 23rd",
+    "label": "add"
+  },
+  {
+    "prompt": "book MVP launch for next Monday at 9:30 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "cancel appointment with the accountant at 4 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel appointment with the design team at 12 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "check if i have anything booked today",
+    "label": "get_event"
+  },
+  {
+    "prompt": "schedule partner sync for next Friday between 7 pm and 8 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "reserve 10 pm to 11 pm every Thursday for write unit tests",
+    "label": "time_block"
+  },
+  {
+    "prompt": "remove the time block for meal prep on next Wednesday",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete recurring block for read research paper every day",
+    "label": "delete"
+  },
+  {
+    "prompt": "add gym workout session on 22nd at 2 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "remove the time block for plan trip on 24th",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove my 9 am to 10 am block on 24th",
+    "label": "delete"
+  },
+  {
+    "prompt": "add yoga session on 1st of next month at 9 am",
+    "label": "add"
+  },
+  {
+    "prompt": "what's planned for friday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "create event on next Friday for product demo",
+    "label": "add"
+  },
+  {
+    "prompt": "what's happening on my calendar today",
+    "label": "get_event"
+  },
+  {
+    "prompt": "remove the time block for study DSA on this Thursday",
+    "label": "delete"
+  },
+  {
+    "prompt": "list all my appointments for the coming week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "what's on the agenda friday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "every Thursday 10 am to 11 am, guitar practice - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "delete user testing session on the 15th from 9 pm to 10 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "add meditate session on 24th at 8 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "cancel the quarterly review meeting scheduled next Monday",
+    "label": "delete"
+  },
+  {
+    "prompt": "what is on my calendar for next month",
+    "label": "get_event"
+  },
+  {
+    "prompt": "add event on 21st for hiring round",
+    "label": "add"
+  },
+  {
+    "prompt": "time block of 9 am to 10 am for data analysis for 10 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "delete the 6 pm-7 pm slot on 25th",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel appointment with the VC at 6 am",
+    "label": "delete"
+  },
+  {
+    "prompt": "add a repeating block from 5:30 am to 6:30 am every evening to deep work session",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule client onboarding on tomorrow from 1 pm to 2 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "list all my appointments for the 25th",
+    "label": "get_event"
+  },
+  {
+    "prompt": "schedule a call with Fatima at 2 pm on 1st of next month",
+    "label": "add"
+  },
+  {
+    "prompt": "cancel my 24th meeting with John",
+    "label": "delete"
+  },
+  {
+    "prompt": "add read research paper session on the 9th at 3 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "block 11 am-12 pm every Tuesday to client call",
+    "label": "time_block"
+  },
+  {
+    "prompt": "set a recurring time block every day from 5 pm to 6 pm to journal for 3 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "what's planned for this Saturday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "remove budget review session on 21st",
+    "label": "delete"
+  },
+  {
+    "prompt": "set up a meeting with the VC on next Monday from 11 am to 12 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "delete recurring block for water plants daily",
+    "label": "delete"
+  },
+  {
+    "prompt": "make 6:30 pm to 7:30 pm weekdays a fixed block for record podcast for 6 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "any events scheduled next week",
+    "label": "get_event"
+  },
+  {
+    "prompt": "every weeknight from 3 pm to 4 pm i update portfolio - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "every morning 5 pm to 6 pm, grocery shopping - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "time block of 6 am to 7 am for respond to emails for 12 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "show my agenda for this Wednesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "add record podcast session on 30th at 7 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "cancel my code freeze on 29th",
+    "label": "delete"
+  },
+  {
+    "prompt": "list my events for the next 7 weeks",
+    "label": "get_event"
+  },
+  {
+    "prompt": "add a meeting with Alex on next Friday at 8 am",
+    "label": "add"
+  },
+  {
+    "prompt": "delete event team offsite from 22nd",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove investor pitch from my calendar on 29th",
+    "label": "delete"
+  },
+  {
+    "prompt": "show my agenda for the next 3 days",
+    "label": "get_event"
+  },
+  {
+    "prompt": "time block of 8 am to 9 am for study DSA for 12 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "block 2 pm-3 pm every Mon Wed Fri to meal prep",
+    "label": "time_block"
+  },
+  {
+    "prompt": "set a recurring time block every weekday from 11 am to 12 pm to read research paper for 90 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "weekends 10 pm to 11 pm, grocery shopping - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "cancel my 22nd meeting with Sarah",
+    "label": "delete"
+  },
+  {
+    "prompt": "what appointments do i have with the CEO",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show all events between now and tonight",
+    "label": "get_event"
+  },
+  {
+    "prompt": "set a recurring time block every weeknight from 1 pm to 2 pm to plan trip for the next 6 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "reserve 1 pm to 2 pm every alternate day for practice violin",
+    "label": "time_block"
+  },
+  {
+    "prompt": "time block of 9:30 pm to 10:30 pm for research competitors for 3 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "give me my schedule for the 25th",
+    "label": "get_event"
+  },
+  {
+    "prompt": "reserve 10 am to 11 am every weekday for plan trip",
+    "label": "time_block"
+  },
+  {
+    "prompt": "what's happening on my calendar this Saturday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "time block of 5 pm to 6 pm for call mom until end of year",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add event on the 9th for quarterly review",
+    "label": "add"
+  },
+  {
+    "prompt": "cancel my marketing kickoff on tomorrow",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete recurring block for plan sprint every Tuesday",
+    "label": "delete"
+  },
+  {
+    "prompt": "set a recurring time block weekdays from 6:30 pm to 7:30 pm to meal prep for a year",
+    "label": "time_block"
+  },
+  {
+    "prompt": "delete the meeting with John on 22nd",
+    "label": "delete"
+  },
+  {
+    "prompt": "create a new event called partner sync on next Friday",
+    "label": "add"
+  },
+  {
+    "prompt": "book team offsite for tomorrow at 9 am",
+    "label": "add"
+  },
+  {
+    "prompt": "schedule a time block daily 9:30 pm to 10:30 pm - data analysis",
+    "label": "time_block"
+  },
+  {
+    "prompt": "pull up my calendar for this evening",
+    "label": "get_event"
+  },
+  {
+    "prompt": "make 1 pm to 2 pm every Thursday a fixed block for read book starting next week for 5 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "delete the meeting with my manager on the 3rd",
+    "label": "delete"
+  },
+  {
+    "prompt": "what's on my schedule for tonight",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me my free slots friday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "list all my appointments for friday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "add event on 1st of next month for beta release",
+    "label": "add"
+  },
+  {
+    "prompt": "time block of 8 am to 9 am for debug backend for the next 4 months",
+    "label": "time_block"
+  },
+  {
+    "prompt": "time block of 6 pm to 7 pm for guitar practice for the next 4 months",
+    "label": "time_block"
+  },
+  {
+    "prompt": "cancel investor pitch at 7 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "cancel the beta release meeting scheduled next Wednesday",
+    "label": "delete"
+  },
+  {
+    "prompt": "schedule hiring round for 30th between 6:30 pm and 7:30 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "give me my schedule for the next 3 days",
+    "label": "get_event"
+  },
+  {
+    "prompt": "time block of 7 am to 8 am for learn Spanish for 8 months",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule team offsite for 28th between 2 pm and 3 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "cancel the team offsite meeting scheduled the 3rd",
+    "label": "delete"
+  },
+  {
+    "prompt": "show all events between now and tomorrow",
+    "label": "get_event"
+  },
+  {
+    "prompt": "time block data analysis from 5:30 am to 6:30 am every Wednesday for 6 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add a repeating block from 7 pm to 8 pm every evening to update portfolio",
+    "label": "time_block"
+  },
+  {
+    "prompt": "do i have any meetings next Monday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "remove my 7 pm to 8 pm block on 29th",
+    "label": "delete"
+  },
+  {
+    "prompt": "create event MVP launch at 6 pm on 23rd",
+    "label": "add"
+  },
+  {
+    "prompt": "check if i have anything booked next Tuesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show my agenda for the 20th",
+    "label": "get_event"
+  },
+  {
+    "prompt": "make 12 pm to 1 pm every Saturday a fixed block for research competitors for 2 months",
+    "label": "time_block"
+  },
+  {
+    "prompt": "cancel appointment with Sarah at 9 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "add team offsite to my calendar on the 15th",
+    "label": "add"
+  },
+  {
+    "prompt": "block 5:30 am-6:30 am every Monday to design mockups",
+    "label": "time_block"
+  },
+  {
+    "prompt": "set a recurring time block every Tuesday from 9 pm to 10 pm to edit resume for 8 months",
+    "label": "time_block"
+  },
+  {
+    "prompt": "cancel appointment with Dr. Mehta at 7 am",
+    "label": "delete"
+  },
+  {
+    "prompt": "create a new event called team offsite on 27th",
+    "label": "add"
+  },
+  {
+    "prompt": "pull up my calendar for friday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "do i have any meetings next Tuesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "do i have any meetings tomorrow",
+    "label": "get_event"
+  },
+  {
+    "prompt": "delete hiring round on the 9th from 5 pm to 6 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "add a repeating block from 2 pm to 3 pm every Monday to watch lecture",
+    "label": "time_block"
+  },
+  {
+    "prompt": "remove my 11 am to 12 pm block on 21st",
+    "label": "delete"
+  },
+  {
+    "prompt": "delete recurring block for edit resume every weekday",
+    "label": "delete"
+  },
+  {
+    "prompt": "create an appointment for hiring round on the 9th",
+    "label": "add"
+  },
+  {
+    "prompt": "make 7 pm to 8 pm every Tue Thu a fixed block for meal prep for 90 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "make 9 am to 10 am every Thursday a fixed block for prepare slides for 12 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "what's happening on my calendar next Tuesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "show me my free slots next month",
+    "label": "get_event"
+  },
+  {
+    "prompt": "remove website redesign review scheduled for next Friday",
+    "label": "delete"
+  },
+  {
+    "prompt": "time block write unit tests from 2 pm to 3 pm every evening for 6 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "put sprint review on my calendar for the 3rd",
+    "label": "add"
+  },
+  {
+    "prompt": "add beta release to my calendar on 29th",
+    "label": "add"
+  },
+  {
+    "prompt": "add watch lecture session on 25th at 9 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "set up a meeting with the accountant on 23rd from 12 pm to 1 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "create event on 22nd for team offsite",
+    "label": "add"
+  },
+  {
+    "prompt": "what's happening on my calendar the 20th",
+    "label": "get_event"
+  },
+  {
+    "prompt": "add MVP launch to my calendar on 22nd",
+    "label": "add"
+  },
+  {
+    "prompt": "what meetings are on tomorrow",
+    "label": "get_event"
+  },
+  {
+    "prompt": "remove the time block for read book on 23rd",
+    "label": "delete"
+  },
+  {
+    "prompt": "schedule quarterly review on this Saturday from 12 pm to 1 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "time block of 8 pm to 9 pm for write documentation for a year",
+    "label": "time_block"
+  },
+  {
+    "prompt": "make 10 am to 11 am every Tue Thu a fixed block for review PRs for 10 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add event on 25th for hiring round",
+    "label": "add"
+  },
+  {
+    "prompt": "pull up my calendar for the weekend",
+    "label": "get_event"
+  },
+  {
+    "prompt": "schedule a time block every alternate day 11 am to 12 pm - research competitors",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule product demo for 28th between 5 pm and 6 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "pull up my calendar for the 30th",
+    "label": "get_event"
+  },
+  {
+    "prompt": "cancel feature 2 launch at 9 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "add a reminder for investor pitch on the 3rd",
+    "label": "add"
+  },
+  {
+    "prompt": "make 7 am to 8 am daily a fixed block for debug backend for 12 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add a repeating block from 8 pm to 9 pm every morning to sketch",
+    "label": "time_block"
+  },
+  {
+    "prompt": "cancel the client onboarding meeting scheduled 27th",
+    "label": "delete"
+  },
+  {
+    "prompt": "what meetings are on this Wednesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "pull up my calendar for today",
+    "label": "get_event"
+  },
+  {
+    "prompt": "remove product demo from my calendar on next Wednesday",
+    "label": "delete"
+  },
+  {
+    "prompt": "weekends 9:30 pm to 10:30 pm, read research paper - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "cancel team offsite at 7 pm",
+    "label": "delete"
+  },
+  {
+    "prompt": "what's on the agenda the 25th",
+    "label": "get_event"
+  },
+  {
+    "prompt": "block 7 am-8 am every Tuesday to piano practice",
+    "label": "time_block"
+  },
+  {
+    "prompt": "list all my appointments for this Wednesday",
+    "label": "get_event"
+  },
+  {
+    "prompt": "remove the time block for review PRs on next Monday",
+    "label": "delete"
+  },
+  {
+    "prompt": "every Monday from 4 pm to 5 pm i guitar practice - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add a meeting with my mentor on next Friday at 1 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "add a repeating block from 10 pm to 11 pm every alternate day to research competitors",
+    "label": "time_block"
+  },
+  {
+    "prompt": "delete the meeting with my manager on next Friday",
+    "label": "delete"
+  },
+  {
+    "prompt": "what events do i have in the next 5 days",
+    "label": "get_event"
+  },
+  {
+    "prompt": "delete recurring block for study DSA every evening",
+    "label": "delete"
+  },
+  {
+    "prompt": "remove the time block for refactor code on 23rd",
+    "label": "delete"
+  },
+  {
+    "prompt": "add a repeating block from 5:30 am to 6:30 am every weekday to water plants",
+    "label": "time_block"
+  },
+  {
+    "prompt": "make 4 pm to 5 pm every day a fixed block for read book for 30 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create event feature 2 launch at 11 am on 29th",
+    "label": "add"
+  },
+  {
+    "prompt": "schedule MVP launch on this Tuesday from 9 pm to 10 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "set an event for hiring round on 28th",
+    "label": "add"
+  },
+  {
+    "prompt": "please schedule v2 launch with the marketing team on this Thursday",
+    "label": "add"
+  },
+  {
+    "prompt": "make 6 am to 7 am every other Sunday a fixed block for call mom starting next week for 5 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "protect 12 pm to 1 pm every weeknight for grocery shopping for the rest of the semester",
+    "label": "time_block"
+  },
+  {
+    "prompt": "please schedule kickoff meeting with Meera on next Thursday",
+    "label": "add"
+  },
+  {
+    "prompt": "add a meeting with Neha on next Sunday at 3 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "add a meeting with Raj on 22nd at 6:30 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "schedule a time block every Thursday 9 pm to 10 pm - walk the dog",
+    "label": "time_block"
+  },
+  {
+    "prompt": "i need to add feature 3 rollout on 25th at 1 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "time block gym workout from 12 pm to 1 pm every weeknight for 10 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "set a recurring time block every weekday from 6 am to 7 am to meal prep for 90 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create a recurring block 6:30 pm to 7:30 pm every Friday for meditate on rooftop",
+    "label": "time_block"
+  },
+  {
+    "prompt": "reserve 2:30 pm to 3:30 pm every weekday for write newsletter",
+    "label": "time_block"
+  },
+  {
+    "prompt": "reserve 9 am to 10 am every weeknight for write code",
+    "label": "time_block"
+  },
+  {
+    "prompt": "set an event for kickoff meeting on 27th",
+    "label": "add"
+  },
+  {
+    "prompt": "time block backup files from 2:30 pm to 3:30 pm every alternate day for 6 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add a repeating block from 2 pm to 3 pm every evening to budget review",
+    "label": "time_block"
+  },
+  {
+    "prompt": "lock in 1 pm to 2 pm every Monday for plan trip for 2 months",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule budget planning on next Sunday from 3 pm to 4 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "i need to add code freeze on the 9th at 7 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "block 4 pm to 5 pm on 24th for v2 launch",
+    "label": "add"
+  },
+  {
+    "prompt": "every alternate day from 3 pm to 4 pm i cook dinner - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create a new event called feature 2 launch on 26th",
+    "label": "add"
+  },
+  {
+    "prompt": "block 12 pm-1 pm every Wednesday to practice interview questions",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add a reminder for hiring round on next Monday",
+    "label": "add"
+  },
+  {
+    "prompt": "time block of 8 am to 9 am for check analytics dashboard for 12 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "make 1 pm to 2 pm every weeknight a fixed block for team standup starting next week for 5 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add a meeting with the recruiter on 24th at 11 am",
+    "label": "add"
+  },
+  {
+    "prompt": "create a recurring block 7 am to 8 am every weekday for write blog",
+    "label": "time_block"
+  },
+  {
+    "prompt": "practice guitar scales daily 9 am to 10 am - recurring time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "protect 3 pm to 4 pm every day for update CRM starting next week for 5 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create event on this Thursday for onboarding call",
+    "label": "add"
+  },
+  {
+    "prompt": "lock in 9 am to 10 am every weeknight for piano practice for 30 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create an appointment for investor pitch on the 3rd",
+    "label": "add"
+  },
+  {
+    "prompt": "every day from 5:30 am to 6:30 am i read research paper - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add a repeating block from 4 pm to 5 pm every Wednesday to test API endpoints",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add event on 27th for marketing kickoff",
+    "label": "add"
+  },
+  {
+    "prompt": "add a reminder for security audit on this Tuesday",
+    "label": "add"
+  },
+  {
+    "prompt": "set a recurring time block every Sunday from 2:30 pm to 3:30 pm to practice cold calls for 3 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "every alternate day from 7:15 am to 8:15 am i practice cold calls - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "please schedule product demo with Meera on 28th",
+    "label": "add"
+  },
+  {
+    "prompt": "create event customer feedback session at 8 am on 30th",
+    "label": "add"
+  },
+  {
+    "prompt": "time block laundry from 2:30 pm to 3:30 pm every alternate day permanently",
+    "label": "time_block"
+  },
+  {
+    "prompt": "reserve 7:15 am to 8:15 am every Mon Wed Fri for read book",
+    "label": "time_block"
+  },
+  {
+    "prompt": "meditate on rooftop every Tuesday 1 pm to 2 pm - recurring time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule a time block every other Sunday 2 pm to 3 pm - watch lecture",
+    "label": "time_block"
+  },
+  {
+    "prompt": "lock in 5 pm to 6 pm every Wednesday for test API endpoints starting next week for 5 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "set an event for final presentation on the 18th",
+    "label": "add"
+  },
+  {
+    "prompt": "time block of 7 am to 8 am for guitar practice for the rest of the semester",
+    "label": "time_block"
+  },
+  {
+    "prompt": "make 10 am to 11 am every Tue Thu a fixed block for meditate until end of year",
+    "label": "time_block"
+  },
+  {
+    "prompt": "time block of 9 pm to 10 pm for walk the dog for 2 months",
+    "label": "time_block"
+  },
+  {
+    "prompt": "can you add kickoff meeting to 21st",
+    "label": "add"
+  },
+  {
+    "prompt": "every Monday from 5:30 am to 6:30 am i watch lecture - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create an appointment for board meeting on 27th",
+    "label": "add"
+  },
+  {
+    "prompt": "protect 9 am to 10 am every weeknight for check analytics dashboard for 3 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "set a recurring time block every Tuesday from 7 pm to 8 pm to piano practice for 30 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create a new event called website redesign review on 23rd",
+    "label": "add"
+  },
+  {
+    "prompt": "add sprint review to my calendar on this Tuesday",
+    "label": "add"
+  },
+  {
+    "prompt": "set an event for press release on 24th",
+    "label": "add"
+  },
+  {
+    "prompt": "set an event for code freeze on 30th",
+    "label": "add"
+  },
+  {
+    "prompt": "set an event for website redesign review on next Wednesday",
+    "label": "add"
+  },
+  {
+    "prompt": "lock in 11 am to 12 pm every day for backup files for 6 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "time block of 8 am to 9 am for meditate on rooftop until the project ends",
+    "label": "time_block"
+  },
+  {
+    "prompt": "make 7:15 am to 8:15 am every Mon and Thu a fixed block for write newsletter until end of year",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule a call with Priya at 2:30 pm on 26th",
+    "label": "add"
+  },
+  {
+    "prompt": "i need to add product walkthrough on next Friday at 6 am",
+    "label": "add"
+  },
+  {
+    "prompt": "set a recurring time block every Tuesday from 5 pm to 6 pm to meal prep until end of year",
+    "label": "time_block"
+  },
+  {
+    "prompt": "i want a time block every morning 9:30 pm-10:30 pm to call mom",
+    "label": "time_block"
+  },
+  {
+    "prompt": "every evening from 5:30 am to 6:30 am i plan trip - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create a recurring block 7 pm to 8 pm every morning for clean house",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add marketing kickoff to my calendar on next Monday",
+    "label": "add"
+  },
+  {
+    "prompt": "time block of 7 pm to 8 pm for read book for 2 months",
+    "label": "time_block"
+  },
+  {
+    "prompt": "can you add final presentation to 21st",
+    "label": "add"
+  },
+  {
+    "prompt": "add hiring round to my calendar on 1st of next month",
+    "label": "add"
+  },
+  {
+    "prompt": "every Tue Thu 7:15 am to 8:15 am, revise notes - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add design review to my calendar on the 5th",
+    "label": "add"
+  },
+  {
+    "prompt": "block 1 pm to 2 pm on 28th for partner sync",
+    "label": "add"
+  },
+  {
+    "prompt": "i need to add client onboarding on 21st at 8 am",
+    "label": "add"
+  },
+  {
+    "prompt": "set an event for press release on the 5th",
+    "label": "add"
+  },
+  {
+    "prompt": "can you add team offsite to 30th",
+    "label": "add"
+  },
+  {
+    "prompt": "create event contract signing at 7 pm on the 12th",
+    "label": "add"
+  },
+  {
+    "prompt": "schedule feature 3 rollout on next Sunday from 6:30 pm to 7:30 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "add a reminder for feature 3 rollout on tomorrow",
+    "label": "add"
+  },
+  {
+    "prompt": "add a reminder for security audit on the 3rd",
+    "label": "add"
+  },
+  {
+    "prompt": "add client call session on this Saturday at 4 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "please schedule feature 2 launch with Priya on this Saturday",
+    "label": "add"
+  },
+  {
+    "prompt": "time block review contract from 5:30 am to 6:30 am every Wednesday for 90 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule a time block every Thursday 9 am to 10 am - journal",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule onboarding call for this Thursday between 2 pm and 3 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "create an appointment for v2 launch on next Friday",
+    "label": "add"
+  },
+  {
+    "prompt": "can you add quarterly review to 1st of next month",
+    "label": "add"
+  },
+  {
+    "prompt": "set a recurring time block every weeknight from 8 pm to 9 pm to piano practice until the project ends",
+    "label": "time_block"
+  },
+  {
+    "prompt": "make 12 pm to 1 pm every Saturday a fixed block for learn Spanish for 3 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule a call with the dev team at 9 pm on 23rd",
+    "label": "add"
+  },
+  {
+    "prompt": "schedule a call with my thesis advisor at 9:30 pm on 29th",
+    "label": "add"
+  },
+  {
+    "prompt": "block 8 am-9 am every Thursday to meal prep",
+    "label": "time_block"
+  },
+  {
+    "prompt": "time block of 7 am to 8 am for write newsletter for 6 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add review PRs session on this Thursday at 6 am",
+    "label": "add"
+  },
+  {
+    "prompt": "every morning 10 pm to 11 pm, backup files - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "can you add team offsite to next Thursday",
+    "label": "add"
+  },
+  {
+    "prompt": "make 9 am to 10 am every Saturday a fixed block for practice cold calls for the next 2 quarters",
+    "label": "time_block"
+  },
+  {
+    "prompt": "set up a meeting with my mentor on 28th from 6 pm to 7 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "schedule team offsite on the 12th from 2 pm to 3 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "daily 2:30 pm to 3:30 pm, data analysis - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "set a recurring time block every Sunday from 6 pm to 7 pm to meditate on rooftop for 2 months",
+    "label": "time_block"
+  },
+  {
+    "prompt": "i need to add MVP launch on 24th at 4 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "lock in 3 pm to 4 pm every Thursday for journal for 8 months",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add a repeating block from 12 pm to 1 pm every Monday to meal prep",
+    "label": "time_block"
+  },
+  {
+    "prompt": "time block review PRs from 12 pm to 1 pm every Sunday for 6 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule security audit for 26th between 2:30 pm and 3:30 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "make 2:30 pm to 3:30 pm every Friday a fixed block for write unit tests for 6 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create a new event called board meeting on the 15th",
+    "label": "add"
+  },
+  {
+    "prompt": "create a recurring block 7 pm to 8 pm every Thursday for piano practice",
+    "label": "time_block"
+  },
+  {
+    "prompt": "time block of 10 pm to 11 pm for gym workout for the next 2 quarters",
+    "label": "time_block"
+  },
+  {
+    "prompt": "make 8 pm to 9 pm every Tue Thu a fixed block for review contract for 90 days",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create an appointment for kickoff meeting on 27th",
+    "label": "add"
+  },
+  {
+    "prompt": "add a repeating block from 2 pm to 3 pm every Monday to stretch",
+    "label": "time_block"
+  },
+  {
+    "prompt": "set a recurring time block every Monday from 5:30 am to 6:30 am to budget review indefinitely",
+    "label": "time_block"
+  },
+  {
+    "prompt": "block 7:15 am-8:15 am every Tuesday to practice interview questions",
+    "label": "time_block"
+  },
+  {
+    "prompt": "set a recurring time block every Wednesday from 2 pm to 3 pm to update portfolio for 12 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "every Tuesday 1 pm to 2 pm, revise notes - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "put feature 3 rollout on my calendar for 23rd",
+    "label": "add"
+  },
+  {
+    "prompt": "reserve 6 am to 7 am every weeknight for yoga",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create an appointment for product demo on next Sunday",
+    "label": "add"
+  },
+  {
+    "prompt": "add a meeting with the accountant on next Thursday at 8 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "add app store submission to my calendar on 23rd",
+    "label": "add"
+  },
+  {
+    "prompt": "schedule a time block every other Sunday 2:30 pm to 3:30 pm - water plants",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create a new event called quarterly review on the 5th",
+    "label": "add"
+  },
+  {
+    "prompt": "client call every Friday 10 pm to 11 pm - recurring time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add a reminder for team offsite on 23rd",
+    "label": "add"
+  },
+  {
+    "prompt": "create a recurring block 9 pm to 10 pm every day for organize desk",
+    "label": "time_block"
+  },
+  {
+    "prompt": "lock in 5:30 am to 6:30 am every morning for test API endpoints for 2 months",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create event onboarding call at 1 pm on tomorrow",
+    "label": "add"
+  },
+  {
+    "prompt": "add journal session on 21st at 9:30 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "time block of 7 am to 8 am for practice cold calls for 8 months",
+    "label": "time_block"
+  },
+  {
+    "prompt": "block 9 pm to 10 pm on 22nd for website redesign review",
+    "label": "add"
+  },
+  {
+    "prompt": "block 9 am to 10 am on 27th for onboarding call",
+    "label": "add"
+  },
+  {
+    "prompt": "add a repeating block from 6 am to 7 am every day to learn Spanish",
+    "label": "time_block"
+  },
+  {
+    "prompt": "block 9 am-10 am every weekday to plan trip",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add a repeating block from 10 am to 11 am every Monday to update portfolio",
+    "label": "time_block"
+  },
+  {
+    "prompt": "block 7 pm-8 pm every Tue Thu to update portfolio",
+    "label": "time_block"
+  },
+  {
+    "prompt": "block 11 am-12 pm every alternate day to grocery shopping",
+    "label": "time_block"
+  },
+  {
+    "prompt": "time block of 5:30 am to 6:30 am for practice guitar scales for 12 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "please schedule code freeze with the sales lead on 1st of next month",
+    "label": "add"
+  },
+  {
+    "prompt": "add kickoff meeting to my calendar on next Wednesday",
+    "label": "add"
+  },
+  {
+    "prompt": "create event on 29th for board meeting",
+    "label": "add"
+  },
+  {
+    "prompt": "add a repeating block from 2 pm to 3 pm every Mon Wed Fri to organize desk",
+    "label": "time_block"
+  },
+  {
+    "prompt": "book beta release for this Tuesday at 12 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "time block refactor code from 9:30 pm to 10:30 pm every evening for 6 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "every evening from 8 pm to 9 pm i test API endpoints - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "block 5:30 am to 6:30 am on the 15th for onboarding call",
+    "label": "add"
+  },
+  {
+    "prompt": "create event code freeze at 8 am on 22nd",
+    "label": "add"
+  },
+  {
+    "prompt": "schedule a call with Priya at 10 pm on the 12th",
+    "label": "add"
+  },
+  {
+    "prompt": "plan trip every Mon and Thu 7 pm to 8 pm - recurring time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "set an event for MVP launch on the 18th",
+    "label": "add"
+  },
+  {
+    "prompt": "set a recurring time block every Thursday from 10 pm to 11 pm to piano practice indefinitely",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create a recurring block 12 pm to 1 pm every day for meditate",
+    "label": "time_block"
+  },
+  {
+    "prompt": "can you add press release to 1st of next month",
+    "label": "add"
+  },
+  {
+    "prompt": "add event on the 9th for partner sync",
+    "label": "add"
+  },
+  {
+    "prompt": "schedule demo day for tomorrow between 11 am and 12 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "set a recurring time block every weekday from 7:15 am to 8:15 am to study DSA for the rest of the semester",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add app store submission to my calendar on this Thursday",
+    "label": "add"
+  },
+  {
+    "prompt": "put app store submission on my calendar for the 9th",
+    "label": "add"
+  },
+  {
+    "prompt": "reserve 6 pm to 7 pm every Mon and Thu for debug backend",
+    "label": "time_block"
+  },
+  {
+    "prompt": "please schedule press release with my mentor on tomorrow",
+    "label": "add"
+  },
+  {
+    "prompt": "write documentation every other Sunday 7 am to 8 am - recurring time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "i want a time block every Saturday 2 pm-3 pm to backup files",
+    "label": "time_block"
+  },
+  {
+    "prompt": "set a recurring time block every other Sunday from 12 pm to 1 pm to write newsletter for 12 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add test API endpoints session on the 18th at 8 am",
+    "label": "add"
+  },
+  {
+    "prompt": "make 9 am to 10 am daily a fixed block for update CRM until end of year",
+    "label": "time_block"
+  },
+  {
+    "prompt": "create event on this Thursday for feature 3 rollout",
+    "label": "add"
+  },
+  {
+    "prompt": "set an event for feature 2 launch on 24th",
+    "label": "add"
+  },
+  {
+    "prompt": "set an event for partner sync on this Saturday",
+    "label": "add"
+  },
+  {
+    "prompt": "set a recurring time block every weekday from 6:30 pm to 7:30 pm to practice violin until the project ends",
+    "label": "time_block"
+  },
+  {
+    "prompt": "can you add investor pitch to the 18th",
+    "label": "add"
+  },
+  {
+    "prompt": "i need to add customer feedback session on 25th at 3 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "add a reminder for budget planning on next Thursday",
+    "label": "add"
+  },
+  {
+    "prompt": "lock in 6 am to 7 am every Sunday for practice guitar scales for a year",
+    "label": "time_block"
+  },
+  {
+    "prompt": "set a recurring time block every Friday from 11 am to 12 pm to edit resume permanently",
+    "label": "time_block"
+  },
+  {
+    "prompt": "time block of 1 pm to 2 pm for research competitors indefinitely",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule a call with my manager at 3 pm on 28th",
+    "label": "add"
+  },
+  {
+    "prompt": "time block of 9 pm to 10 pm for update CRM for 3 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add a repeating block from 2 pm to 3 pm every Tuesday to plan trip",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule beta release for 29th between 6:30 pm and 7:30 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "language flashcards daily 3 pm to 4 pm - recurring time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "schedule a call with the sales lead at 6:30 pm on the 18th",
+    "label": "add"
+  },
+  {
+    "prompt": "block 7:15 am-8:15 am weekends to guitar practice",
+    "label": "time_block"
+  },
+  {
+    "prompt": "block 10 pm to 11 pm on this Saturday for app store submission",
+    "label": "add"
+  },
+  {
+    "prompt": "schedule MVP launch for the 15th between 4 pm and 5 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "create an appointment for user testing session on 21st",
+    "label": "add"
+  },
+  {
+    "prompt": "put code freeze on my calendar for the 9th",
+    "label": "add"
+  },
+  {
+    "prompt": "set a recurring time block every morning from 1 pm to 2 pm to practice violin for 3 weeks",
+    "label": "time_block"
+  },
+  {
+    "prompt": "every weeknight 2 pm to 3 pm, client call - time block",
+    "label": "time_block"
+  },
+  {
+    "prompt": "add learn Spanish session on tomorrow at 8 pm",
+    "label": "add"
+  },
+  {
+    "prompt": "can you add onboarding call to 28th",
+    "label": "add"
+  },
+  {
+    "prompt": "create event feature 2 launch at 7 pm on 27th",
+    "label": "add"
+  },
+  {
+    "prompt": "schedule quarterly review for 28th between 9 pm and 10 pm",
+    "label": "add"
   }
 ]
