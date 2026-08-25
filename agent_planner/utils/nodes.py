@@ -7,6 +7,7 @@ from .prompts import (
     ADD_EVENT_PROMPT,
     TIME_BLOCK_PROMPT,
     DELETE_EVENT_PROMPT,
+    EVENT_PARAMS_PROMPT,
 )
 from .tools import (
     create_event_tool,
@@ -111,12 +112,45 @@ def classify_steps(steps: list[str]) -> list[dict]:
 
 
 def fetch_calendar_events(state: AgentState):
+    # ── 1. Determine Event Range ────────────────────────────────────────────────
+
+    response = chat_model(
+        model="openai/gpt-oss-20b",
+        msg=[
+            {
+                "role": "system",
+                "content": EVENT_PARAMS_PROMPT.format(today=state.current_time)
+            },
+            {"role": "user", "content": state.messages[-1]["content"]},
+        ],
+        temperature=0,
+    )
+
+    try:
+        params = json.loads(response.choices[0].message.content.strip())
+    except Exception as e:
+        print(f"Error parsing event params: {e}")
+        params = {"max_period": "10d", "time_min": None, "time_max": None}
+
+    print(f"Determined event range: {params}")
+
+    # ── 2. Fetch Events ───────────────────────────────────────────────────────────
     try:
         google_cal = get_user_calendar(state.user_id)
-        period = "10d"
-        events = google_cal.get_events(period)
+
+        events = google_cal.get_events(
+            max_period=params.get("max_period", "10d"),
+            time_min=params.get("time_min"),
+            time_max=params.get("time_max")
+        )
+
+        if isinstance(events, list):
+            # If the events are too many it returns only the top 7
+            events = events[:7]
+
     except Exception as e:
-        raise
+        print(f"Error in fetch_calendar_events: {e}")
+        events = []
 
     state.tasks = events
     print(f"Node fetch_calendar_events returned: {state}")
@@ -259,15 +293,15 @@ def node_remove(step: str, state: AgentState) -> dict:
         raise ValueError("user_id not found in state")
 
     google_cal = get_user_calendar(user_id)
-    events = google_cal.get_events()
+    # events = google_cal.get_events()
     response = chat_model(
         model="openai/gpt-oss-20b",
         msg=[
-            {"role": "system", "content": DELETE_EVENT_PROMPT.format(events=events)},
+            {"role": "system", "content": DELETE_EVENT_PROMPT.format(events=state.tasks)},
             {"role": "user", "content": step},
         ],
         tools=[delete_event_tool],
-        tool_choice="auto",
+        tool_choice="required",
         temperature=0,
     )
 

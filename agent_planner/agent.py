@@ -33,6 +33,10 @@ def run_pipeline(user_id: str, user_message: str, history: List[dict], state: Op
 
     # 2. Setup Context
     state = get_current_time(state)
+
+    # Add current user message to state for parameter extraction
+    state.messages.append({"role": "user", "content": user_message})
+
     state = fetch_calendar_events(state)
 
     # 3. Planner (Human-in-the-loop stage)

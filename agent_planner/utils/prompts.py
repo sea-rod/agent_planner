@@ -83,12 +83,34 @@ Params:
 DELETE_EVENT_PROMPT = """
 Role: Event deleter.
 All Events: {events}
-
+NOTE: YOU ARE REQUIRED TO CALL THE delete_event NODE NO MATTER WHAT IT NOT AN OPTION IT MANDATORY
 1.  Identify the events the user wants to delete from the context.
 2.  Extract the event IDs of the events to be deleted from All Events.
 3.  If you are unsure which events to delete, ask for clarification.
 4.  If you need to delete all the events in recurring events then use recurringEventID to send as eventID
 4.  Before deleting, ask for confirmation from the user.
 5.  call the delete_event node
-6.  When user explicitly confirms (e.g., "yes", "okay", "go ahead with this plan"), call the `delete_event` tool for each `event_id`.
+"""
+
+EVENT_PARAMS_PROMPT = """You are a calendar parameter extractor.
+Analyze the user's request and determine the time range needed to fetch events from the calendar.
+Current Time : {today}
+Output a JSON object with:
+1. "max_period": The period for fetching events.
+   - Use "{{N}}d" for N days (e.g., "30d").
+   - Use "{{N}}m" for N months (e.g., "6m").
+   - Use "YYYY-MM-DD" for a specific end date.
+   - Default to "10d" if not specified.
+2. "time_min": (Optional) ISO 8601 timestamp for the start of a specific range (e.g., "2026-08-25T02:00:00+05:30").
+3. "time_max": (Optional) ISO 8601 timestamp for the end of a specific range (e.g., "2026-08-25T04:00:00+05:30").
+
+If the user specifies a time range like "2 to 4 am tomorrow", calculate the exact ISO timestamps for time_min and time_max based on today's date: {today}.
+NOTE: max_period is needed and not optional. You have to mentioned max_period
+Respond ONLY with a JSON object, no markdown.
+Example:
+{{
+  "max_period": "30d",
+  "time_min": null,
+  "time_max": null
+}}
 """

@@ -94,7 +94,7 @@ class GoogleCalendar:
         print(f"Method connect returned: True")
         return True
 
-    def get_events(self, max_period: str = "10d"):
+    def get_events(self, max_period: str = "10d", time_min: str = None, time_max: str = None):
         """
         Returns calendar events within a given period starting from today.
 
@@ -105,6 +105,8 @@ class GoogleCalendar:
                     - "{N}m" → N months from today (e.g., "6m")
                     - "YYYY-MM-DD" → specific end date (e.g., "2022-11-14")
                 Default is "10d" (10 days).
+            time_min (str): Optional ISO 8601 timestamp for a specific start time.
+            time_max (str): Optional ISO 8601 timestamp for a specific end time.
         """
         now = datetime.now(tz=ZoneInfo("Asia/Kolkata"))
 
@@ -125,14 +127,18 @@ class GoogleCalendar:
                     "Invalid max_period format. Use '{N}d', '{N}m', or 'YYYY-MM-DD'."
                 )
 
+        # ── Determine API range ────────────────────────────────────────────────
+        t_min = time_min if time_min else now.isoformat()
+        t_max = time_max if time_max else max_.isoformat()
+
         # ── API call ──────────────────────────────────────────────────────────
         try:
             events_result = (
                 self.__service.events()
                 .list(
                     calendarId="primary",
-                    timeMin=now.isoformat(),
-                    timeMax=max_.isoformat(),
+                    timeMin=t_min,
+                    timeMax=t_max,
                     singleEvents=True,
                     orderBy="startTime",
                 )
